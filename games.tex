@@ -37,18 +37,33 @@ Mathematically Mature: may contain mathematics beyond calculus with proofs.
 
 \visual{Section Starter Question}{../../../../CommonInformation/Lessons/question_mark.png}
 \section*{Section Starter Question}
-
+What feature of a game is necessary for it to  be modeled as a Markov
+chain?  Can you think of a game which could be modeled as a Markov chain?
 \hr
 
 \visual{Key Concepts}{../../../../CommonInformation/Lessons/keyconcepts.png}
 \section*{Key Concepts}
 
 \begin{enumerate}
-  \item  Modeling the game of Monopoly as a Markov chain
- finds the stationary distribution to determine which properties are
-landed on most frequently.
-  \item 
-  \item 
+\item  \emph{Tenzi} is a simple dice game for multiple players.
+  The game-play of Tenzi for a single player can be modeled with a
+Markov chain with $10$ transient states and $1$ absorbing state.
+Markov chain methods give the distribution of the number of rolls
+necessary to complete the game, along with the mean and variance.
+  \item The childrens' game \emph{Chutes and Ladders} is
+a $100$ state absorbing Markov chain and the goal  is to
+investigate the expected playing time.
+  \item \emph{Count Your Chickens!}, produced by Peaceable Kingdom is
+    a game aimed at preschoolers.  Absorbing Markov chains give
+    the probability of winning a game of \emph{Count Your Chickens!}
+      and  the expected number of chicks at the end of the game?  The
+      main interest is classifying and counting the states, leading to
+      a $165 \times 165$ transition probability matrix.
+      \item \emph{Risk} is a board game of battles between two players, and each battle consists of one or more
+rounds of combat between a number $A$ of attacking armies and a number
+$D$ of defending armies.  The goal is to develop the probability of
+winning the battle as a function of $A$ and $D$ using a Markov chain
+with $AD + A + D$ states.
 \end{enumerate}
 
 \hr
@@ -56,8 +71,14 @@ landed on most frequently.
 \visual{Vocabulary}{../../../../CommonInformation/Lessons/vocabulary.png}
 \section*{Vocabulary}
 \begin{enumerate}
-  \item 
-  \item 
+  \item \emph{Tenzi} is a simple dice game for multiple players.
+  \item The childrens' game \emph{Chutes and Ladders} is
+a $100$ state absorbing Markov chain.
+\item \emph{Count Your Chickens!}, produced by Peaceable Kingdom is
+    a game aimed at preschoolers.
+  \item \emph{Risk} is a board game of battles between two players, and each battle consists of one or more
+rounds of combat between a number $A$ of attacking armies and a number
+$D$ of defending armies.
 \end{enumerate}
 
 \hr
@@ -65,6 +86,151 @@ landed on most frequently.
 \visual{Mathematical Ideas}{../../../../CommonInformation/Lessons/mathematicalideas.png}
 \section*{Mathematical Ideas}
 
+\subsection*{Tenzi}
+
+\emph{Tenzi} is a simple dice game for multiple players.  Each player
+has $10$ six-sided fair dice in their hands. Taking turns, one 
+players yells, e.g., ``Tenzi Four!'' Everyone starts rolling their dice
+as quickly as possible. Whenever a ``four'' comes up, the player sets it aside and
+rolls the remaining dice.  Eventually someone achieves all $10$ ``fours''
+and yells, ``Tenzi!''.
+
+A Markov chain models the game-play of \emph{Tenzi} for a single
+player.
+Each state in the Markov chain represents the player’s
+accumulated number of dice that match the target number.  So at any
+point in the game, a player will be in one of
+the $11$ states $\set{0,1,2,3, \ldots, 10}$.  A player in state $0$ has not yet rolled any
+dice matching the target number, and a player in state $10$ will yell
+``Tenzi!' Each time a player rolls their dice, the player has a chance to
+move up to a higher-numbered state.
+
+Each entry in the transition probability matrix is
+a binomial probability.  A player in state $i$ would roll
+the remaining $10−i$ of their dice. The player moves up to state $j$ if
+exactly $j−i$ of the dice match the target number. So, the probability of
+transitioning from state $i$ to state $j$ in one roll of the dice is
+$binom{10−i}{j−i}\left( \frac{1}{6} \right)^{j−i} \left( \frac{5}{6}
+\right){10−j} $ for $0 \le i$, $j \le 10$ and $i \le j$. Of course a player
+will never go backwards to a previous state in the game, so the
+probability is $0$ for $i>j$.  Thus the states are not communicating,
+the Markov Chain is not recurrent, states $0$ through $9$ are
+transient and the state $10$ is an absorbing
+state.
+
+The full $11 \times 11$ transition probability matrix is approximately
+\[P =
+  \begin{pmatrix}0.162 & 0.323 & 0.291 & 0.155 & 0.0543 & 0.013 & 0.00217 & 2.48 {{10}^{-4}} & 1.86 {{10}^{-5}} & 8.27 {{10}^{-7}} & 1.65 {{10}^{-8}}\\
+0.0 & 0.194 & 0.349 & 0.279 & 0.13 & 0.0391 & 0.00781 & 0.00104 & 8.93 {{10}^{-5}} & 4.47 {{10}^{-6}} & 9.92 {{10}^{-8}}\\
+0.0 & 0.0 & 0.233 & 0.372 & 0.26 & 0.104 & 0.026 & 0.00417 & 4.17 {{10}^{-4}} & 2.38 {{10}^{-5}} & 5.95 {{10}^{-7}}\\
+0.0 & 0.0 & 0.0 & 0.279 & 0.391 & 0.234 & 0.0781 & 0.0156 & 0.00188 & 1.25 {{10}^{-4}} & 3.57 {{10}^{-6}}\\
+0.0 & 0.0 & 0.0 & 0.0 & 0.335 & 0.402 & 0.201 & 0.0536 & 0.00804 & 6.43 {{10}^{-4}} & 2.14 {{10}^{-5}}\\
+0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.402 & 0.402 & 0.161 & 0.0322 & 0.00322 & 1.29 {{10}^{-4}}\\
+0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.482 & 0.386 & 0.116 & 0.0154 & 7.72 {{10}^{-4}}\\
+0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.579 & 0.347 & 0.0694 & 0.00463\\
+0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.694 & 0.278 & 0.0278\\
+0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.833 & 0.167\\
+0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 1.0\end{pmatrix}\]
+  \end{pmatrix}
+\]
+The initial distribution is $X_0 = (1,0,0,0,0,0,0,0,0,0,0)$.  Since
+the probabilities are accumulating in state $10$, the entry in the
+last entry of $X_k$ is the probability of getting Tenzi in $k$ or
+fewer rolls. For example, the entry in the last entry of $X_{20}$ is
+$0.7677$. So there is a $76.77\%$ chance that a player has finished the
+game by their $20$th
+     roll. The player may have finished on the $20$th roll, or possibly
+     finished on some previous roll and is waiting in
+     state $10$. The resulting cumulative probability function $P(k)$ for
+     a player getting Tenzi on or before the $k$th roll is
+     in Figure~\ref{fig:games:tenzicdf}.
+     \begin{figure}
+       \centering
+       \includegraphics{tenzicdf}}
+       \caption{Cumulative Probability function of Tenzi}
+       \label{fig:games:tenzicdf}
+     \end{figure}
+     To find $p(k)$, the probability of getting Tenzi in exactly $k$ rolls,
+     subtract the probability that the player already had Tenzi by the
+     $k−1$ roll. This gives the probability density function
+     $p(k)=P(k)−P(k−1)$ shown in Figure~\ref{fig:games:tenzipdf}. 
+     \begin{figure}
+       \centering
+       \includegraphics{tenzipdf}}
+       \caption{Probability density function for winning in $k$ rolls
+         at Tenzi}
+       \label{fig:games:tenzipdf}
+     \end{figure}
+
+     The maximum of this probability function is at $k=13$; a player has
+     a $0.0705$ probability of getting Tenzi on their $13$th roll. Using
+     these probabilities, the mean of the distribution is
+     $\sum_{k=1}^{\infty} k p(k)$. Approximate this sum
+     through $k=50$ as $16.5$. This is the average number
+     of rolls needed for a player to get Tenzi.
+
+     The fundamental matrix provides another way of finding the mean.
+     The transition probability matrix is already partitioned as
+     \[P  =
+     \begin{pmatrix}
+       Q & R \\
+       0 & I
+     \end{pmatrix}
+   \]
+   where $Q$ is the $ 10 \times 10$
+     matrix containing the transition probabilities among the
+     transient states, $R$ is a $10 \times 1$ column matrix containing the
+     probabilities of going from each of the non-absorbing states to
+     state $10$ in one roll, $0$ is a $1 \times 10$ zero matrix, and
+     $I$ is the $1 \times1$ identity matrix representing the absorbing
+     state $10$.  Then approximately
+     \[
+       N \approx
+       \begin{pmatrix}
+1.193 & 0.478 & 0.669 & 0.787 & 0.915 & 1.097 & 1.371 & 1.828 & 2.742
+& 5.485 \\
+0.000 & 1.240 & 0.564 & 0.771 & 0.917 & 1.097 & 1.371 & 1.828 & 2.742
+& 5.485 \\
+0.000 & 0.000 & 1.303 & 0.673 & 0.905 & 1.099 & 1.371 & 1.828 & 2.742
+& 5.485 \\
+0.000 & 0.000 & 0.000 & 1.387 & 0.815 & 1.091 & 1.373 & 1.828 & 2.742
+& 5.485 \\
+0.000 & 0.000 & 0.000 & 0.000 & 1.504 & 1.010 & 1.368 & 1.829 & 2.742
+& 5.485 \\
+0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 1.672 & 1.298 & 1.826 & 2.743
+& 5.485 \\
+0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 1.931 & 1.769 & 2.742
+& 5.485 \\
+0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 2.374 & 2.697
+& 5.485 \\
+0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 3.273
+& 5.455 \\
+0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000
+& 6.000 \\
+       \end{pmatrix}
+     \]
+     The entry $N_{ij}$ represents the average number of turns spent in
+     state $j$ given that the player started in state $i$. This matrix
+     gives information about just the non-absorbing states $0$ through
+     $9$.  Notice that the diagonal entries are all greater than $1$.
+     If a player starts the game in state $i$, then at least one roll,
+     the first roll is in state $i$. Entries in subsequent states
+     $j>i$ can be less than $1$ because it is possible for a player to
+     skip a state entirely. Notice the $6$ in the bottom right
+     corner gives the average number of rolls spent in state $9$ given
+     that the player started in state $9$.  This makes sense; 
+     in state $9$, then you have just one die left to roll. It will take
+     $6$ rolls on average to roll the given target number.
+
+     Since players start the game of \emph{Tenzi} in state $0$
+     the first row of matrix $N$.
+     tells us the mean number of rolls a player will spend in each
+     state.  Using Theorem 3 from
+     \link{Waiting Time to
+       Absorption}{http://www.math.unl.edu/~sdunbar1/ProbabilityTheory/Lessons/MarkovChains/WaitingTimeAbsorption/waitingtimeabsorption.pdf}
+     the standard deviation of the 
+
+     
 \subsection*{Chutes and Ladders}
 
 The childrens' game \emph{Chutes and Ladders} (known in the United
@@ -160,8 +326,8 @@ additional analysis is pursued in the exercises.
 
 \subsection*{Count Your Chickens}
 
-Use Markov chains to study a game aimed at preschoolers, \emph{Count Your
-Chickens!}, produced by Peaceable Kingdom.  In this cooperative game,
+\emph{Count Your Chickens!}, produced by Peaceable Kingdom is
+a game aimed at preschoolers.  In this cooperative game,
 gameplay begins with forty chicks spread throughout the board and a
 mama chicken at the start square. The end square is the mama chicken’s
 coop, and the mama chicken moves progressively closer to this square
@@ -229,8 +395,33 @@ on a blank square.
 
 \begin{figure}
   \centering
-  
-  \caption{Smaller game board for Example}
+size(5inches);
+
+real myfontsize = 12;
+real mylineskip = 1.2*myfontsize;
+pen mypen = fontsize(myfontsize, mylineskip);
+defaultpen(mypen);
+
+import math;
+
+for (int j=0; j<9; ++j){
+  label(format("%i", j), (j,1));
+}
+
+add( shift(-0.2, 0.2)*grid(9, 1) );
+fill( box((1.8,0.2), (2.8, 1.2)), lightblue+opacity(0.5));
+fill( box((4.8,0.2), (5.8, 1.2)), lightblue+opacity(0.5));
+
+label("Start", (0.3, 0.7));
+label("Sheep", (2.3, 0.7));
+label("Cow", (3.3, 0.7));
+label("Cow", (5.3, 0.7));
+label("Sheep", (7.3, 0.7));
+
+label("\footnotesize{Coop}", (8.45, 1.0));
+label("Sheep", (8.3, 0.7));
+label("Cow", (8.3, 0.4));
+\caption{Smaller game board for the example \emph{Count Your Chickens!} }
   \label{fig:games:smallchickens}
 \end{figure}
 
@@ -355,7 +546,7 @@ probability is now only $5/81 \approx 0.0617$.
 
 The computations for the general game are quite similar except that the matrices
 $Q$ and $R$ are much larger. $Q$ is $163 \times 163$ and $R$ is $63
-\tiems 2$ and therefore $B$ is
+\times 2$ and therefore $B$ is
 $163 \times 2$. It is impractical to construct such large matrices by
 hand.  The Scripts section has an R program  to build the matrices and compute the
 win probability.  The matrix
@@ -366,11 +557,11 @@ of winning a game of \emph{Count Your Chickens!} is $0.641$.
 
 \subsection*{Risk}
 
-Risk is a board game of battles between two players, and each battle consists of one or more
+\emph{Risk} is a board game of battles between two players, and each battle consists of one or more
 rounds of combat.
 This section uses Markov chains to analyze the stochastic progress of
 a battle between two players over any of the $42$ countries in the board
-game Risk.   Standard Markov chain methods give the
+game \emph{Risk}.   Standard Markov chain methods give the
 probabilities of victory and additionally the expected losses in battle.
 At each turn, a player must decide whether or not to attack a territory. The
 first question is the following: \emph{If you attack a territory with your armies, what is the
@@ -380,7 +571,7 @@ second question is the following: \emph{If you engage in a war, how many armies 
 you expect to lose depending on the number of armies your opponent has on that
 territory?}
 
-The Risk game has a world map separated into 42 territories. Each
+The \emph{Risk} game has a world map separated into 42 territories. Each
 player has a number of tokens used as armies. Each token represents
 one army.  A player may choose to use all but one of the armies to
 attack the armies in an adjacent opponent-contolled territory.  The
@@ -470,7 +661,7 @@ more than two for the defender.
     5  & 0        & 1        &       &  
                  &          &          &          &          \\                      
   \end{tabular}
-  \caption{An example of a battle in Risk}
+  \caption{An example of a battle in \emph{Risk}}
   \label{tab:games:riskwar}
 \end{table}
 
@@ -618,7 +809,7 @@ draw(((4,1)+ 1.5*eps*E)--((5, 1) + 1.5*eps*W), black, Arrow);
 draw(((5,1)+ 1.5*eps*E)--((6, 1) + 1.5*eps*W), magenta, Arrow);
   \end{asy}
   \caption{The state space and transitions of the Markov chain for a
-    war in Risk.  Transitions of the same color have the same
+    war in \emph{Risk}.  Transitions of the same color have the same
     probability.}
   \label{fig:games:risktrans}
 \end{figure}
@@ -845,7 +1036,7 @@ of the arrows representing transitions in Figure~\ref{}
                                                              & \\
     \hline
 1 & 1 & Defender loses 1 & $\pi_{111}$ & $15/36$ &  $0.417$ & light gray \\ % checked
-1 & 1 & Attacker loses 1 & $\pi_{110}$ & $21/36$ & $0.583$ magenta
+1 & 1 & Attacker loses 1 & $\pi_{110}$ & $21/36$ & $0.583$ & magenta
     \\ % checked
     \hline
 1 & 2 & Defender loses 1 & $\pi_{121}$ & $55/216$ & $0.254$ & brown \\ % checked   
@@ -884,7 +1075,7 @@ on the $n$th turn:
   \]
   Let the $AD \times (A + D)$ matrix of these first transition
   probabilities be denoted by $F^{(n)}$.  Then $F^{(n)} = Q^{n-1}R$.
-  The probability that the system geos from transient state $i$ to
+  The probability that the system goes from transient state $i$ to
   absorbing state $j$ is just the sum
   $f_{ij} = \sum\limits_{n=1}^{(n)} f_{ij}^{(n)}$.  The
   $AD \times (D + A)$ matrix $F$ of probabilities for all of these
@@ -909,10 +1100,34 @@ on the $n$th turn:
 
   \begin{table}
     \centering
-    \begin{tabular}{ccccccccccc}
-
+    \begin{tabular}{lrrrrrrrrrr}
+Def & 10   & 9     & 8     & 7     & 6     & 5     & 4     & 3     & 2
+                                             & 1 \\
+Att &      &       &       &       &       &       &       &       &
+                                             & \\
+10 & 0.568 & 0.480 & 0.380 & 0.287 & 0.193 & 0.118 & 0.057 & 0.021 & 0.001
+                                             & 0.000 \\
+9 & 0.650 & 0.558 & 0.464 & 0.357 & 0.258 & 0.162 & 0.086 & 0.033 & 0.003
+                                             & 0.000 \\
+8 & 0.724 & 0.646 & 0.547 & 0.446 & 0.329 & 0.224 & 0.123 & 0.054 & 0.005
+                                             & 0.000 \\
+7 & 0.800 & 0.726 & 0.643 & 0.536 & 0.423 & 0.297 & 0.181 & 0.084 & 0.011
+                                             & 0.000 \\
+6 & 0.861 & 0.808 & 0.730 & 0.640 & 0.521 & 0.397 & 0.253 & 0.134 & 0.021
+                                             & 0.000 \\
+5 & 0.916 & 0.873 & 0.818 & 0.736 & 0.638 & 0.506 & 0.359 & 0.206 & 0.049
+                                             & 0.002 \\
+4 & 0.954 & 0.930 & 0.888 & 0.834 & 0.745 & 0.638 & 0.477 & 0.315 & 0.091
+                                             & 0.007 \\
+3 & 0.981 & 0.967 & 0.947 & 0.910 & 0.857 & 0.769 & 0.642 & 0.470 & 0.206
+                                             & 0.027 \\
+2 & 0.994 & 0.990 & 0.980 & 0.967 & 0.934 & 0.890 & 0.785 & 0.656 & 0.363
+                                             & 0.106 \\
+1 & 1.000 & 1.000 & 1.000 & 0.999 & 0.997 & 0.990 & 0.972 & 0.916 & 0.754
+                                             & 0.417 \\
     \end{tabular}
-    \caption{Probability that the attacker wins}
+    \caption{Probability that the attacker wins with $A$ armies agains
+    $D$ defending armies.}
     \label{tab:games:attackerwins}
   \end{table}
   Note that because the state order here is the reverse of the order
@@ -927,7 +1142,7 @@ on the $n$th turn:
   The absorbing probabilities for large battles have an interesting
   ``saw-tooth'' feature noticed in \cite{pierce15}. These large
   engagements occur towards the end of an entire game of
-  Risk.  Figure~\ref{fig:games:sawtooth} shows the probability mass
+  \emph{Risk}.  Figure~\ref{fig:games:sawtooth} shows the probability mass
   function when the attacker and defender each start with $40$
   armises.  The horizontal axis shows all the absorbing states of a
   $(40,40)$ battle and the vertical axis is the probability of the
@@ -1030,13 +1245,14 @@ indicates the number of defending armies from $1$ to $4$.
 The horizontal axis in each facet lists the number
 of starting attacking armies, while the vertical axis in each facet
 displays how many attacking armies remain after the
-battle. The curves with points indicate the first-quartile, median,
+battle. Respectivley, the blue, green and red
+curves with points indicate the first-quartile, median,
 and third-quartile states in the distribution of outcomes
 based on the number of the attacker's starting armies. The
 outcomes are listed in descending order of preferences
 for the attacker.
 For example, consider the lower right facet corresponding to the
-defender starting with $4$ armies.  if the attacker has seven armies, the
+defender starting with $4$ armies.  If the attacker has seven armies, the
 most desired outcome is the absorbing state $(7,0)$, while
 the least desired is $(0,4)$.  In this case, the median outcome
 is $(4,0)$ in the sense that $(a,0)$ with $a \ge 4$ has a
@@ -1065,6 +1281,14 @@ The R script below
 shows how to calculate these quartiles for any number of attackers and
 defenders.
 
+\begin{figure}
+  \centering
+  \includegraphics{risk_quartiles}
+  \caption{Quartile statisics for the number of attacking armies
+    remaining in various scenarios.}
+  \label{fig:games:quartiles}
+\end{figure}
+
 The number of battles fought in a war is the number of dice rolls
 until absorbtion into one of the states $(a,0)$ or $(0,d)$.
 This is the number of state transition to absorbtion, also called the
@@ -1072,21 +1296,26 @@ waiting time until absorbtion.  The standard formula for calculating
 the expected waiting time to absorbtion is $(I-Q)^{-1} \mathbf{1}}$.
 Using this, the expected number of battles for a war with $10$
 attacking armies against $4$ defending armies is $3.994$.  The R script below
-shows how to calculate the expected waiting time to absrobtion for any number of attackers and
+shows how to calculate the expected waiting time to absorbtion for any number of attackers and
 defenders.
 
+     
+     
 
- 
 \visual{Section Starter Question}{../../../../CommonInformation/Lessons/question_mark.png}
 \section*{Section Ending Answer}
+The future development of the game at a turn must be independent of the past to
+model the game as a Markov chain.  Games  depending on a randomizing
+device, such as a dice rolls or a spinner, can often be modeled as a
+Markov chain.  Examples in this section are the games of \emph{Tenzi}, \emph{Chutes
+and Ladders}, \emph{Count Your Chickens!} and battles from \emph{Risk}.
 
 \subsection*{Sources}
-The subsection on Monopoly as a Markov chain is from \cite{ash97}.
+
+The subsection on \emph{Tenzi} is from \cite{bacinski20}.
 The subsection on Chutes and Ladders is from \cite{althoen93}.
 The subsection on Count Your Chickens is from \cite{mccune19}.
-The subsection on Risk is from \cite{osborne03} and \cite{tan97.}
-\nocite{}
-\nocite{}
+The subsection on \emph{Risk} is from \cite{osborne03} and \cite{tan97.}
 
 \hr
 
@@ -1103,6 +1332,109 @@ The subsection on Risk is from \cite{osborne03} and \cite{tan97.}
 
 \visual{Problems to Work}{../../../../CommonInformation/Lessons/solveproblems.png}
 \section*{Problems to Work for Understanding}
+
+\begin{exercise}
+  The probability that asingle player will get Tenzi is summarized
+  above in the CDF and PDF functions $P(k)$ and $p(k)$ respectively. What
+  if $n$ people are playing? Then we are essentially taking $n$ independent
+  random samples from the probability distribution $p(k)$, and
+  identifyingthe minimum value(s) of $k$ as the roll in which the game is
+  won. For example, if there are $n=5$ players, we take $5$ independent
+  random samples from $p(k)$. Suppose the arbitrary values of $k$ are
+  $[12,20,15,9,28]$, representing the number of rolls needed for each
+  player to get Tenzi. Then the game would be won by the $4$th player
+  with $9$ rolls. In general, write the expression for  the
+  probability that the minimum value from $n$ random samples of $p(k)$ is less
+  than or equal to $k$.
+\end{exercise}
+\begin{solution}
+  The probability that the minimum value from $n$ random samples of
+  $p(k)$ is
+  less than or equal to $k$,  denote as $P(n,k)$, is the
+  complement of the probability that all $n$ random samples (which are
+  independent of each other) are greater thank,so
+  $P(n,k)=1−(1−P(k))^n$.
+  The PDF giving the probability that a game with
+  $n$ players is won in exactly $k$ rolls is $p(n, k)=P(n,k)−P(n,k−1)$.
+\end{solution}
+\begin{exercise}
+  Write a script in some computer language to replicate the
+  calculations and graphs for the Markov chain for \emph{Tenzi}.
+\end{exercise}
+\begin{solution}
+  The transition probability matrix for \emph{Tenzi} was written in
+  Maxima as
+\begin{verbatim}
+pi[i,j] := if (j >= i) then  binomial(11-i, j-i) * ((1/6)^(j-i)) *
+((5/6)^(11-j)) else 0;
+P : genmatrix(pi, 11, 11);
+fpprintprec : 3;
+float(P);
+\end{verbatim}
+  then transferred to R and evaluated with the following script:
+\begin{verbatim}
+x  <-  c(0.1615055828898457, 0.3230111657796915, 0.2907100492017223,
+         0.1550453595742519, 0.05426587585098816, 0.01302381020423716,
+         0.002170635034039527, 2.48072575318803*10^-4,
+         1.860544314891023*10^-5, 8.2690858439601*10^-7,
+         1.65381716879202*10^-8, 0.0, 0.1938066994678149,
+         0.3488520590420667, 0.2790816472336534, 0.1302381020423716,
+         0.03907143061271148, 0.007814286122542296,
+         0.001041904816338973, 8.930612711476907*10^-5,
+         4.465306355738455*10^-6, 9.922903012752121*10^-8, 0.0, 0.0,
+         0.2325680393613778, 0.3721088629782046, 0.2604762040847432,
+         0.1041904816338973, 0.02604762040847432, 0.004167619265355891,
+         4.167619265355891*10^-4, 2.381496723060509*10^-5,
+         5.953741807651273*10^-7,0.0, 0.0, 0.0, 0.2790816472336534,
+         0.3907143061271148, 0.2344285836762689, 0.07814286122542295,
+         0.01562857224508459, 0.001875428669410151,
+         1.250285779606767*10^-4, 3.572245084590763*10^-6,0.0, 0.0,
+         0.0, 0.0, 0.3348979766803841, 0.4018775720164609,
+         0.2009387860082305, 0.05358367626886145, 0.008037551440329218,
+         6.430041152263375*10^-4, 2.143347050754458*10^-5,0.0, 0.0,
+         0.0, 0.0, 0.0, 0.4018775720164609, 0.4018775720164609,
+         0.1607510288065844, 0.03215020576131687, 0.003215020576131687,
+         1.286008230452675*10^-4,0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+         0.4822530864197531, 0.3858024691358025, 0.1157407407407407,
+         0.0154320987654321, 7.716049382716049*10^-4,0.0, 0.0, 0.0,
+         0.0, 0.0, 0.0, 0.0, 0.5787037037037037, 0.3472222222222222,
+         0.06944444444444445, 0.004629629629629629,0.0, 0.0, 0.0, 0.0,
+         0.0, 0.0, 0.0, 0.0, 0.6944444444444444, 0.2777777777777778,
+         0.02777777777777778,0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+         0.0, 0.8333333333333334, 0.1666666666666667,0.0, 0.0, 0.0,
+         0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0)
+P  <-  t( matrix(x, 11, 11) )
+
+PPow  <- P
+tenzicdf  <- c(PPow[1,11])
+for (i in 2:50) {
+  PPow  <- PPow %*% P;
+  tenzicdf  <- c(tenzicdf, PPow[1,11])
+}
+
+library(ggplot2)
+ggplot(data = as.data.frame(tenzicdf), aes(x=1:50, y=tenzicdf))
+  + geom_point()
+  + geom_line()
+
+tenzipdf  <-  tenzipdf[2:50] - tenzipdf[1:49]
+tenzipdf  <- c(tenzicdf[1], tenzipdf)
+ggplot(data = as.data.frame(tenzipdf), aes(x=1:50, y=tenzipdf))
+    + geom_point()
+    + geom_line()
+
+sum(tenzipdf)
+tenzimean  <- (1:50) %*% tenzipdf
+
+Q  <-  P[1:10, 1:10]
+I10  <-  ident(10)
+N  <- solve( I10 - Q, I10)
+N %*% rep(1,10)
+
+Varw  <- ((2 * N - I10) %*% N) %*% rep(1, 10) - ( N %*% rep(1, 10) )^2
+sdw  <- sqrt(Varw)
+\end{verbatim}
+\end{solution}
 \begin{enumerate}
   \item  Show that the shortest possible game of \emph{Chutes and
       Ladders} consists of $7$ moves by listing those moves.
@@ -1151,7 +1483,7 @@ had the effect of moving an additional two chicks into the coop?
 the supplemental R code to answer the questions.
     \end{enumerate}
   \end{exercise}
-  \item  For the game of Risk, show that the probability of the attacker rolling
+  \item  For the game of \emph{Risk}, show that the probability of the attacker rolling
     three dice, the defender rolling one die and the defender losing one army is
     \( 855/1296 \).  That is, calculate $\pi_{310}$.
     % Use the order statistic probability $Y^{(1)} = (3y^2 - 3 y + 1)/216$.
@@ -1174,7 +1506,6 @@ the supplemental R code to answer the questions.
     % The total probability is $(7 + 38 + 111 + 244 + 455)/1296 = 855/1296$.
 \end{enumerate}
 
-\link{ _soln.xml}{Solutions to Problems}
 
 \hr
 
