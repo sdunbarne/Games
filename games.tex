@@ -182,7 +182,7 @@ game by their $20$th
      transient states, $R$ is a $10 \times 1$ column matrix containing the
      probabilities of going from each of the non-absorbing states to
      state $10$ in one roll, $0$ is a $1 \times 10$ zero matrix, and
-     $I$ is the $1 \times1$ identity matrix representing the absorbing
+     $I$ is the $1 \times 1$ identity matrix representing the absorbing
      state $10$.  Then approximately
      \[
        N \approx
@@ -207,35 +207,73 @@ game by their $20$th
 & 5.455 \\
 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000
 & 6.000 \\
-       \end{pmatrix}
+       \end{pmatrix}.
      \]
-     The entry $N_{ij}$ represents the average number of turns spent in
-     state $j$ given that the player started in state $i$. This matrix
-     gives information about just the non-absorbing states $0$ through
-     $9$.  Notice that the diagonal entries are all greater than $1$.
-     If a player starts the game in state $i$, then at least one roll,
-     the first roll is in state $i$. Entries in subsequent states
+     
+     The theorems from
+     \link{Waiting Time to
+       Absorption}{http://www.math.unl.edu/~sdunbar1/ProbabilityTheory/Lessons/MarkovChains/WaitingTimeAbsorption/waitingtimeabsorption.pdf}
+     give a lot of information about the progress of the game.
+     The entry $N_{ij}$ (counting $i$ and $j$ from $0$)
+     represents the expected number of turns spent in
+     state $j$ given that the player started in state $i$.
+     Notice that the diagonal entries are all greater than $1$.
+     If a player starts the game in state $i$ then at least one roll,
+     the first roll, is in state $i$. Entries in subsequent states
      $j>i$ can be less than $1$ because it is possible for a player to
      skip a state entirely. Notice the $6$ in the bottom right
      corner gives the average number of rolls spent in state $9$ given
      that the player started in state $9$.  This makes sense; 
-     in state $9$, then you have just one die left to roll. It will take
-     $6$ rolls on average to roll the given target number.
-
+     in state $9$, there is just one die left to roll. It will take
+     $6$ rolls on average to roll the given target number, this is the
+     mean of a geometric random variable with $p = 1/6$.
      Since players start the game of \emph{Tenzi} in state $0$
-     the first row of matrix $N$.
-     tells us the mean number of rolls a player will spend in each
-     state.  Using Theorem 3 from
-     \link{Waiting Time to
-       Absorption}{http://www.math.unl.edu/~sdunbar1/ProbabilityTheory/Lessons/MarkovChains/WaitingTimeAbsorption/waitingtimeabsorption.pdf}
-     the standard deviation of the 
+     the first row of matrix $N$
+     gives the expected number of rolls a player will spend in each
+     state, see Table~\ref{tab:games:tenzimean}.
+     \begin{table}
+       \centering
+     \begin{tabular}{rrrrrrrrrr}
+       0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\
+       1.19 & 0.48 & 0.67 & 0.79 & 0.92 & 1.10 & 1.37 & 1.83 &
+         2.74 & 5.48 
+     \end{tabular}
+       \caption{Expected number of times that the chain will be in
+         each state.}
+       \label{tab:games:tenzimean}
+     \end{table}
+     This makes sense, for state $0$, there is always the first roll,
+     but usually the player moves to another state.  For states $1$
+     through $4$, it is common to get more than one of the target
+     number, so those states often get skipped over.  For states $5$ to $9$,
+     it takes increasingly longer to collect the target number.
 
-     
-\subsection*{Chutes and Ladders}
+     The sum of the first row is the mean number of turns to go from
+     state $0$ to the absorbing state $10$, specifically, $16.564849$,
+     agreeing with the approximate mean from the pdf. 
+     The standard deviation of the number of turns the player will
+     spend in state $i$ before reaching the absorbing
+     state $10$ from state $0$ is in Table~\ref{tab:games:tenzisd}.
+     \begin{table}
+       \centering
+     \begin{tabular}{rrrrrrrrrr}
+       0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\
+       6.834127 & 6.812082 & 6.784767 & 6.750038 & 6.704407 & 6.641793 &
+       6.550584 & 6.405536 & 6.138888 & 5.477226
+     \end{tabular}
+       \caption{Standard deviation of the number of times that the
+         chain will be in each state.}
+       \label{tab:games:tenizsd}
+     \end{table}
+     This also makes sense; 
+     in state $9$, then you have just one die left to roll. The entry
+     $5.477226$ is standard deviation of a geometric random variable with $p = 1/6$.
+
+ \subsection*{Chutes and Ladders}
 
 The childrens' game \emph{Chutes and Ladders} (known in the United
 Kingdom as \emph{Snakes and Ladders}) derives from an  old Hindu
-game \emph{Leela}  designed to teach moral lessons.  The game
+game \emph{Leela}   teaching moral lessons.  The game
 described here is based on the U.S.\ version.  The game is
 a $100$ state absorbing Markov chain and the goal  is to
 investigate the expected playing time.
@@ -251,7 +289,7 @@ contrast to say, Python, which indexes from $0$ motivates this choice of
 $100$ states with an initial distribution.  With $101$ states including
 a starting state,
 the state indices would be one greater than the
-spaces marked on the board leading to potential confusion.)
+spaces marked on the board, leading to potential confusion.)
   Since the goal is to find the expected playing time, remember
 to add $1$ for the initial move to the playing time to be in one of the starting states.
 Players roll a fair six-sided die (or use a
@@ -292,7 +330,7 @@ state $0$, but deleting each inaccessible state corresponding to a chute or a
 ladder leaves $82$ states.    The probability transition
 matrix is an $82 \times 82$ matrix with most rows containing $6$
 consecutive probabilities of $1/6$ each.  There are two kinds of
-exceptions.  A row corresponding to any state from which you can reach
+exceptions.  A row corresponding to any state reachable from a
 a chute or ladder must account for the long-distance transitions by the
 chute or ladder.
 The last $5$ rows reflect the fact that a player must reach state
@@ -316,7 +354,15 @@ time to absorption is the average over the expected waiting time to
 absorption for each state, $\frac{1}{6}\left( W(38) + W(14) + W(3) +
   W(4) + W(5) + W(6) \right) = 38.18683$.  Adding for the initial move
 to the starting states gives $39.18683 $ which agrees completely with
-\cite[althoen].
+\cite[althoen].  Using Theorem 3 from
+b
+\link{Waiting Time to
+       Absorption}{http://www.math.unl.edu/~sdunbar1/ProbabilityTheory/Lessons/MarkovChains/WaitingTimeAbsorption/waitingtimeabsorption.pdf}
+the standard deviation of the waiting time to absorption is
+approximately $25.1$ turns.  As a final note, observe that the waiting
+time to absorption from state $99$ is $6$ with standard deviation
+$5.477226$, exactly as expected for a geometric random variable with
+$p=1/6$, waiting to roll a $1$ to enter the last state.
 
 In \cite{althoen93} the authors investigate the sensitivity of the
 waiting time to adding or removing chutes and ladders.  For example,
@@ -326,27 +372,27 @@ additional analysis is pursued in the exercises.
 
 \subsection*{Count Your Chickens}
 
-\emph{Count Your Chickens!}, produced by Peaceable Kingdom is
-a game aimed at preschoolers.  In this cooperative game,
+\emph{Count Your Chickens!}, produced by Peaceable Kingdom, is
+a simple game for preschoolers.  In this cooperative game,
 gameplay begins with forty chicks spread throughout the board and a
 mama chicken at the start square. The end square is the mama chicken’s
 coop, and the mama chicken moves progressively closer to this square
-as the game unfolds. The object of the game is to have all 40 chicks
+as the game unfolds. The object of the game is to have all $40$ chicks
 in the chicken coop when the mama chicken arrives there. The game
 board has
-41 squares numbered in order, with 30 squares containing one of five
-characters: a cow, a sheep, a pig, a dog, or a tractor.  Five of these
-squares are colored blue. The final square, the chicken coop, contains
-all 5 characters. Players take turns spinning a spinner with 6
-segments of equal area, five of which match the characters from the
-board and a sixth segment with the character fox. When a player spins the
+$41$ squares numbered in order, with $30$ squares containing one of five
+characters: a cow, a sheep, a pig, a dog, or a tractor.  Five 
+squares are blue. The final square, the chicken coop, contains
+all $5$ farm characters. Players take turns spinning a spinner with 6
+segments of equal area.  Five segments  match the farm characters from the
+board and a sixth segment has a fox character. When a player spins the
 spinner, one of two things can happen. If the player spins one of the
 five characters drawn on the board, she moves the mama chicken token
-along the path to the coop to the next instance of the character
-spun. The player counts the number of squares moved, and this number
-of chicks is placed in the chicken coop.  If
+along the path toward the coop to the next instance of the character.
+The player counts the squares moved, and adds this number
+of chicks  to the chicken coop.  If
 the square landed on is blue, the player adds one additional chick to the coop. There
-are only a total of 40 chicks on the board though, so if the mama chicken moves two
+are only a total of $40$ chicks on the board though, so if the mama chicken moves two
 squares but there are already 39 chicks in the coop, only one chick gets added. If a
 fox is spun, the player must remove one chick from the coop and place it back on the
 board. If there are no chicks in the coop then spinning a fox has no
@@ -355,25 +401,26 @@ effect.
 For example, suppose the mama chicken is at the start square. If the
 player spins a sheep,
 then the mama chicken moves to square $2$ (the first sheep) and places two
-chicks in the coop (see figure 1).  If the player next spins a tractor then the mama chicken
+chicks in the coop.  If the player next spins a tractor then the mama chicken
 moves $2$ squares to square $4$ and  places $3$ more chicks in the
 coop because square $4$ is blue. If the first spin is a fox then nothing happens because
 at the start of the game there are no chicks in the coop.  Gameplay continues in this
-manner until the mama chicken reaches the coop. The players win if all 40 chicks are
+manner until the mama chicken reaches the coop. The players win if all $40$ chicks are
 in the coop when the mama chicken arrives there; otherwise the players
 lose, this is a cooperative game.
 
 The goal here is to answer the following questions:
 \begin{enumerate}
-\item What is the probability of winning a game of Count Your Chickens!? That is, what
-is the probability of landing on square 40 with 40 chicks in the coop?
+\item What is the probability of winning a game of \emph{Count Your Chickens!}? That is, what
+is the probability of landing on square $40$ with $40$ chicks in the coop?
 \item What is the expected number of chicks in the coop at the end of the game?
 \item What effect do the blue squares have on the probability of winning the game? For
 example, the original game has five particular squares colored blue; are there other
 choices of five blue squares that increase the probability of winning the game?
 \end{enumerate}
 
-A
+The mathematical interest here is creating the state space, leading to a
+large transition probability matrix.  A
 state in \emph{Count Your Chickens!} is an ordered pair $(a, b)$ where
 $a$ is the mama
 chicken’s position on the board and $b$ is the number of chicks in the
@@ -385,12 +432,14 @@ are grouped together as a loss state. The win state is $(40, 40)$,  the mama chi
 reach the last square of the board with all of the chicks in the coop.
 
 The following
-example illustrates the construction of such a chain with a smaller board.
+example illustrates the construction of such a chain with a smaller
+board, see Figure~\ref{fig:games:smallchickens}.
+
 \begin{example}
-In the smaller game, there are two characters on the board -- a sheep and
+This smaller game uses only two farm characters -- a sheep and
 a cow. There are $8$ squares on the board after the start square and $8$ chicks to return to
 the coop. The spinner has three equal-sized segments illustrated with a cow, a sheep,
-and a fox. We number only the squares with a character, since it is not possible to land
+and a fox.  Number only the squares with a character, since it is not possible to land
 on a blank square.
 
 \begin{figure}
@@ -425,23 +474,24 @@ label("Cow", (8.3, 0.4));
   \label{fig:games:smallchickens}
 \end{figure}
 
-As described above, a state of the game is an ordered pair $(i, j )$ where $i$ is the
-position of the mama chicken and $j$ is the number of chicks in the coop. Notice that
-some such pairs will be identified with the loss state because, if $j$ is small enough
+A state of the game is an ordered pair $(i, j)$ where $i$ is the
+position of the mama chicken and $j$ is the number of chicks in the coop. 
+Identify some pairs  with the loss state because if $j$ is small enough
 relative to the mama chicken’s position, it will be impossible for all $8$ chicks to be
 in the coop at the end of the game. The state $(2, 0)$ is such an example: if the mama
-chicken is on square $2$ and there are no chicks in the coop, the game will end with a
-maximum of $7$ chicks in the coop. Let $b_{i}^{R}$ be the number of blue squares after square
+chicken is on square $2$ and there are no chicks in the coop, the game will end with at
+most $7$ chicks in the coop. Let $b_{i}^{R}$ be the number of blue squares after square
 $i$ on the path and $b_i^L$ the number of blue squares that come before square $i$, including
 square $i$. Note $b_i^R + b_i^L$ is the total number of blue squares in the game. Then for square
 $i$,  the states are $(i, j )$ with $\max(i − b_i^R, 0) \le j \le
 \min(i + b_i^L, 8)$.
 For example,
 for square $3$, $b_3^R = 1$ and $b_3^L = 1$ since there is one blue square to the right of square
-$3$ and one blue square to the left of square $3$. Thus for square $3$ we get the possible
+$3$ and one blue square to the left of square $3$. Thus  square $3$
+corresponds to possible
 states $(3, 2)$, $(3, 3)$, $(3, 4)$.  It is not possible to have more than $4$ chicks in the
 coop on square $3$, and if the coop has $0$ or $1$ chicks  on
-square $3$ it is impossible to win the game. Hence the states are
+square $3$ it is impossible to win the game. All the states are
 \[
  \{(0, 0), (2, 1), (2, 2), (2, 3), (3, 2), (3, 3), (3, 4),
  (5, 5), (5, 6), (5, 7), (7, 7), (7, 8), \text{win}, \text{loss}}
@@ -458,7 +508,7 @@ All other entries in row $1$ are $0$.  Starting in state $(2, 1)$, then spinning
 puts the token in position $(7, 6)$, or the loss state, because
 if there are only $6$ chicks in
 the coop upon reaching square $7$, it is impossible to win. Spinning the fox also
-would puts token in the loss state, so entry $p_{2,14} =
+puts the game in the loss state, so entry $p_{2,14} =
 2/3$. Spinning the cow puts the game in state
 $(3, 2)$, so $p_{2,5} = 1/3$. All other entries in row two are $0$. Continuing in this way, the
 transition matrix for this game is
@@ -484,7 +534,7 @@ transition matrix for this game is
 The state and transition probability matrix models the small game  as an absorbing Markov
 chain.  The loss and win states are both absorbing since each of these states transitions to
 itself with probability $1$, and it is possible to reach one of these two states from any
-other state. The transition matrix for any absorbing Markov chain can be written in the
+other state. The transition matrix is in the
 canonical form
 \[
   \begin{pmatrix}
@@ -492,9 +542,7 @@ Q & R \\
 0 & I
   \end{pmatrix}
 \]
-where $I$ is the identity matrix. Notice that the transition matrix
-for this example  is already in canonical form because  the two absorbing states are the final
-two states. 
+where $I$ is the identity matrix.  
 With the transition matrix in canonical form,  the fundamental matrix is
 \[
   N = (I − Q)^{−1} = 
@@ -544,7 +592,7 @@ a fox. This state of the game corresponds to the state $(2, 1)$, which correspon
 second row of $B$. Therefore in such a situation the player would know that her win
 probability is now only $5/81 \approx 0.0617$.
 
-The computations for the general game are quite similar except that the matrices
+The computations for the general game are similar except that the matrices
 $Q$ and $R$ are much larger. $Q$ is $163 \times 163$ and $R$ is $63
 \times 2$ and therefore $B$ is
 $163 \times 2$. It is impractical to construct such large matrices by
@@ -589,7 +637,7 @@ a neighbor territory.  A player who decides to attack a territory declares war o
 opponent and the two players engage in a sequence of battles with
 random outcomes determined by dice.   Successive
 outcomes of the defender's and the attacker's dice determine each
-battle and the outcome of the war.
+battle and the ultimate outcome of the war.
 An attacker may withdraw before the war ends. An attacker who does not withdraw
 either destroys all the defender armies in that territory and occupies that territory, or
 loses all the attacking armies and fails to conquer the territory.
@@ -602,7 +650,7 @@ three dice if the attacking player has three or more armies involved
 in the battle.  A defender rolls one die with one army and two dice
 with two or more armies in the embattled territory.  According to the
 number of dice each opponent rolls, there are six different cases,
-given in Table 1.
+given in Table~\ref{tab:games:riskdice}.
 
 \begin{table}
   \centering
@@ -624,7 +672,7 @@ given in Table 1.
 \end{table}
 
 At each turn, after rolling the dice, each side sets the dice in
-descending order and then pair off the two sets of dice, matching the
+descending order and then pairs off the two sets of dice, matching the
 highest attacking die roll against the highest defending die roll. If
 each player is using at least two dice, then the second highest die
 rolls are similarly matched.  The attacker loses one army for each die
@@ -634,7 +682,7 @@ corresponding attacker's die.  Note that ties favor the defender, so
 each tie results in the loss of an attacking army.  After taking away
 the armies lost at that turn, the players roll the dice again.  This
 sequence continues until one side loses all of its armies.
-Table~\ref{tab:games:riskwar} shows the progress of typical war for a country.
+Table~\ref{tab:games:riskwar} shows the progress of a typical war for a country.
 This war took four rounds.  At the end of the fourth turn, the attacker
 lost all of the attacking armies and the defender wins the war.  This
 table also serves as a reminder of the number of dice rolled in
@@ -650,7 +698,7 @@ more than two for the defender.
     & \multicolumn{2}{c}{Losses} \\
          & attacker & defender & attacker & defender
                  & attacker & defender & attacker & defender \\
-    1  & 4        & 3        & 3     & 2
+    1  & 4        & 3        & 3     & 2          & 1
                  & 5,4,3    & 6,3      & 1        & 1        \\                      
     2  & 3        & 2        & 3     & 2
                  & 5,5,3    & 5,5      & 2        & 0        \\                      
@@ -690,10 +738,10 @@ states of the system prior to that round. In other words, the battle process
 has the Markov property.  
 
 The $AD$ states where both $a$ and $d$ are positive are transient. The $A + D$ states where
-either $a = 0$ or $d = 0$ are absorbing. Let the $AD + (A + D)$ possible states be ordered
-so that the $AD$ transient states are followed by the $A + D$ absorbing states. Order the
+either $a = 0$ or $d = 0$ are absorbing. Order the $AD + (A + D)$ possible states 
+so that the $AD$ transient states precede the $A + D$ absorbing states. Order the
 transient states with the attacker armies decreasing along a row for constant
-defenders (across the columns), and the defender armies decreasing
+defenders, and the defender armies decreasing
 row by row, see Figure~\ref{fig:games:risktrans}.
 \[
   (A, D), (A-1, D), (A-2, D), \dots, (1, D), (A, D-1), \dots, (1,
@@ -712,10 +760,11 @@ See Figure~\ref{fig:games:risktrans} for a diagram of the possible
 state transitions when $A = 5$ and $D = 4$.  This figure is key for
 understanding the Markov chain.  The small number below
 each ordered pair state is the index of the state for the transition
-probability matrix.  It is logical to have the number of armies
+probability matrix.  Similar to European language reading directions,
+the number of armies
 decrease from left to right and top to bottom, so the state of the
 system flows from the upper left corner to the bottom or right margin.  The
-diagram is divided into $6$ regions, $3$ for the attacker, and $2$
+diagram divides into $6$ regions, $3$ for the attacker, and $2$
 for the defender depending on the number of dice each is rolling in a
 battle, as already outlined in Table~\ref{tab:games:riskdice}.
 For example, the lower right region corresponds to Case I in
@@ -725,10 +774,11 @@ Table~\ref{tab:games:risktransprobs}.  The largest region in the upper
 left corresponds to Case VI in
 Table~\ref{tab:games:riskdice} and the transition probabilities
 $\pi_{32k}$ in Table~\ref{tab:games:risktransprobs}. 
-Likewise for the other regions.  The possible state transitions are
-indicated with the arrows and the colors correspond to the transition
+Likewise for the other regions.  Figure~\ref{fig:games:risktrans}
+labels the possible state transitions
+with arrows and colors corresponding to the transition
 probabilities in Table~\ref{tab:games:risktransprobs}.
-
+% to here ct 23
 Note that the states and the positions of states on the diagram can
 be confusing.  For instance, the initial armies state $(5,4)$ is located at
 location $(1, 4)$ on the diagram.  As the attacking armies decrease,
