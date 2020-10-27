@@ -347,13 +347,13 @@ $100$.  The game starts in starts in states $38$, $14$, $3$, $4$, $5$
 and $6$, each with probability $\frac{1}{6}$. The expected waiting
 time to absorption is the average over the expected waiting time to
 absorption for each state, $\frac{1}{6}\left( W(38) + W(2) + W(3) +
-  W(14) + W(5) + W(6) \right) = 38.18683$.  Adding for the initial move
-to the starting states gives $39.18683 $,  agreeing with
+  W(14) + W(5) + W(6) \right) = 38.22512$.  Adding for the initial move
+to the starting states gives $39.22512 $,  agreeing with
 \cite[althoen].  Using Theorem 3 from
 \link{Waiting Time to
        Absorption}{http://www.math.unl.edu/~sdunbar1/ProbabilityTheory/Lessons/MarkovChains/WaitingTimeAbsorption/waitingtimeabsorption.pdf}
 the standard deviation of the waiting time to absorption is
-approximately $25.1$ turns.  As a final note, observe that the waiting
+approximately $25.2$ turns.  As a final note, observe that the waiting
 time to absorption from state $99$ is $6$ with standard deviation
 $5.477226$, exactly as expected for a geometric random variable with
 $p=1/6$, waiting to roll a $1$ to enter the last state.
@@ -1389,6 +1389,29 @@ The subsection on \emph{Risk} is adapted from \cite{osborne03},
   \li Plot pdf and cdf with base functions.
 \end{codebox}
 
+\begin{codebox}
+  \Procname{Chutes and Ladders Game Markov Chain}
+  \zi Comment Post: Mean and standard deviation of waiting time to win
+  \li Load library ``markovchain''
+  \li \proc{rotvec} to cyclically rotate a vector
+  \li Create (almost) circulant matrix for moves according to dice roll
+  \li Create matrix for jumps due to ladders
+  \li Create matrix for jumps due to chutes
+  \li Transition matrix is product of dice roll, ladders and chutes
+  \zi
+  \li Create Markov chain object
+  \li Compute mean absorption time with library function
+  \zi
+  \li Extract transient probability submatrix
+  \li Compute normal matrix with matrix inversion
+  \zi
+  \li Calculate mean from normal matrix
+  \li Calculate variance of waiting times
+  \li Print mean and standard varaition
+  \zi
+  \li Plot pdf and cdf with base functions.
+\end{codebox}
+
 \subsection*{Scripts}
 
 \input{games_scripts}
@@ -1532,8 +1555,6 @@ absorption.
 \begin{enumerate}
 \item  Find the expected waiting time to absorption in a game with
     no chutes or ladders.
-  \item Consider the effects on the expected time of the game by
-    adding various chutes and ladders.
     \item 
     Insert a
     ladder from state 46 to state 94.  What happens to the expected
@@ -1551,8 +1572,8 @@ absorption.
 \end{exercise}
 \begin{solution}
   \begin{enumerate}
-  \item
-  \item      The expected length of the game drops
+  \item The expected length of a game with no chutes or ladders is $35.68571$.
+Here  \item      The expected length of the game drops
     from about $39.2$ to about $29.8$; 
   \item     The game lengthens to about $45.8$ moves.
   \item       Lengthens the expected
@@ -1560,12 +1581,12 @@ absorption.
     increases the chances of missing the important ladder from state $80$
     to $100$.
     \item       Shortens the game by over a move to about $38.0$,
-     since gives a second chance at the long ladder from $28$ to $84$.
+     since it gives a second chance at the long ladder from $28$ to $84$.
   \end{enumerate}
 \end{solution}
   
   \begin{exercise}
-    Investigate the following modifications to the \emph{Count Your
+    Investigate the following modifications to the small \emph{Count Your
       Chickens!} game.
     \begin{enumerate}
     \item What effect does adding additional animals to the board (i.e., increasing the size of the
@@ -1581,11 +1602,15 @@ had the effect of moving an additional two chicks into the coop?
 the supplemental R code to answer the questions.
     \end{enumerate}
   \end{exercise}
-
+  \begin{solution}
+    This makes a good project for student investigation.
+  \end{solution}
+  
   \begin{exercise}
   For the game of \emph{Risk}, show that the probability of the attacker rolling
     three dice, the defender rolling one die and the defender losing one army is
-    \( 855/1296 \).  That is, calculate $\pi_{310}$.
+    \( 855/1296 \).  That is, calculate $\pi_{310}$, the gray arrow in
+    Figure~\ref{fig:games:risktrans} and Table~\ref{tab:games:risktransprobs}.
   \end{exercise}
   \begin{solution}
   Use the order statistic probability $Y^{(1)} = (3y^2 - 3 y + 1)/216$.
@@ -1600,16 +1625,16 @@ the supplemental R code to answer the questions.
   \item 
     The largest die of the $3$ rolled by the attacker is a $3$, and
     the value  rolled by the defender is $1$ or $2$
-    which occurs with probability $\frac{19}{216} \cdot \frac{2}{6} = \frac{38}{216}$
+    which occurs with probability $\frac{19}{216} \cdot \frac{2}{6} = \frac{38}{1296}$
     The largest die of the $3$ rolled by the attacker is a $4$, and
     the value  rolled by the defender is $1$ or $2$ or $3$.
-    which occurs with probability $\frac{37}{216} \cdot \frac{3}{6} = \frac{111}{216}$
+    which occurs with probability $\frac{37}{216} \cdot \frac{3}{6} = \frac{111}{1296}$
     The largest die of the $3$ rolled by the attacker is a $5$, and
     the value  rolled by the defender is $1$, $2$, $3$, or $4$
-    which occurs with probability $\frac{61}{216} \cdot \frac{4}{6} = \frac{244}{216}$
+    which occurs with probability $\frac{61}{216} \cdot \frac{4}{6} = \frac{244}{1296}$
     The largest die of the $3$ rolled by the attacker is a $6$, and
     the value  rolled by the defender is $1$, $2$, $3$, $4$, or $5$
-    which occurs with probability $\frac{91}{216} \cdot \frac{5}{6} = \frac{455}{216}$
+    which occurs with probability $\frac{91}{216} \cdot \frac{5}{6} = \frac{455}{1296}$
     The total probability is $(7 + 38 + 111 + 244 + 455)/1296 = 855/1296$.
     \end{enumerate}
   \end{solution}

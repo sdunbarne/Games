@@ -65,8 +65,8 @@ points(1:50, tenzipdf, type="l", col="blue")
 ## DESCRIPTION: Compute probabilities and statistics of Tenzi game
 ##   using the transition probability matrix and the normal matrix.           
 ## DIAGNOSTICS: None
-## CONFIGURATION AND ENVIRONMENT: Uses ggplot2 for plotting
-## DEPENDENCIES: 
+## CONFIGURATION AND ENVIRONMENT: R base, including simple graphics
+## DEPENDENCIES: R base
 ## INCOMPATIBILITIES: none known
 ## PROVENANCE: Steve Dunbar, created on 26 Oct 2020 10:23:22 AM CDT
 ## BUGS AND LIMITATIONS: none known
