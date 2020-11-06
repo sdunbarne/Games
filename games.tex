@@ -1,15 +1,21 @@
+%%% -*-LaTeX-*-
+%%% games.tex.orig
+%%% Prettyprinted by texpretty lex version 0.02 [21-May-2001]
+%%% on Thu Nov  5 08:37:57 2020
+%%% for Steve Dunbar (sdunbar@family-desktop)
+
 \documentclass[12pt]{article}
 
-\input{../../../../etc/macros}
-%\input{../../../../etc/mzlatex_macros}
+\input{../../../../etc/macros} %\input{../../../../etc/mzlatex_macros}
 \input{../../../../etc/pdf_macros}
 
 \bibliographystyle{plain}
 
+\setcounter{MaxMatrixCols}{14} %accommodate large matrices
+
 \begin{document}
 
-\myheader
-\mytitle
+\myheader \mytitle
 
 \hr
 
@@ -27,43 +33,50 @@
 % \hr
 
 \visual{Rating}{../../../../CommonInformation/Lessons/rating.png}
-\section*{Rating} %one of 
+\section*{Rating} %one of
 % Everyone: contains no mathematics.
 % Student: contains scenes of mild algebra or calculus that may require guidance.
-Mathematically Mature: may contain mathematics beyond calculus with proofs.
-% Mathematicians Only: prolonged scenes of intense rigor.
+Mathematically Mature:  may contain mathematics beyond calculus with
+proofs.  % Mathematicians Only: prolonged scenes of intense rigor.
 
 \hr
 
 \visual{Section Starter Question}{../../../../CommonInformation/Lessons/question_mark.png}
-\section*{Section Starter Question}
-What feature of a game is necessary for it to  be modeled as a Markov
-chain?  Can you think of a game which could be modeled as a Markov chain?
+\section*{Section Starter Question} What feature of a board game is
+necessary for it to be modeled as a Markov chain?  Can you think of a
+board game that can be modeled as a Markov chain?
+
 \hr
 
 \visual{Key Concepts}{../../../../CommonInformation/Lessons/keyconcepts.png}
 \section*{Key Concepts}
 
 \begin{enumerate}
-\item  \emph{Tenzi} is a simple dice game for multiple players.
-  The game-play of Tenzi for a single player can be modeled with a
-Markov chain with $10$ transient states and $1$ absorbing state.
-Markov chain methods give the distribution of the number of rolls
-necessary to complete the game, along with the mean and variance.
-  \item The childrens' game \emph{Chutes and Ladders} is
-a $100$ state absorbing Markov chain and the goal  is to
-investigate the expected playing time.
-  \item \emph{Count Your Chickens!}, produced by Peaceable Kingdom is
-    a game aimed at preschoolers.  Absorbing Markov chains give
-    the probability of winning a game of \emph{Count Your Chickens!}
-      and  the expected number of chicks at the end of the game?  The
-      main interest is classifying and counting the states, leading to
-      a $165 \times 165$ transition probability matrix.
-      \item \emph{Risk} is a board game of battles between two players, and each battle consists of one or more
-rounds of combat between a number $A$ of attacking armies and a number
-$D$ of defending armies.  The goal is to develop the probability of
-winning the battle as a function of $A$ and $D$ using a Markov chain
-with $AD + A + D$ states.
+    \item
+        \emph{Tenzi} is a simple dice game for multiple players.  The
+        gameplay of Tenzi for a single player can be modeled with a
+        Markov chain with \( 10 \) transient states and \( 1 \)
+        absorbing state.  Markov chain methods give the distribution of
+        the number of rolls necessary to complete the game, along with
+        the mean and variance.
+    \item
+        The childrens' game \emph{Chutes and Ladders} is a \( 100 \)
+        state Markov chain with a final absorbing state and Markov chain
+        methods give the expected playing time.
+    \item
+        \emph{Count Your Chickens!} is a cooperative counting game aimed
+        at preschoolers.  Absorbing Markov chains give the probability
+        of winning a game of \emph{Count Your Chickens!} and the
+        expected number of chicks at the end of the game.  The main
+        interest is classifying and counting the states, leading to a \(
+        165 \times 165 \) transition probability matrix.
+    \item
+        \emph{Risk} is a board game of battles between two players, and
+        each battle consists of one or more rounds of combat between \(
+        A \) attacking armies and \( D \) defending armies.  The goal is
+        to develop the probability of winning the battle as a function
+        of \( A \) and \( D \) using a Markov chain with \( AD + A + D \)
+        states.
 \end{enumerate}
 
 \hr
@@ -71,14 +84,19 @@ with $AD + A + D$ states.
 \visual{Vocabulary}{../../../../CommonInformation/Lessons/vocabulary.png}
 \section*{Vocabulary}
 \begin{enumerate}
-  \item \emph{Tenzi} is a simple dice game for multiple players.
-  \item The childrens' game \emph{Chutes and Ladders} is
-a $100$ state absorbing Markov chain.
-\item \emph{Count Your Chickens!}, produced by Peaceable Kingdom is
-    a game aimed at preschoolers.
-  \item \emph{Risk} is a board game of battles between two players, and each battle consists of one or more
-rounds of combat between a number $A$ of attacking armies and a number
-$D$ of defending armies.
+    \item
+        \emph{Tenzi} is a simple dice game for multiple players.
+    \item
+        The childrens' game \emph{Chutes and Ladders} is a board game
+        that can be modeled as a \( 100 \) state Markov chain with a
+        final absorbing state.
+    \item
+        \emph{Count Your Chickens!} is a cooperative counting board game
+        aimed at preschoolers.
+    \item
+        \emph{Risk} is a board game of battles between two players, and
+        each battle consists of one or more rounds of combat between \(
+        A \) attacking armies and \( D \) defending armies.
 \end{enumerate}
 
 \hr
@@ -89,585 +107,658 @@ $D$ of defending armies.
 \subsection*{Tenzi}
 
 \emph{Tenzi} is a simple dice game for multiple players.  Each player
-has $10$ six-sided fair dice in their hands. Taking turns, one 
+has \( 10 \) six-sided fair dice in their hands.  Taking turns, one
 players yells, e.g., ``Tenzi Four!'' Everyone starts rolling their dice
-as quickly as possible. Whenever a ``four'' comes up, the player sets it aside and
-rolls the remaining dice.  Eventually someone achieves all $10$ ``fours''
-and yells, ``Tenzi!''.
+as quickly as possible.  Whenever a ``four'' comes up, the player sets
+it aside and rolls the remaining dice.  Eventually the player achieves
+all \( 10 \) ``fours'' and yells, ``Tenzi!''.~%
+\index{\emph{Tenzi}}
 
-A Markov chain models the game-play of \emph{Tenzi} for a single
-player.
-Each state in the Markov chain represents the player’s
-accumulated number of dice that match the target number.  So at any
-point in the game, a player will be in one of
-the $11$ states $\set{0,1,2,3, \ldots, 10}$.  A player in state $0$ has not yet rolled any
-dice matching the target number, and a player in state $10$ will yell
-``Tenzi!' Each time a player rolls their dice, the player has a chance to
-move up to a higher-numbered state.
+A Markov chain models the gameplay of \emph{Tenzi} for a single player.
+Each state in the Markov chain represents the player’s accumulated
+number of dice matching the target number.  So at any point in the game,
+a player will be in one of the \( 11 \) states \( \set{0,1,2,3, \ldots,
+10} \).  A player in state \( 0 \) has not yet rolled any dice matching
+the target number, and a player in state \( 10 \) will yell ``Tenzi!'
+Each time a player rolls the dice, the player has a chance to move up to
+a higher-numbered state.
 
-Each entry in the transition probability matrix is
-a binomial probability.  A player in state $i$ would roll
-the remaining $10−i$ of their dice. The player moves up to state $j$ if
-exactly $j−i$ of the dice match the target number. So, the probability of
-transitioning from state $i$ to state $j$ in one roll of the dice is
-$binom{10−i}{j−i}\left( \frac{1}{6} \right)^{j−i} \left( \frac{5}{6}
-\right){10−j} $ for $0 \le i$, $j \le 10$ and $i \le j$. Of course a player
-will never go backwards to a previous state in the game, so the
-probability is $0$ for $i>j$.  Thus the states are not communicating,
-the Markov Chain is not recurrent, states $0$ through $9$ are
-transient and the state $10$ is an absorbing
-state.
+Each entry in the transition probability matrix is a binomial
+probability.  A player in state \( i \) rolls the remaining \( 10 - i \)
+dice.  The player moves up to state \( j > i \) if exactly \( j - i \)
+of the dice match the target number.  So, the probability of
+transitioning from state \( i \) to state \( j \) in one roll of the
+dice is \( \binom{10 - i}{j - i}\left( \frac{1}{6} \right)^{j - i} \left
+( \frac{5}{6} \right){10 - j} \) for \( 0 \le i \), \( j \le 10 \) and \(
+i \le j \).  A player will never go backwards to a previous state in the
+game, so the probability is \( 0 \) for \( i>j \). Thus the states are
+not communicating, the Markov Chain is not recurrent, states \( 0 \)
+through \( 9 \) are transient and the state \( 10 \) is an absorbing
+state.~%
+\index{binomial probability}
 
-The full $11 \times 11$ transition probability matrix is approximately
-\[P =
-  \begin{pmatrix}0.162 & 0.323 & 0.291 & 0.155 & 0.0543 & 0.013 & 0.00217 & 2.48 {{10}^{-4}} & 1.86 {{10}^{-5}} & 8.27 {{10}^{-7}} & 1.65 {{10}^{-8}}\\
-0.0 & 0.194 & 0.349 & 0.279 & 0.13 & 0.0391 & 0.00781 & 0.00104 & 8.93 {{10}^{-5}} & 4.47 {{10}^{-6}} & 9.92 {{10}^{-8}}\\
-0.0 & 0.0 & 0.233 & 0.372 & 0.26 & 0.104 & 0.026 & 0.00417 & 4.17 {{10}^{-4}} & 2.38 {{10}^{-5}} & 5.95 {{10}^{-7}}\\
-0.0 & 0.0 & 0.0 & 0.279 & 0.391 & 0.234 & 0.0781 & 0.0156 & 0.00188 & 1.25 {{10}^{-4}} & 3.57 {{10}^{-6}}\\
-0.0 & 0.0 & 0.0 & 0.0 & 0.335 & 0.402 & 0.201 & 0.0536 & 0.00804 & 6.43 {{10}^{-4}} & 2.14 {{10}^{-5}}\\
-0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.402 & 0.402 & 0.161 & 0.0322 & 0.00322 & 1.29 {{10}^{-4}}\\
-0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.482 & 0.386 & 0.116 & 0.0154 & 7.72 {{10}^{-4}}\\
-0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.579 & 0.347 & 0.0694 & 0.00463\\
-0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.694 & 0.278 & 0.0278\\
-0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.833 & 0.167\\
-0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 1.0\end{pmatrix}\]
-  \end{pmatrix}
+The full \( 11 \times 11 \) transition probability matrix \( P \) is
+approximately
+\begin{tiny}
+    \[
+        \begin{pmatrix}
+            0.162 & 0.323 & 0.291 & 0.155 & 0.0543 & 0.013 & 0.00217 &
+            2.48 \cdot {10^{-4}} & 1.86 \cdot {10^{-5}} & 8.27 \cdot {10^
+            {-7}} & 1.65 \cdot {10^{-8}}\\
+            0.0 & 0.194 & 0.349 & 0.279 & 0.13 & 0.0391 & 0.00781 &
+            0.00104 & 8.93 \cdot {10^{-5}} & 4.47 \cdot {10^{-6}} & 9.92
+            \cdot {10^{-8}}\\
+            0.0 & 0.0 & 0.233 & 0.372 & 0.26 & 0.104 & 0.026 & 0.00417 &
+            4.17 \cdot {10^{-4}} & 2.38 \cdot {10^{-5}} & 5.95 \cdot {10^
+            {-7}}\\
+            0.0 & 0.0 & 0.0 & 0.279 & 0.391 & 0.234 & 0.0781 & 0.0156 &
+            0.00188 & 1.25 \cdot {10^{-4}} & 3.57 \cdot {10^{-6}}\\
+            0.0 & 0.0 & 0.0 & 0.0 & 0.335 & 0.402 & 0.201 & 0.0536 &
+            0.00804 & 6.43 \cdot {10^{-4}} & 2.14 \cdot {10^{-5}}\\
+            0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.402 & 0.402 & 0.161 & 0.0322
+            & 0.00322 & 1.29 \cdot {10^{-4}}\\
+            0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.482 & 0.386 & 0.116 &
+            0.0154 & 7.72 \cdot {10^{-4}}\\
+            0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.579 & 0.347 &
+            0.0694 & 0.00463\\
+            0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.694 &
+            0.278 & 0.0278\\
+            0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.833
+            & 0.167\\
+            0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 &
+            1.0
+        \end{pmatrix}
+        .
+    \]
+\end{tiny}
+The initial distribution is \( X_0 = (1,0,0,0,0,0,0,0,0,0,0) \). Since
+the probabilities are accumulating in state \( 10 \), the entry in the
+last entry of \( X_k \) is the probability of getting Tenzi in \( k \)
+or fewer rolls.  For example, the entry in the last entry of \( X_{20} \)
+is \( 0.7677 \).  The player has a \( 76.77\% \) chance the game is
+finished by the \( 20 \)th roll.  The player may have finished on the \(
+20 \)th roll, or possibly finished on some previous roll and is waiting
+in state \( 10 \).  The resulting cumulative probability function \( P(k)
+\) for a player getting Tenzi on or before the \( k \)th roll is in
+Figure~%
+\ref{fig:games:tenzicdf}.  To find \( p(k) \), the probability of
+getting Tenzi in exactly \( k \) rolls, subtract the probability that
+the player already had Tenzi by the \( k - 1 \) roll.  This gives the
+probability density function \( p(k)=P(k) - P(k - 1) \) also shown in
+Figure~%
+\ref{fig:games:tenzicdf}.
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.33]{tenzi}
+    \caption{Probability density function (in blue) and cumulative
+    distribution function (in red) of waiting time to win in Tenzi.}%
+    \label{fig:games:tenzicdf}
+\end{figure}
+The maximum of this probability function is at \( k=13 \); a player has
+a \( 0.0705 \) probability of getting Tenzi on their \( 13 \)th roll.
+Using these probabilities, the mean of the distribution is \( \sum_{k=1}^
+{\infty} k p(k) \).  Approximate this sum through \( k=50 \) as \( 16.5 \).
+This is the average number of rolls needed for a player to get Tenzi.
+
+The fundamental matrix provides another way of finding the mean.~%
+\index{fundamental matrix}
+The transition probability matrix is already partitioned as
+\[
+    P =
+    \begin{pmatrix}
+        Q & R \\
+        0 & I
+    \end{pmatrix}
+\] where \( Q \) is the \( 10 \times 10 \) matrix containing the
+transition probabilities among the transient states, \( R \) is a \( 10
+\times 1 \) column matrix containing the probabilities of going from
+each of the non-absorbing states to state \( 10 \) in one roll, \( 0 \)
+is a \( 1 \times 10 \) zero matrix, and \( I \) is the \( 1 \times 1 \)
+identity matrix representing the absorbing state \( 10 \).  Then \( N \)
+is approximately
+\[
+    \begin{pmatrix}
+        1.193 & 0.478 & 0.669 & 0.787 & 0.915 & 1.097 & 1.371 & 1.828 &
+        2.742 & 5.485 \\
+        0.000 & 1.240 & 0.564 & 0.771 & 0.917 & 1.097 & 1.371 & 1.828 &
+        2.742 & 5.485 \\
+        0.000 & 0.000 & 1.303 & 0.673 & 0.905 & 1.099 & 1.371 & 1.828 &
+        2.742 & 5.485 \\
+        0.000 & 0.000 & 0.000 & 1.387 & 0.815 & 1.091 & 1.373 & 1.828 &
+        2.742 & 5.485 \\
+        0.000 & 0.000 & 0.000 & 0.000 & 1.504 & 1.010 & 1.368 & 1.829 &
+        2.742 & 5.485 \\
+        0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 1.672 & 1.298 & 1.826 &
+        2.743 & 5.485 \\
+        0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 1.931 & 1.769 &
+        2.742 & 5.485 \\
+        0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 2.374 &
+        2.697 & 5.485 \\
+        0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 &
+        3.273 & 5.455 \\
+        0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 &
+        0.000 & 6.000 \\
+    \end{pmatrix}
+    .
 \]
-The initial distribution is $X_0 = (1,0,0,0,0,0,0,0,0,0,0)$.  Since
-the probabilities are accumulating in state $10$, the entry in the
-last entry of $X_k$ is the probability of getting Tenzi in $k$ or
-fewer rolls. For example, the entry in the last entry of $X_{20}$ is
-$0.7677$. So there is a $76.77\%$ chance that a player has finished the
-game by their $20$th
-     roll. The player may have finished on the $20$th roll, or possibly
-     finished on some previous roll and is waiting in
-     state $10$. The resulting cumulative probability function $P(k)$ for
-     a player getting Tenzi on or before the $k$th roll is
-     in Figure~\ref{fig:games:tenzicdf}.
-     \end{figure}
-     To find $p(k)$, the probability of getting Tenzi in exactly $k$ rolls,
-     subtract the probability that the player already had Tenzi by the
-     $k−1$ roll. This gives the probability density function
-     $p(k)=P(k)−P(k−1)$ also shown in Figure~\ref{fig:games:tenzicdf}. 
-     \begin{figure}
-       \centering
-       \includegraphics{tenzi}
-     \caption{Probability density function (in blue) and
-       cumulative distribution function (in red) of waiting time to
-       win in Tenzi.}
-       \label{fig:games:tenzicdf}
 
-     The maximum of this probability function is at $k=13$; a player has
-     a $0.0705$ probability of getting Tenzi on their $13$th roll. Using
-     these probabilities, the mean of the distribution is
-     $\sum_{k=1}^{\infty} k p(k)$. Approximate this sum
-     through $k=50$ as $16.5$. This is the average number
-     of rolls needed for a player to get Tenzi.
+The theorems from \link{http://www.math.unl.edu/~sdunbar1/ProbabilityTheory/Lessons/MarkovChains/WaitingTimeAbsorption/waitingtimeabsorption.pdf}
+{Waiting Time to Absorption} give a lot of information about the
+progress of the game.  The entry \( N_ {ij} \) (counting \( i \) and \(
+j \) from \( 0 \)) represents the expected number of turns spent in
+state \( j \) given that the player started in state \( i \).  Notice
+that the diagonal entries are all greater than \( 1 \).  If a player
+starts the game in state \( i \) then at least one roll, the first roll,
+is in state \( i \).  Entries in later states \( j>i \) can be less than
+\( 1 \) because it is possible for a player to skip a state entirely.
+Notice the \( 6 \) in the bottom right corner gives the average number
+of rolls spent in state \( 9 \) given that the player started in state \(
+9 \).  This makes sense; in state \( 9 \), the player has just one die
+left to roll.  It will take \( 6 \) rolls on average to roll the given
+target number, this is the mean of a geometric random variable with \( p
+= 1/6 \).  Since players start the game of \emph{Tenzi} in state \( 0 \)
+the first row of matrix \( N \) gives the expected number of rolls a
+player will spend in each state, see Table~%
+\ref{tab:games:tenzimean}.
+\begin{table}
+    \centering
+    \begin{tabular}{rrrrrrrrrr}
+        0    & 1    & 2    & 3    & 4    & 5    & 6    & 7    & 8    & 9    \\ 
+        1.19 & 0.48 & 0.67 & 0.79 & 0.92 & 1.10 & 1.37 & 1.83 & 2.74 & 5.48
+    \end{tabular}
+    \caption{Expected number of times the chain will be in each state.}%
+    \label{tab:games:tenzimean}
+\end{table}
+This makes sense, for state \( 0 \), there is always the first roll, but
+usually the player moves to another state.  For states \( 1 \) through \(
+4 \), it is common to get more than one of the target number, so those
+states often get skipped over.  For states \( 5 \) to \( 9 \), it takes
+increasingly longer to collect the target number.
 
-     The fundamental matrix provides another way of finding the mean.
-     The transition probability matrix is already partitioned as
-     \[P  =
-     \begin{pmatrix}
-       Q & R \\
-       0 & I
-     \end{pmatrix}
-   \]
-   where $Q$ is the $ 10 \times 10$
-     matrix containing the transition probabilities among the
-     transient states, $R$ is a $10 \times 1$ column matrix containing the
-     probabilities of going from each of the non-absorbing states to
-     state $10$ in one roll, $0$ is a $1 \times 10$ zero matrix, and
-     $I$ is the $1 \times 1$ identity matrix representing the absorbing
-     state $10$.  Then approximately
-     \[
-       N \approx
-       \begin{pmatrix}
-1.193 & 0.478 & 0.669 & 0.787 & 0.915 & 1.097 & 1.371 & 1.828 & 2.742
-& 5.485 \\
-0.000 & 1.240 & 0.564 & 0.771 & 0.917 & 1.097 & 1.371 & 1.828 & 2.742
-& 5.485 \\
-0.000 & 0.000 & 1.303 & 0.673 & 0.905 & 1.099 & 1.371 & 1.828 & 2.742
-& 5.485 \\
-0.000 & 0.000 & 0.000 & 1.387 & 0.815 & 1.091 & 1.373 & 1.828 & 2.742
-& 5.485 \\
-0.000 & 0.000 & 0.000 & 0.000 & 1.504 & 1.010 & 1.368 & 1.829 & 2.742
-& 5.485 \\
-0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 1.672 & 1.298 & 1.826 & 2.743
-& 5.485 \\
-0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 1.931 & 1.769 & 2.742
-& 5.485 \\
-0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 2.374 & 2.697
-& 5.485 \\
-0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 3.273
-& 5.455 \\
-0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000
-& 6.000 \\
-       \end{pmatrix}.
-     \]
-     
-     The theorems from
-     \link{Waiting Time to
-       Absorption}{http://www.math.unl.edu/~sdunbar1/ProbabilityTheory/Lessons/MarkovChains/WaitingTimeAbsorption/waitingtimeabsorption.pdf}
-     give a lot of information about the progress of the game.
-     The entry $N_{ij}$ (counting $i$ and $j$ from $0$)
-     represents the expected number of turns spent in
-     state $j$ given that the player started in state $i$.
-     Notice that the diagonal entries are all greater than $1$.
-     If a player starts the game in state $i$ then at least one roll,
-     the first roll, is in state $i$. Entries in subsequent states
-     $j>i$ can be less than $1$ because it is possible for a player to
-     skip a state entirely. Notice the $6$ in the bottom right
-     corner gives the average number of rolls spent in state $9$ given
-     that the player started in state $9$.  This makes sense; 
-     in state $9$, there is just one die left to roll. It will take
-     $6$ rolls on average to roll the given target number, this is the
-     mean of a geometric random variable with $p = 1/6$.
-     Since players start the game of \emph{Tenzi} in state $0$
-     the first row of matrix $N$
-     gives the expected number of rolls a player will spend in each
-     state, see Table~\ref{tab:games:tenzimean}.
-     \begin{table}
-       \centering
-     \begin{tabular}{rrrrrrrrrr}
-       0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\
-       1.19 & 0.48 & 0.67 & 0.79 & 0.92 & 1.10 & 1.37 & 1.83 &
-         2.74 & 5.48 
-     \end{tabular}
-       \caption{Expected number of times that the chain will be in
-         each state.}
-       \label{tab:games:tenzimean}
-     \end{table}
-     This makes sense, for state $0$, there is always the first roll,
-     but usually the player moves to another state.  For states $1$
-     through $4$, it is common to get more than one of the target
-     number, so those states often get skipped over.  For states $5$ to $9$,
-     it takes increasingly longer to collect the target number.
+The sum of the first row is the mean number of turns to go from state \(
+0 \) to the absorbing state \( 10 \), specifically, \( 16.564849 \),
+agreeing with the approximate mean from the pdf.  The standard deviation
+of the number of turns the player will spend in state \( i \) before
+reaching the absorbing state \( 10 \) from state \( 0 \) is in Table~%
+\ref{tab:games:tenzisd}.
+\begin{table}
+    \centering
+    \begin{tabular}{rrrrrrrrrr}
+        0    & 1    & 2    & 3    & 4    & 5    & 6    & 7    & 8    & 9    \\ 
+        6.83 & 6.81 & 6.78 & 6.75 & 6.70 & 6.64 & 6.55 & 6.41 & 6.14 & 5.48
+    \end{tabular}
+    \caption{Standard deviation of the number of times the chain will be
+    in each state.}%
+    \label{tab:games:tenzisd}
+\end{table}
+This also makes sense; in state \( 9 \), then you have just one die left
+to roll.  The entry \( 5.48 \) is the standard deviation of a geometric
+random variable with \( p = 1/6 \).
 
-     The sum of the first row is the mean number of turns to go from
-     state $0$ to the absorbing state $10$, specifically, $16.564849$,
-     agreeing with the approximate mean from the pdf. 
-     The standard deviation of the number of turns the player will
-     spend in state $i$ before reaching the absorbing
-     state $10$ from state $0$ is in Table~\ref{tab:games:tenzisd}.
-     \begin{table}
-       \centering
-     \begin{tabular}{rrrrrrrrrr}
-       0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\
-       6.834127 & 6.812082 & 6.784767 & 6.750038 & 6.704407 & 6.641793 &
-       6.550584 & 6.405536 & 6.138888 & 5.477226
-     \end{tabular}
-       \caption{Standard deviation of the number of times that the
-         chain will be in each state.}
-       \label{tab:games:tenizsd}
-     \end{table}
-     This also makes sense; 
-     in state $9$, then you have just one die left to roll. The entry
-     $5.477226$ is standard deviation of a geometric random variable with $p = 1/6$.
-
- \subsection*{Chutes and Ladders}
+\subsection*{Chutes and Ladders}
 
 The childrens' game \emph{Chutes and Ladders} (known in the United
-Kingdom as \emph{Snakes and Ladders}) derives from an  old Hindu
-game \emph{Leela}   teaching moral lessons.  The game
-described here is based on the U.S.\ version.  The game is
-a $100$ state absorbing Markov chain and the goal  is to
-investigate the expected playing time.
+Kingdom as \emph{Snakes and Ladders}) derives from an old Hindu game
+\emph{Leela} teaching moral lessons.  The game described here is based
+on the U.S.\ version.  The game is a \( 100 \) state absorbing Markov
+chain and the goal is to investigate the expected playing time.~%
+\index{\emph{Chutes and Ladders}}
 
-The game is for two or more players.
-The game is played on a \( 10 \) by \( 10 \) board with squares numbered $1$ to
-$100$ that are the states of the game. Rather than add an additional state $0$ as
-the starting position, instead make an initial uniform distribution of starting
-states, see below for details.
-(The scripts in the R
-statistical computing language which indexes vectors from $1$, in
-contrast to say, Python, which indexes from $0$ motivates this choice of
-$100$ states with an initial distribution.  With $101$ states including
-a starting state,
-the state indices would be one greater than the
-spaces marked on the board, leading to potential confusion.)
-  Since the goal is to find the expected playing time, remember
-to add $1$ for the initial move to the playing time to be in one of the starting states.
-Players roll a fair six-sided die (or use a
-fair six-section spinner) to determine how many squares to advance on
-each turn.  Two or more
-players may occupy the same square simultaneously.  The first player
-to reach square $100$ exactly wins.
-In the final $5$
-states, if a move would take a player beyond the last square, the
-player does not move.  The game board is also marked with chutes and
-ladders connecting various squares on the board. The interesting
-feature of the game is that if a token lands on a square at the
-bottom of a ladder the token immediately moves to the top of the ladder.
-Similarly if the token lands on a square at the top of a chute, it
-immediately moves to the bottom of the chute.  The game contains
-$10$ chutes and $9$ ladders with beginning and end states given by the
-following ordered pairs.
+The game is for two or more players.  The game is played on a \( 10 \)
+by \( 10 \) board with squares numbered \( 1 \) to \( 100 \) that are
+the states of the game.  Rather than add an additional state \( 0 \) as
+the starting position, instead make an initial uniform distribution of
+starting states, see below for details.  (The scripts in the R
+statistical computing language which indexes vectors from \( 1 \), in
+contrast to say, Python, which indexes from \( 0 \) motivates this
+choice of \( 100 \) states with an initial distribution.  With \( 101 \)
+states including a starting state, the state indices would be one
+greater than the spaces marked on the board, leading to potential
+confusion.) Since the goal is to find the expected playing time,
+remember to add \( 1 \) to the playing time for the initial move to be
+in one of the starting states.  Players roll a fair six-sided die (or
+use a fair six-section spinner) to determine how many squares to advance
+their token on each turn.  Two or more players may occupy the same
+square simultaneously.  The first player to reach square \( 100 \)
+exactly wins.  In the final \( 5 \) states, if a move would take a
+player beyond the last square, the player does not move.  The game board
+is also marked with chutes and ladders connecting various squares on the
+board. The special feature of the game is that if a token lands on a
+square at the bottom of a ladder the token immediately moves to the top
+of the ladder.  Similarly if the token lands on a square at the top of a
+chute, it immediately moves to the bottom of the chute.  The game has \(
+10 \) chutes and \( 9 \) ladders with beginning and end states given by
+the following ordered pairs
 \begin{itemize}
-\item Ladders:
-$(1,38)$, $(4,14)$, $(9,31)$, $(21,42)$, $(28,84)$, $(36, 44)$, $(51,67)$, $(71,91)$,
-$(80, 100)$
-\item Chutes:
-$(16,6)$, $(47,26)$, $(49,11)$, $(56,53)$, $(62,19)$, $(64,60)$, $(87,24)$, $(93,73)$,
-$(95,75)$, $(98,78)$
+    \item
+        Ladders:  \( (1,38) \), \( (4,14) \), \( (9,31) \), \( (21,42) \),
+        \( (28,84) \), \( (36, 44) \), \( (51,67) \), \( (71,91) \), \(
+        (80, 100) \);
+    \item
+        Chutes:  \( (16,6) \), \( (47,26) \), \( (49,11) \), \( (56,53) \),
+        \( (62,19) \), \( (64,60) \), \( (87,24) \), \( (93,73) \), \( (95,75)
+        \), \( (98,78) \).
 \end{itemize}
-This means that $19$ states, the beginnings of the chutes and ladders,
-are inaccessible states.  For example, a player is never actually in state $1$, for if
-the token lands on square $1$, the ladder $(1,38)$ immediately
-deposits the player into state $38$.
-Although the game is a race among two or more players,
-the players move independently, so it is sufficient to consider just one
-player moving and ask ``How long does it typically take a single
-player to finish a game by reaching square $100$?''
+This means that \( 19 \) states, the beginnings of the chutes and
+ladders, are inaccessible states.  For example, a player is never
+actually in state \( 1 \), for if the token lands on square \( 1 \), the
+ladder \( (1,38) \) immediately deposits the player into state \( 38 \).
+Although the game is a race among two or more players, the players move
+independently, so it is sufficient to consider just one player moving
+and ask ``How long does it typically take a single player to finish a
+game by reaching square \( 100 \)?''
 
-Although the game has $100$ squares, it is possible to model the game
-as a Markov chain with $82$ states, see \cite[althoen93]. Adding a starting
-state $0$, but deleting each inaccessible state corresponding to a chute or a
-ladder leaves $82$ states.    The probability transition
-matrix is an $82 \times 82$ matrix with most rows containing $6$
-consecutive probabilities of $1/6$ each.  There are two kinds of
-exceptions.  A row corresponding to any state reachable from a
-a chute or ladder must account for the long-distance transitions by the
-chute or ladder.
-The last $5$ rows reflect the fact that a player must reach state
-$100$ exactly, a die roll which would case the player to go past state
-$100$ results in no move.
+Although the game has \( 100 \) squares, it is possible to model the
+game as a Markov chain with fewer states, see
+\cite{althoen93}.  Adding a starting state \( 0 \), but deleting each
+inaccessible state corresponding to a chute or a ladder leaves \( 82 \)
+states.  The probability transition matrix is an \( 82 \times 82 \)
+matrix with most rows containing \( 6 \) consecutive probabilities of \(
+1/6 \) each.  There are two kinds of exceptions.  A row corresponding to
+any state reachable from a chute or ladder must account for the
+long-distance transitions by the chute or ladder.  The last \( 5 \) rows
+show the fact that a player must reach state \( 100 \) exactly, a die
+roll causing the player to go past state \( 100 \) results in no move.
 
-However, here the model uses a $100$-state Markov chain with a
-$100 \times 100$ transition probability matrix derived from
-matrices analogous to those in the Monopoly model.
-First use a $100 \times 100$
-circulant dice roll matrix $R$ followed by a sparse
-$100 \times 100$ chutes and ladders transition
-matrix $C$. The matrix $C$ is just the identity matrix but, for instance the
-$1$ in row $1$ and column $1$, moves to row $1$ and column $38$ to
-reflect ladder $(1,38)$. Likewise for the $17$ other ladders and
-chutes.  The result $RC$ is a $100 \times 100$ transition probability
-matrix with transient states $1$ through $99$ and absorbing state
-$100$.  The game starts in starts in states $38$, $14$, $3$, $4$, $5$
-and $6$, each with probability $\frac{1}{6}$. The expected waiting
-time to absorption is the average over the expected waiting time to
-absorption for each state, $\frac{1}{6}\left( W(38) + W(2) + W(3) +
-  W(14) + W(5) + W(6) \right) = 38.22512$.  Adding for the initial move
-to the starting states gives $39.22512 $,  agreeing with
-\cite[althoen].  Using Theorem 3 from
-\link{Waiting Time to
-       Absorption}{http://www.math.unl.edu/~sdunbar1/ProbabilityTheory/Lessons/MarkovChains/WaitingTimeAbsorption/waitingtimeabsorption.pdf}
-the standard deviation of the waiting time to absorption is
-approximately $25.2$ turns.  As a final note, observe that the waiting
-time to absorption from state $99$ is $6$ with standard deviation
-$5.477226$, exactly as expected for a geometric random variable with
-$p=1/6$, waiting to roll a $1$ to enter the last state.
+Here the model uses a \( 100 \)-state Markov chain with a \( 100 \times
+100 \) transition probability matrix derived from matrices analogous to
+those in the Monopoly model.  First use a \( 100 \times 100 \) circulant
+(almost, excepting the last \( 5 \) rows) dice roll matrix \( R \) ()
+followed by sparse \( 100 \times 100 \) chutes and ladders transition
+matrices \( C \) and \( L \). The matrix \( L \) is just the identity
+matrix but, for instance the \( 1 \) in row \( 1 \) and column \( 1 \),
+moves to row \( 1 \) and column \( 38 \) to indicate ladder \( (1,38) \).
+Likewise for the \( 18 \) other ladders and chutes.  The result \( RLC \)
+is a \( 100 \times 100 \) transition probability matrix with transient
+states \( 1 \) through \( 99 \) and absorbing state \( 100 \).  The game
+starts in states \( 38 \), \( 2 \), \( 3 \), \( 14 \), \( 5 \) and \( 6 \),
+each with probability \( \frac{1} {6} \).  The expected waiting time to
+absorption is the average over the expected waiting time to absorption
+from each state, \( \frac{1}{6}\left( W(38) + W(2) + W(3) + W(14) + W(5)
++ W(6) \right) = 38.22512 \).  Adding for the initial move to the
+starting states gives \( 39.22512 \), agreeing with
+\cite{althoen93}.  Using Theorem 3 from \link{http://www.math.unl.edu/~sdunbar1/ProbabilityTheory/Lessons/MarkovChains/WaitingTimeAbsorption/waitingtimeabsorption.pdf}
+{Waiting Time to Absorption} the standard deviation of the waiting time
+to absorption is approximately \( 25.2 \) turns.  As a final note,
+observe that the waiting time to absorption from state \( 99 \) is \( 6 \)
+with standard deviation \( \sqrt{30} \approx 5.48 \), exactly as
+expected for a geometric random variable with \( p=1/6 \), waiting to
+roll a \( 1 \) to enter the last state.~%
+\index{geometric random variable}
 
-In \cite{althoen93} the authors investigate the sensitivity of the
-waiting time to adding or removing chutes and ladders.  For example,
-the expected waiting time to absorption for a game with no chutes and
-ladders is $34.68571$ moves.  See the exercises for
-additional analysis.
+In
+\cite{althoen93} the authors investigate the sensitivity of the waiting
+time to adding or removing chutes and ladders.  For example, the
+expected waiting time to absorption for a game with no chutes and
+ladders is \( 34.68571 \) moves.  See the exercises for some examples.
 
 \subsection*{Count Your Chickens}
 
-\emph{Count Your Chickens!}, produced by Peaceable Kingdom, is
-a simple game for preschoolers.  In this cooperative game,
-gameplay begins with forty chicks spread throughout the board and a
-mama chicken at the start square. The end square is the mama chicken’s
-coop, and the mama chicken moves progressively closer to this square
-as the game unfolds. The object of the game is to have all $40$ chicks
-in the chicken coop when the mama chicken arrives there. The game
-board has
-$41$ squares numbered in order, with $30$ squares containing one of five
-characters: a cow, a sheep, a pig, a dog, or a tractor.  Five 
-squares are blue. The final square, the chicken coop, contains
-all $5$ farm characters. Players take turns spinning a spinner with 6
-segments of equal area.  Five segments  match the farm characters from the
-board and a sixth segment has a fox character. When a player spins the
-spinner, one of two things can happen. If the player spins one of the
-five characters drawn on the board, she moves the mama chicken token
-along the path toward the coop to the next instance of the character.
-The player counts the squares moved, and adds this number
-of chicks  to the chicken coop.  If
-the square landed on is blue, the player adds one additional chick to the coop. There
-are only a total of $40$ chicks on the board though, so if the mama chicken moves two
-squares but there are already 39 chicks in the coop, only one chick gets added. If a
-fox is spun, the player must remove one chick from the coop and place it back on the
-board. If there are no chicks in the coop then spinning a fox has no
-effect.
+\emph{Count Your Chickens!}, produced by Peaceable Kingdom, is a simple
+game for preschoolers.~%
+\index{\emph{Count Your Chickens!}}
+In this cooperative game, play begins with forty chicks spread
+throughout the board and a mama chicken at the start square.  The end
+square is the mama chicken’s coop, and the mama chicken moves
+progressively closer to this square as the game unfolds.  The object of
+the game is to have all \( 40 \) chicks in the chicken coop when the
+mama chicken arrives there.  The game board has \( 41 \) squares
+numbered in order, with \( 30 \) squares containing one of five
+characters:  a cow, a sheep, a pig, a dog, or a tractor.  Five squares
+are blue.  The final square, the chicken coop, contains all \( 5 \) farm
+characters.  Players take turns spinning a spinner with 6 segments of
+equal area.  Five segments match the farm characters from the board and
+a sixth segment has a fox character.  When a player spins the spinner,
+one of two things can happen.  If the player spins one of the five
+characters drawn on the board, she moves the mama chicken token along
+the path toward the coop to the next instance of the character.  The
+player counts the squares moved, and adds this number of chicks to the
+chicken coop.  If the square landed on is blue, the player adds one
+additional chick to the coop.  There are only a total of \( 40 \) chicks
+on the board though, so if the mama chicken moves two squares but there
+are already 39 chicks in the coop, only one chick gets added.  If a fox
+is spun, the player must remove one chick from the coop and place it
+back on the board.  If there are no chicks in the coop then spinning a
+fox has no effect.
 
-For example, suppose the mama chicken is at the start square. If the
-player spins a sheep,
-then the mama chicken moves to square $2$ (the first sheep) and places two
-chicks in the coop.  If the player next spins a tractor then the mama chicken
-moves $2$ squares to square $4$ and  places $3$ more chicks in the
-coop because square $4$ is blue. If the first spin is a fox then nothing happens because
-at the start of the game there are no chicks in the coop.  Gameplay continues in this
-manner until the mama chicken reaches the coop. The players win if all $40$ chicks are
-in the coop when the mama chicken arrives there; otherwise the players
-lose, this is a cooperative game.
+For example, suppose the mama chicken is at the start square.  If the
+player spins a sheep, then the mama chicken moves to square \( 2 \) (the
+first sheep) and places two chicks in the coop.  If the player next
+spins a tractor then the mama chicken moves \( 2 \) squares to square \(
+4 \) and places \( 3 \) more chicks in the coop because square \( 4 \)
+is blue.  If the first spin is a fox then nothing happens because at the
+start of the game there are no chicks in the coop.  The game continues
+in this manner until the mama chicken reaches the coop.  The players win
+if all \( 40 \) chicks are in the coop when the mama chicken arrives
+there; otherwise the players lose, this is a cooperative game.
 
 The goal here is to answer the following questions:
 \begin{enumerate}
-\item What is the probability of winning a game of \emph{Count Your Chickens!}? That is, what
-is the probability of landing on square $40$ with $40$ chicks in the coop?
-\item What is the expected number of chicks in the coop at the end of the game?
-\item What effect do the blue squares have on the probability of winning the game? For
-example, the original game has five particular squares colored blue; are there other
-choices of five blue squares that increase the probability of winning the game?
+    \item
+        What is the probability of winning a game of \emph{Count Your
+        Chickens!}?  That is, what is the probability of landing on
+        square \( 40 \) with \( 40 \) chicks in the coop?
+    \item
+        What is the expected number of chicks in the coop at the end of
+        the game?
+    \item
+        What effect do the blue squares have on the probability of
+        winning the game?  For example, the original game has five
+        particular squares colored blue; are there other choices of five
+        blue squares that increase the probability of winning the game?
 \end{enumerate}
 
 The mathematical interest here is creating the state space, leading to a
-large transition probability matrix.  A
-state in \emph{Count Your Chickens!} is an ordered pair $(a, b)$ where
-$a$ is the mama
-chicken’s position on the board and $b$ is the number of chicks in the
-coop.  For win probabilities only, to minimize the number of states and cut
-down on computation time,  include a ``loss'' state and a ``win'' state. The idea is
-that while $(39, 35)$, for example, is a possible state of the game, it is impossible to win
-from such a configuration. All such ordered pairs from which it is impossible to win
-are grouped together as a loss state. The win state is $(40, 40)$,  the mama chicken must
-reach the last square of the board with all of the chicks in the coop.
+large transition probability matrix.  A state in \emph{Count Your
+Chickens!} is an ordered pair \( (a, b) \) where \( a \) is the mama
+chicken’s position on the board and \( b \) is the number of chicks in
+the coop.  For win probabilities only, to minimize the number of states
+and cut down on computation, include a ``loss'' state and a ``win''
+state.  The idea is that while \( (39, 35) \), for example, is a
+possible state of the game, it is impossible to win from such a
+configuration.  All such ordered pairs from which it is impossible to
+win are grouped together as a loss state.  The win state is \( (40, 40) \),
+the mama chicken must reach the last square of the board with all of the
+chicks in the coop.
 
-The following
-example illustrates the construction of such a chain with a smaller
-board, see Figure~\ref{fig:games:smallchickens}.
+The following example illustrates the construction of such a chain with
+a smaller board, see Figure~%
+\ref{fig:games:smallchickens}.
 
 \begin{example}
-This smaller game uses only two farm characters -- a sheep and
-a cow. There are $8$ squares on the board after the start square and $8$ chicks to return to
-the coop. The spinner has three equal-sized segments illustrated with a cow, a sheep,
-and a fox.  Number only the squares with a character, since it is not possible to land
-on a blank square.
+    This smaller game uses only two farm characters -- a sheep and a
+    cow.  There are \( 8 \) squares on the board after the start square
+    and \( 8 \) chicks to return to the coop.  The spinner has three
+    equal-sized segments illustrated with a cow, a sheep, and a fox.
+    Number only the squares with a character, since it is not possible
+    to land on a blank square.
 
-\begin{figure}
-  \centering
-size(5inches);
+    \begin{figure}
+        \centering
+\begin{asy}
+        size(5inches);
 
-real myfontsize = 12;
-real mylineskip = 1.2*myfontsize;
-pen mypen = fontsize(myfontsize, mylineskip);
-defaultpen(mypen);
+        real myfontsize = 12;
+        real mylineskip = 1.2*myfontsize;
+        pen mypen = fontsize(myfontsize, mylineskip);
+        defaultpen(mypen);
 
-import math;
+        import math;
 
-for (int j=0; j<9; ++j){
-  label(format("%i", j), (j,1));
-}
+        for (int j=0; j<9; ++j){ label(format("%i", j), (j,1));}
 
-add( shift(-0.2, 0.2)*grid(9, 1) );
-fill( box((1.8,0.2), (2.8, 1.2)), lightblue+opacity(0.5));
-fill( box((4.8,0.2), (5.8, 1.2)), lightblue+opacity(0.5));
+          add( shift(-0.2, 0.2)*grid(9, 1) );
+          fill( box((1.8,0.2), (2.8,1.2)), lightblue+opacity(0.5));
+          fill( box((4.8,0.2), (5.8, 1.2)),lightblue+opacity(0.5));
 
-label("Start", (0.3, 0.7));
-label("Sheep", (2.3, 0.7));
-label("Cow", (3.3, 0.7));
-label("Cow", (5.3, 0.7));
-label("Sheep", (7.3, 0.7));
+          label("Start", (0.3, 0.7));
+          label("Sheep", (2.3, 0.7));
+          label("Cow",   (3.3, 0.7));
+          label("Cow",   (5.3, 0.7));
+          label("Sheep", (7.3, 0.7));
 
-label("\footnotesize{Coop}", (8.45, 1.0));
-label("Sheep", (8.3, 0.7));
-label("Cow", (8.3, 0.4));
-\caption{Smaller game board for the example \emph{Count Your Chickens!} }
-  \label{fig:games:smallchickens}
-\end{figure}
+          label("\footnotesize{Coop}", (8.45, 1.0));
+          label("Sheep", (8.3, 0.7));
+          label("Cow",   (8.3, 0.4));
+\end{asy}
+        \caption{Smaller game board for the example \emph{Count Your
+        Chickens!} }%
+        \label{fig:games:smallchickens}
+    \end{figure}
 
-A state of the game is an ordered pair $(i, j)$ where $i$ is the
-position of the mama chicken and $j$ is the number of chicks in the coop. 
-Identify some pairs  with the loss state because if $j$ is small enough
-relative to the mama chicken’s position, it will be impossible for all $8$ chicks to be
-in the coop at the end of the game. The state $(2, 0)$ is such an example: if the mama
-chicken is on square $2$ and there are no chicks in the coop, the game will end with at
-most $7$ chicks in the coop. Let $b_{i}^{R}$ be the number of blue squares after square
-$i$ on the path and $b_i^L$ the number of blue squares that come before square $i$, including
-square $i$. Note $b_i^R + b_i^L$ is the total number of blue squares in the game. Then for square
-$i$,  the states are $(i, j )$ with $\max(i − b_i^R, 0) \le j \le
-\min(i + b_i^L, 8)$.
-For example,
-for square $3$, $b_3^R = 1$ and $b_3^L = 1$ since there is one blue square to the right of square
-$3$ and one blue square to the left of square $3$. Thus  square $3$
-corresponds to possible
-states $(3, 2)$, $(3, 3)$, $(3, 4)$.  It is not possible to have more than $4$ chicks in the
-coop on square $3$, and if the coop has $0$ or $1$ chicks  on
-square $3$ it is impossible to win the game. All the states are
-\[
- \{(0, 0), (2, 1), (2, 2), (2, 3), (3, 2), (3, 3), (3, 4),
- (5, 5), (5, 6), (5, 7), (7, 7), (7, 8), \text{win}, \text{loss}}
-\]
-for this board. For the purposes of building a transition matrix  think of $(0, 0)$ as
-state $1$, $(2, 1)$ as state $2$, $(2, 2)$ as state $3$, \dots, and ``loss'' as state $14$.
-Entry $p_{i,j}$ in the transition matrix for the game is the probability of moving from
-state $i$ to state $j$ . For example, in row $1$ of the transition matrix,  start in position
-$(0, 0)$ on the game board.  There is a $1/3$ probability of rolling a fox; this spin keeps
-the token in position $(0, 0)$, so $p_{1,1} = 1/3$.   Spinning a sheep
-is the next possibility, putting the token in position
-$(2, 3)$, or a cow, putting the token in position $(3, 3)$. This gives $p_{1,4} = 1/3$ and $p_{1,6} = 1/3$.
-All other entries in row $1$ are $0$.  Starting in state $(2, 1)$, then spinning the sheep
-puts the token in position $(7, 6)$, or the loss state, because
-if there are only $6$ chicks in
-the coop upon reaching square $7$, it is impossible to win. Spinning the fox also
-puts the game in the loss state, so entry $p_{2,14} =
-2/3$. Spinning the cow puts the game in state
-$(3, 2)$, so $p_{2,5} = 1/3$. All other entries in row two are $0$. Continuing in this way, the
-transition matrix for this game is
-\[
-  \[\begin{pmatrix}
-\frac{1}{3} & 0 & 0 & \frac{1}{3} & 0 & \frac{1}{3} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
-0 & 0 & 0 & 0 & \frac{1}{3} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & \frac{2}{3}\\
-0 & \frac{1}{3} & 0 & 0 & 0 & \frac{1}{3} & 0 & 0 & 0 & 0 & \frac{1}{3} & 0 & 0 & 0\\
-0 & 0 & \frac{1}{3} & 0 & 0 & 0 & \frac{1}{3} & 0 & 0 & 0 & 0 & \frac{1}{3} & 0 & 0\\
-0 & 0 & 0 & 0 & 0 & 0 & 0 & \frac{1}{3} & 0 & 0 & 0 & 0 & 0 & \frac{2}{3}\\
-0 & 0 & 0 & 0 & \frac{1}{3} & 0 & 0 & 0 & \frac{1}{3} & 0 & \frac{1}{3} & 0 & 0 & 0\\
-0 & 0 & 0 & 0 & 0 & \frac{1}{3} & 0 & 0 & 0 & \frac{1}{3} & 0 & \frac{1}{3} & 0 & 0\\
-0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & \frac{1}{3} & 0 & \frac{1}{3} & \frac{1}{3}\\
-0 & 0 & 0 & 0 & 0 & 0 & 0 & \frac{1}{3} & 0 & 0 & 0 & \frac{1}{3} & \frac{1}{3} & 0\\
-0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & \frac{1}{3} & 0 & 0 & \frac{1}{3} & \frac{1}{3} & 0\\
-0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & \frac{2}{3} & \frac{1}{3}\\
-0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & \frac{1}{3} & 0 & \frac{2}{3} & 0\\
-0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0\\
-0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1
-\end{pmatrix}
-\]
+    A state of the game is an ordered pair \( (i, j) \) where \( i \) is
+    the position of the mama chicken and \( j \) is the number of chicks
+    in the coop.  Identify some pairs with the loss state because if \(
+    j \) is small enough relative to the mama chicken’s position, it
+    will be impossible for all \( 8 \) chicks to be in the coop at the
+    end of the game.  The state \( (2, 0) \) is such an example:  if the
+    mama chicken is on square \( 2 \) and there are no chicks in the
+    coop, the game will end with at most \( 7 \) chicks in the coop. Let
+    \( b_{i}^{R} \) be the number of blue squares after square \( i \)
+    on the path and \( b_i^L \) the number of blue squares that come
+    before square \( i \), including square \( i \).  Note \( b_i^R + b_i^L
+    \) is the total number of blue squares in the game.  Then for square
+    \( i \), the states are \( (i, j ) \) with \( \max(i - b_i^R, 0) \le
+    j \le \min(i + b_i^L, 8) \).  For example, for square \( 3 \), \( b_3^R
+    = 1 \) and \( b_3^L = 1 \) since there is one blue square to the
+    right of square \( 3 \) and one blue square to the left of square \(
+    3 \).  Thus square \( 3 \) corresponds to possible states \( (3, 2) \),
+    \( (3, 3) \), \( (3, 4) \).  It is not possible to have more than \(
+    4 \) chicks in the coop on square \( 3 \), and if the coop has \( 0 \)
+    or \( 1 \) chicks on square \( 3 \) it is impossible to win the
+    game.  All the states are
+    \begin{multline*}
+        \left\{(0, 0), (2, 1), (2, 2), (2, 3), (3, 2), (3, 3), \right.\\
+        \left.  (3, 4), (5,5), (5, 6), (5, 7), (7, 7), (7, 8), \text{win},
+        \text{loss} \right\}
+    \end{multline*}
+    for this board.  For the purposes of building a transition matrix
+    think of \( (0, 0) \) as state \( 1 \), \( (2, 1) \) as state \( 2 \),
+    \( (2, 2) \) as state \( 3 \), \dots, and ``loss'' as state \( 14 \).
+    Entry \( p_{i,j} \) in the transition matrix for the game is the
+    probability of moving from state \( i \) to state \( j \).  For
+    example, in row \( 1 \) of the transition matrix, start in position \(
+    (0, 0) \) on the game board.  There is a \( 1/3 \) probability of
+    rolling a fox; this spin keeps the token in position \( (0, 0) \),
+    so \( p_{1,1} = 1/3 \).  Spinning a sheep is the next possibility,
+    putting the token in position \( (2, 3) \), or a cow, putting the
+    token in position \( (3, 3) \).  This gives \( p_{1,4} = 1/3 \) and \(
+    p_{1,6} = 1/3 \).  All other entries in row \( 1 \) are \( 0 \).
+    Starting in state \( (2, 1) \), then spinning the sheep puts the
+    token in position \( (7, 6) \), or the loss state, because if there
+    are only \( 6 \) chicks in the coop upon reaching square \( 7 \), it
+    is impossible to win.  Spinning the fox also puts the game in the
+    loss state, so entry \( p_{2,14} = 2/3 \).  Spinning the cow puts
+    the game in state \( (3, 2) \), so \( p_{2,5} = 1/3 \).  All other
+    entries in row two are \( 0 \).  Continuing in this way, the
+    transition matrix for this game is
+    \[
+        \begin{pmatrix}
+            \frac{1}{3} & 0     & 0     & \frac{1}{3}   & 0     & \frac{1}
+            {3} & 0     & 0     & 0     & 0     & 0     & 0     & 0
+            & 0\\
+            0   & 0     & 0     & 0     & \frac{1}{3}   & 0     & 0
+            & 0 & 0     & 0     & 0     & 0     & 0     & \frac{2}{3}\\
+            0   & \frac{1}{3}   & 0     & 0     & 0     & \frac{1}{3}
+            & 0 & 0     & 0     & 0     & \frac{1}{3}   & 0     & 0
+            & 0\\
+            0   & 0     & \frac{1}{3}   & 0     & 0     & 0     & \frac{1}
+            {3} & 0     & 0     & 0     & 0     & \frac{1}{3}   & 0
+            & 0\\
+            0   & 0     & 0     & 0     & 0     & 0     & 0     & \frac{1}
+            {3} & 0     & 0     & 0     & 0     & 0     & \frac{2}{3}\\
+            0   & 0     & 0     & 0     & \frac{1}{3}   & 0     & 0
+            & 0 & \frac{1}{3}   & 0     & \frac{1}{3}   & 0     & 0
+            & 0\\
+            0   & 0     & 0     & 0     & 0     & \frac{1}{3}   & 0
+            & 0 & 0     & \frac{1}{3}   & 0     & \frac{1}{3}   & 0
+            & 0\\
+            0   & 0     & 0     & 0     & 0     & 0     & 0     & 0
+            & 0 & 0     & \frac{1}{3}   & 0     & \frac{1}{3}   & \frac{1}
+            {3}\\
+            0   & 0     & 0     & 0     & 0     & 0     & 0     & \frac{1}
+            {3} & 0     & 0     & 0     & \frac{1}{3}   & \frac{1}{3}
+            & 0\\
+            0   & 0     & 0     & 0     & 0     & 0     & 0     & 0
+            & \frac{1}{3}       & 0     & 0     & \frac{1}{3}   & \frac{1}
+            {3} & 0\\
+            0   & 0     & 0     & 0     & 0     & 0     & 0     & 0
+            & 0 & 0     & 0     & 0     & \frac{2}{3}   & \frac{1}{3}\\
+            0   & 0     & 0     & 0     & 0     & 0     & 0     & 0
+            & 0 & 0     & \frac{1}{3}   & 0     & \frac{2}{3}   & 0\\
+            0   & 0     & 0     & 0     & 0     & 0     & 0     & 0
+            & 0 & 0     & 0     & 0     & 1     & 0\\
+            0   & 0     & 0     & 0     & 0     & 0     & 0     & 0
+            & 0 & 0     & 0     & 0     & 0     & 1
+        \end{pmatrix}
+        .
+    \]
 
-The state and transition probability matrix models the small game  as an absorbing Markov
-chain.  The loss and win states are both absorbing since each of these states transitions to
-itself with probability $1$, and it is possible to reach one of these two states from any
-other state. The transition matrix is in the
-canonical form
-\[
-  \begin{pmatrix}
-Q & R \\
-0 & I
-  \end{pmatrix}
-\]
-where $I$ is the identity matrix.  
-With the transition matrix in canonical form,  the fundamental matrix is
-\[
-  N = (I − Q)^{−1} = 
-  \begin{pmatrix}
-\frac{1}{3} & 0 & 0 & \frac{1}{3} & 0 & \frac{1}{3} & 0 & 0 & 0 & 0 & 0 & 0\\
-0 & 0 & 0 & 0 & \frac{1}{3} & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
-0 & \frac{1}{3} & 0 & 0 & 0 & \frac{1}{3} & 0 & 0 & 0 & 0 & \frac{1}{3} & 0\\
-0 & 0 & \frac{1}{3} & 0 & 0 & 0 & \frac{1}{3} & 0 & 0 & 0 & 0 & \frac{1}{3}\\
-0 & 0 & 0 & 0 & 0 & 0 & 0 & \frac{1}{3} & 0 & 0 & 0 & 0\\
-0 & 0 & 0 & 0 & \frac{1}{3} & 0 & 0 & 0 & \frac{1}{3} & 0 & \frac{1}{3} & 0\\
-0 & 0 & 0 & 0 & 0 & \frac{1}{3} & 0 & 0 & 0 & \frac{1}{3} & 0 & \frac{1}{3}\\
-0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & \frac{1}{3} & 0\\
-0 & 0 & 0 & 0 & 0 & 0 & 0 & \frac{1}{3} & 0 & 0 & 0 & \frac{1}{3}\\
-0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & \frac{1}{3} & 0 & 0 & \frac{1}{3}\\
-0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
-0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & \frac{1}{3} & 0
-\end{pmatrix}
-\]
-Let $B = N \times R$. If the game is in the $i$th non-absorbing state then
-the probability that the game terminates by reaching the $j$th
-absorbing state is $b_{ij}$. Then 
-\[
-  B =
-  \begin{pmatrix}
-\frac{305}{486} & \frac{181}{486}\\
-\frac{5}{81} & \frac{76}{81}\\
-\frac{104}{243} & \frac{139}{243}\\
-\frac{170}{243} & \frac{73}{243}\\
-\frac{5}{27} & \frac{22}{27}\\
-\frac{5}{9} & \frac{4}{9}\\
-\frac{190}{243} & \frac{53}{243}\\
-\frac{5}{9} & \frac{4}{9}\\
-\frac{22}{27} & \frac{5}{27}\\
-\frac{73}{81} & \frac{8}{81}\\
-\frac{2}{3} & \frac{1}{3}\\
-\frac{8}{9} & \frac{1}{9}
-\end{pmatrix}.
-\]  
+    The state and transition probability matrix models the small game as
+    an absorbing Markov chain.  The loss and win states are both
+    absorbing since each of these states transitions to itself with
+    probability \( 1 \), and it is possible to reach one of these two
+    states from any other state.  The transition matrix is in the
+    canonical form
+    \[
+        \begin{pmatrix}
+            Q   & R \\
+            0   & I
+        \end{pmatrix}
+    \] where \( I \) is the identity matrix.  With the transition matrix
+    in canonical form, the fundamental matrix is
+    \[
+        N = (I - Q)^{-1} =
+        \begin{pmatrix}
+            \frac{3}{2} & \frac{1}{18}  & \frac{1}{6}   & \frac{1}{2}
+            & \frac{2}{9}       & \frac{11}{18} & \frac{1}{6}   & \frac{4}
+            {27}        & \frac{2}{9}   & \frac{1}{18}  & \frac{67}{162}
+                & \frac{17}{54}\\
+            0   & 1     & 0     & 0     & \frac{1}{3}   & 0     & 0
+            & \frac{1}{9}       & 0     & 0     & \frac{1}{27}  & 0\\
+            0   & \frac{1}{3}   & 1     & 0     & \frac{2}{9}   & \frac{1}
+            {3} & 0     & \frac{1}{9}   & \frac{1}{9}   & 0     & \frac{40}
+            {81}        & \frac{1}{27}\\
+            0   & \frac{1}{9}   & \frac{1}{3}   & 1     & \frac{1}{9}
+            & \frac{2}{9}       & \frac{1}{3}   & \frac{2}{27}  & \frac{1}
+            {9} & \frac{1}{9}   & \frac{31}{81} & \frac{14}{27}\\
+            0   & 0     & 0     & 0     & 1     & 0     & 0     & \frac{1}
+            {3} & 0     & 0     & \frac{1}{9}   & 0\\
+            0   & 0     & 0     & 0     & \frac{1}{3}   & 1     & 0
+            & \frac{2}{9}       & \frac{1}{3}   & 0     & \frac{4}{9}
+            & \frac{1}{9}\\
+            0   & 0     & 0     & 0     & \frac{1}{9}   & \frac{1}{3}
+            & 1 & \frac{1}{9}   & \frac{2}{9}   & \frac{1}{3}   & \frac{26}
+            {81}        & \frac{14}{27}\\
+            0   & 0     & 0     & 0     & 0     & 0     & 0     & 1
+            & 0 & 0     & \frac{1}{3}   & 0\\
+            0   & 0     & 0     & 0     & 0     & 0     & 0     & \frac{1}
+            {3} & 1     & 0     & \frac{2}{9}   & \frac{1}{3}\\
+            0   & 0     & 0     & 0     & 0     & 0     & 0     & \frac{1}
+            {9} & \frac{1}{3}   & 1     & \frac{5}{27}  & \frac{4}{9}\\
+            0   & 0     & 0     & 0     & 0     & 0     & 0     & 0
+            & 0 & 0     & 1     & 0\\
+            0   & 0     & 0     & 0     & 0     & 0     & 0     & 0
+            & 0 & 0     & \frac{1}{3}   & 1
+        \end{pmatrix}
+        .
+    \]%
+    \index{fundamental matrix}
+    Let \( B = N \times R \).  If the game is in the \( i \)th
+    non-absorbing state then the probability that the game terminates by
+    reaching the \( j \)th absorbing state is \( b_{ij} \).  Then
+    \[
+        B =
+        \begin{pmatrix}
+            \frac{305}{486}     & \frac{181}{486}\\
+            \frac{5}{81}        & \frac{76}{81}\\
+            \frac{104}{243}     & \frac{139}{243}\\
+            \frac{170}{243}     & \frac{73}{243}\\
+            \frac{5}{27}        & \frac{22}{27}\\
+            \frac{5}{9} & \frac{4}{9}\\
+            \frac{190}{243}     & \frac{53}{243}\\
+            \frac{5}{9} & \frac{4}{9}\\
+            \frac{22}{27}       & \frac{5}{27}\\
+            \frac{73}{81}       & \frac{8}{81}\\
+            \frac{2}{3} & \frac{1}{3}\\
+            \frac{8}{9} & \frac{1}{9}
+        \end{pmatrix}
+        .
+    \]
 \end{example}
-From the first row of $B$, this game has a win probability of
-$ 305/486 \approx 0.6276$ and a loss probability
-of $181/486 \approx 0.3724$ when a player begins from the start square.
-One of the nice aspects of using a Markov chain for
-these calculations is that a player can update the win probability moving through
-the game. For example, suppose the player starts by spinning a sheep and then spins
-a fox. This state of the game corresponds to the state $(2, 1)$, which corresponds to the
-second row of $B$. Therefore in such a situation the player would know that her win
-probability is now only $5/81 \approx 0.0617$.
+From the first row of \( B \), this game has a win probability of \(
+305/486 \approx 0.6276 \) and a loss probability of \( 181/486 \approx
+0.3724 \) when a player begins from the start square.  One of the nice
+aspects of using a Markov chain for these calculations is that a player
+can update the win probability moving through the game.  For example,
+suppose the player starts by spinning a sheep and then spins a fox. This
+state of the game corresponds to the state \( (2, 1) \), which
+corresponds to the second row of \( B \).  Therefore in such a situation
+the player would know that her win probability is now only \( 5/81
+\approx 0.0617 \).
 
-The computations for the general game are similar except that the matrices
-$Q$ and $R$ are much larger. $Q$ is $163 \times 163$ and $R$ is $63
-\times 2$ and therefore $B$ is
-$163 \times 2$. It is impractical to construct such large matrices by
-hand.  The Scripts section has an R program  to build the matrices and compute the
-win probability.  The matrix
-$Q$ in the full game looks similar to the matrix $Q$ in the small example: the matrix is mostly
-zeroes punctuated sparsely with small diagonals of entries of value $1/6$, instead of $1/3$.
-The top left entry of $B$ in this case is $0.6410$, and  the probability
-of winning a game of \emph{Count Your Chickens!} is $0.641$.
+The computations for the general game are similar except that the
+matrices \( Q \) and \( R \) are much larger.  \( Q \) is \( 163 \times
+163 \) and \( R \) is \( 163 \times 2 \) and therefore \( B \) is \( 163
+\times 2 \).  It is impractical to enter and compute with such large
+matrices by hand.  The Scripts section has an R program to build the
+matrices and compute the win probability.  The matrix \( Q \) in the
+full game looks similar to the matrix \( Q \) in the small example:  the
+matrix is mostly zeroes punctuated sparsely with small diagonals of
+entries of value \( 1/6 \), instead of \( 1/3 \).  The top left entry of
+\( B \) in this case is \( 0.6410 \), and the probability of winning a
+game of \emph{Count Your Chickens!} is \( 0.641 \).
 
 \subsection*{Risk}
 
-\emph{Risk} is a board game of battles between two players, and each battle consists of one or more
-rounds of combat.
-This section uses Markov chains to analyze the stochastic progress of
-a battle between two players over any of the $42$ countries in the board
-game \emph{Risk}.   Standard Markov chain methods give the
-probabilities of victory and additionally the expected losses in battle.
-At each turn, a player must decide whether or not to attack a territory. The
-first question is the following: \emph{If you attack a territory with your armies, what is the
-probability that you will capture this territory?}  Of course, the probability that you will
-capture a territory could be high while the expected loss is also high. Therefore, the
-second question is the following: \emph{If you engage in a war, how many armies should
-you expect to lose depending on the number of armies your opponent has on that
-territory?}
+The board game \emph{Risk} game has a world map separated into \( 42 \)
+territories and two or more players.  Each player has a number of tokens
+used as armies.  Each token represents one army.  A player may use some
+or all but one of the armies to attack the armies in an adjacent
+opponent-controlled territory.  The goal of a player is either to
+conquer the world through battles or to fulfill a task assigned at the
+beginning of the game.  This task can be destroying a specific enemy or
+conquering a specific area.
 
-The \emph{Risk} game has a world map separated into 42 territories. Each
-player has a number of tokens used as armies. Each token represents
-one army.  A player may choose to use all but one of the armies to
-attack the armies in an adjacent opponent-contolled territory.  The
-objective of a player in the game is either to conquer the world
-through battles or to
-fulfill a task assigned at the beginning of the game. This task can be
-destroying a specific enemy or conquering a specific area.
+The game consists of battles between two players, and each battle
+consists of one or more rounds of combat.~%
+\index{\emph{Risk}}
+This section uses Markov chains to analyze the stochastic progress of a
+battle between two players in the board game \emph{Risk}.  Standard
+Markov chain methods give the probabilities of victory and additionally
+the expected losses in battle. At each turn, a player must decide
+whether or not to attack a territory. The first question is the
+following:  \emph{If you attack a territory with your armies, what is
+the probability that you will capture this territory?} Of course, the
+probability that you will capture a territory could be high while the
+expected loss is also high.  Therefore, the second question is the
+following:  \emph{If you engage in a war, how many or your armies should
+you expect to remain, depending on the number of armies your opponent
+has on that territory?}
 
-At each turn, a player occupying some region may attack a neighboring territory.
-An attacker must leave at least one army on the occupied territory,
-and use at least one army in an attack. Thus  a
-player who has at least two armies (one to keep on the territory and
-one to attack a territory) may attack 
-a neighbor territory.  A player who decides to attack a territory declares war on the
-opponent and the two players engage in a sequence of battles with
-random outcomes determined by dice.   Successive
-outcomes of the defender's and the attacker's dice determine each
-battle and the ultimate outcome of the war.
-An attacker may withdraw before the war ends. An attacker who does not withdraw
-either destroys all the defender armies in that territory and occupies that territory, or
-loses all the attacking armies and fails to conquer the territory.
+At each turn, a player occupying some region may attack a neighboring
+territory.  An attacker must leave at least one army on the occupied
+territory, and use at least one army in an attack.  Thus a player who
+has at least two armies (one to keep on the territory and one to attack
+a territory) may attack a neighbor territory.  A player who decides to
+attack a territory declares war on the opponent and the two players
+engage in a sequence of combats with random outcomes determined by dice.
+Outcomes of the defender's and the attacker's dice determine each battle
+and the ultimate outcome of the war.  An attacker may withdraw before
+the war ends.  An attacker who does not withdraw either destroys all the
+defender armies in that territory and occupies that territory, or loses
+all the attacking armies and fails to conquer the territory.
 
-The number of armies an attacker or a defender possesses at the start
-of a battle determines the number of dice each player rolls.  To begin
+The number of armies an attacker or a defender possesses at the start of
+a each combat determines the number of dice each player rolls.  To begin
 a round of battle, the attacker will roll one die if attacking with a
-single army, two dice if the attacker has two armies present, and
-three dice if the attacking player has three or more armies involved
-in the battle.  A defender rolls one die with one army and two dice
-with two or more armies in the embattled territory.  According to the
-number of dice each opponent rolls, there are six different cases,
-given in Table~\ref{tab:games:riskdice}.
+single army, two dice if the attacker has two armies present, and three
+dice if the attacking player has three or more armies involved in the
+battle.  A defender rolls one die with one army and two dice with two or
+more armies in the embattled territory.  According to the number of dice
+each opponent rolls, there are six different cases, given in Table~%
+\ref{tab:games:riskdice}.
 
 \begin{table}
-  \centering
-  \begin{tabular}{ccccc}
-        & \multicolumn{2}{c}{Number of Armies} &
-                                                \multicolumn{2}{c}{Number
-                                                   of Dice} \\
-    Case& Attacker & Defender & Attacker & Defender \\
-    I   &  $1$       & $1$        & $1$        & $1$        \\
-    II  &  $2$       & $1$        & $2$        & $1$        \\
-    III &  $ \ge 3$& $1$        & 3        & $1$        \\
-    IV  &  $1$       & $ \ge 2$ & $1$        & $2$        \\
-    V   &  $1$       & $ \ge 2$ & $1$        & $2$        \\
-    VI  &  $ \ge 3$& $ \ge 2$ & $1$        & $2$        \\
-  \end{tabular}
-  \caption{The number of dice each player rolls according to the
-    number of attacker and defender armies.}
-  \label{tab:games:riskdice}
+    \centering
+    \begin{tabular}{ccccc}
+             & \multicolumn{2}{c}{Number of Armies} & \multicolumn{2}{c}{Number of Dice} \\ 
+        Case & Attacker & Defender & Attacker & Defender \\ 
+        I    & $1$      & $1$      & $1$      & $1$      \\ 
+        II   & $2$      & $1$      & $2$      & $1$      \\ 
+        III  & $ \ge 3$ & $1$      & 3        & $1$      \\ 
+        IV   & $1$      & $ \ge 2$ & $1$      & $2$      \\ 
+        V    & $1$      & $ \ge 2$ & $1$      & $2$      \\ 
+        VI   & $ \ge 3$ & $ \ge 2$ & $1$      & $2$      \\ 
+    \end{tabular}
+    \caption{The number of dice each player rolls according to the
+    number of attacker and defender armies.}%
+    \label{tab:games:riskdice}
 \end{table}
 
 At each turn, after rolling the dice, each side sets the dice in
 descending order and then pairs off the two sets of dice, matching the
-highest attacking die roll against the highest defending die roll. If
+highest attacking die roll against the highest defending die roll.  If
 each player is using at least two dice, then the second highest die
 rolls are similarly matched.  The attacker loses one army for each die
 that is less than or equal to the corresponding defender's die.  The
@@ -675,115 +766,109 @@ defender loses one army for each die that is strictly less than the
 corresponding attacker's die.  Note that ties favor the defender, so
 each tie results in the loss of an attacking army.  After taking away
 the armies lost at that turn, the players roll the dice again.  This
-sequence continues until one side loses all of its armies.
-Table~\ref{tab:games:riskwar} shows the progress of a typical war for a country.
-This war took four rounds.  At the end of the fourth turn, the attacker
-lost all of the attacking armies and the defender wins the war.  This
-table also serves as a reminder of the number of dice rolled in
+sequence continues until one side loses all of its armies.  Table~%
+\ref{tab:games:riskwar} shows the progress of a typical war for a
+country.  This war took four rounds.  At the end of the fourth turn, the
+attacker lost all of the attacking armies and the defender wins the war.
+This table also serves as a reminder of the number of dice rolled in
 various situations, never more than three for the attacker, and never
 more than two for the defender.
 
 \begin{table}
-  \centering
-  \begin{tabular}{ccccccccc}
-    Roll & \multicolumn{2}{c}{Armies}
-         & \multicolumn{2}{c}{Dice Rolled}
-    & \multicolumn{2}{c}{Dice Outcome}
-    & \multicolumn{2}{c}{Losses} \\
-         & attacker & defender & attacker & defender
-                 & attacker & defender & attacker & defender \\
-    1  & 4        & 3        & 3     & 2          & 1
-                 & 5,4,3    & 6,3      & 1        & 1        \\                      
-    2  & 3        & 2        & 3     & 2
-                 & 5,5,3    & 5,5      & 2        & 0        \\                      
-    3  & 1        & 2        & 1     & 2
-                 & 6        & 4,3      & 0        & 1        \\
-    4  & 1        & 1        & 1     & 1
-                 & 5        & 6        & 1        & 0        \\                      
-    5  & 0        & 1        &       &  
-                 &          &          &          &          \\                      
-  \end{tabular}
-  \caption{An example of a battle in \emph{Risk}}
-  \label{tab:games:riskwar}
+    \centering
+    \begin{tabular}{ccccccccc}
+        Roll & \multicolumn{2}{c}{Armies} & \multicolumn{2}{c}{Dice Rolled} & \multicolumn{2}{c}{Dice Outcome} & \multicolumn{2}{c}{Losses} \\ 
+             & Att      & Def      & Att      & Def      & Att   & Def  & Att  & Def  \\ 
+        1    & 4        & 3        & 3        & 2        & 5,4,3 & 6,3  & 1    & 1    \\ 
+        2    & 3        & 2        & 3        & 2        & 5,5,3 & 5,5  & 2    & 0    \\ 
+        3    & 1        & 2        & 1        & 2        & 6     & 4,3  & 0    & 1    \\ 
+        4    & 1        & 1        & 1        & 1        & 5     & 6    & 1    & 0    \\ 
+        5    & 0        & 1        &          &          &       &      &      &      \\ 
+    \end{tabular}
+    \caption{An example of a battle in \emph{Risk}}.%
+    \label{tab:games:riskwar}
 \end{table}
 
-Note that it may be disadvantageous to take control of a new
-territory by winning a war with only one army remaining, emphasizing
-the importance of the second question: \emph{If you engage in a war, how many armies should
-you expect to lose depending on the number of armies your opponent has on that
-territory?}
+It may be disadvantageous to take control of a new territory by winning
+a war with only one army remaining, emphasizing the importance of the
+second question:  \emph{If you engage in a war, how many armies should
+you expect to lose depending on the number of armies your opponent has
+on that territory?}
 
-Let $A$ be the number of attacking armies and $D$ the number of
-defending armies.  The values of $A$ and $D$ characterize the state of
-the system at a given time. Let $X_n$ be the state of the
-system at the beginning of the $n$th turn:
+Let \( A \) be the number of attacking armies and \( D \) the number of
+defending armies.  The values of \( A \) and \( D \) characterize the
+state of the system at a given time.  Let \( X_n \) be the state of the
+system at the beginning of the \( n \)th turn:
 \[
-  X_n = (a_n, d_n), 0 \le a_n \le A, 0 \le d_n \le D
-\]
-where $a_n$ and $d_n$ are the number of attacking and defending armies respectively. The
-initial state of the system is $X_0 = (A, D)$.
-If one side loses all its armies then that side loses the war; i.e., if $X_n= (0, d_n)$ with
-$d_n > 0$, then the attacker has lost the war at the end of the turn. Similarly, if
-$X_n= (a_n ,0)$, with $a_m > 0$, then the attacker has won the war at the end of the
-turn.
-If we know the number of armies each side has at a given round, then we can
-calculate the probability that each side wins or loses the war without knowing the
-states of the system prior to that round. In other words, the battle process
-has the Markov property.  
+    X_n = (a_n, d_n), 0 \le a_n \le A, 0 \le d_n \le D
+\] where \( a_n \) and \( d_n \) are the number of attacking and
+defending armies respectively.  The initial state of the system is \( X_0
+= (A, D) \).  If one side loses all its armies then that side loses the
+war; i.e., if \( X_n= (0, d_n) \) with \( d_n > 0 \), then the attacker
+has lost the war at the end of the turn.  Similarly, if \( X_n= (a_n ,0)
+\), with \( a_n > 0 \), then the attacker has won the war at the end of
+the turn.  If we know the number of armies each side has at a given
+round, then we can calculate the probability that each side wins or
+loses the war without knowing the states of the system prior to that
+round.  In other words, the battle process has the Markov property.
 
-The $AD$ states where both $a$ and $d$ are positive are transient. The $A + D$ states where
-either $a = 0$ or $d = 0$ are absorbing. Order the $AD + (A + D)$ possible states 
-so that the $AD$ transient states precede the $A + D$ absorbing states. Order the
-transient states with the attacker armies decreasing along a row for constant
-defenders, and the defender armies decreasing
-row by row, see Figure~\ref{fig:games:risktrans}.
+The \( AD \) states where both \( a \) and \( d \) are positive are
+transient.  The \( A + D \) states where either \( a = 0 \) or \( d = 0 \)
+are absorbing.  Order the \( AD + (A + D) \) possible states so that the
+\( AD \) transient states precede the \( A + D \) absorbing states.
+Order the transient states with the attacker armies decreasing along a
+row for constant defenders, and the defender armies decreasing row by
+row, see Figure~%
+\ref{fig:games:risktrans}. The transient states are, in order
+\begin{align*}
+    & (A, D), (A-1, D), (A-2, D), \dots, (1, D), \\
+        & (A, D-1), (A-1, D-1), \dots, (1, D-1), \\
+        & \dots & (A, 1), (A-1, 1), \dots, (1,1)
+\end{align*}
+and order the absorbing states by decreasing desirability of outcome for
+the attacker, including the absorbing states where the defender wins
 \[
-  (A, D), (A-1, D), (A-2, D), \dots, (1, D), (A, D-1), \dots, (1,
-  D-1), \dots, (A, 1), \dots, (1,1) 
-\]
-and order the absorbing states by decreasing desirability of outcome
-for the attacker, including the absorbing states where the defender wins
-\[
-  (A, 0), (A-1, 0),\dots, (1, 0), (0, 1), (0, 2),\dots, (0, D).
-\]
-Note that this order is the reverse of the state order in
+    (A, 0), (A-1, 0),\dots, (1, 0), (0, 1), (0, 2),\dots, (0, D).
+\] Note that this order is the reverse of the state order in
 \cite{osborne03}.  The order here proceeds in the general direction of
-the battle game play, with the first state for the initial numbers of
-armies, then decreasing number of armies for both players.
-See Figure~\ref{fig:games:risktrans} for a diagram of the possible
-state transitions when $A = 5$ and $D = 4$.  This figure is key for
-understanding the Markov chain.  The small number below
-each ordered pair state is the index of the state for the transition
-probability matrix.  Similar to European language reading directions,
-the number of armies
-decrease from left to right and top to bottom, so the state of the
-system flows from the upper left corner to the bottom or right margin.  The
-diagram divides into $6$ regions, $3$ for the attacker, and $2$
-for the defender depending on the number of dice each is rolling in a
-battle, as already outlined in Table~\ref{tab:games:riskdice}.
-For example, the lower right region corresponds to Case I in
-Table~\ref{tab:games:riskdice} and the
-transition probabilities $\pi_{111}$ and $\pi_{110}$ detailed below in
-Table~\ref{tab:games:risktransprobs}.  The largest region in the upper
-left corresponds to Case VI in
-Table~\ref{tab:games:riskdice} and the transition probabilities
-$\pi_{32k}$ in Table~\ref{tab:games:risktransprobs}. 
-Likewise for the other regions.  Figure~\ref{fig:games:risktrans}
-labels the possible state transitions
-with arrows and colors corresponding to the transition
-probabilities in Table~\ref{tab:games:risktransprobs}.
+the battle, with the first state for the initial numbers of armies, then
+decreasing number of armies for both players.  See Figure~%
+\ref{fig:games:risktrans} for a diagram of the possible state
+transitions when \( A = 5 \) and \( D = 4 \).  This figure is key for
+understanding the Markov chain.  The small number below each ordered
+pair state is the index of the state for the transition probability
+matrix.  Similar to European language reading directions, the state
+indices increase from left to right and top to bottom, so the state of
+the system flows from the upper left corner to the bottom or right
+margin.  The diagram divides into \( 6 \) regions, \( 3 \) for the
+attacker, and \( 2 \) for the defender depending on the number of dice
+each is rolling in a battle, as already outlined in Table~%
+\ref{tab:games:riskdice}.  For example, the lower right region
+corresponds to Case I in Table~%
+\ref{tab:games:riskdice} and the transition probabilities \( \pi_{111} \)
+and \( \pi_{110} \) detailed below in Table~%
+\ref{tab:games:risktransprobs}.  The largest region in the upper left
+corresponds to Case VI in Table~%
+\ref{tab:games:riskdice} and the transition probabilities \( \pi_{32k} \)
+in Table~%
+\ref{tab:games:risktransprobs}.  Likewise for the other regions.
+Figure~%
+\ref{fig:games:risktrans} labels the possible state transitions with
+arrows and colors corresponding to the transition probabilities in
+Table~%
+\ref{tab:games:risktransprobs}.
 
-The states and the positions of states on the diagram can
-be confusing.  For instance, the initial armies state $(5,4)$ is located at
-location $(1, 4)$ on the diagram.  As the attacking armies decrease,
-the first coordinate of the location of the state increases.  As the
-defending armies decrease, the second coordinate of the location
-decreases. This means first that attention must be paid to programming the
-chart and second to not confuse location with state.
+The states and the coordinates of states on the diagram can be
+confusing. For instance, the initial armies state \( (5,4) \) is located
+at location \( (1, 4) \) on the diagram.  As the attacking armies
+decrease, the first coordinate of the location of the state increases.
+As the defending armies decrease, the second coordinate of the location
+decreases.  This means first that attention must be paid to programming
+the chart and second to not confuse location with state.
 
 \begin{figure}
-  \centering
-  \begin{asy}
+    \centering
+\begin{asy}
 settings.outformat = "pdf";
 
 // import graph;
@@ -851,72 +936,71 @@ draw(((5,1)+ eps*S)--((5, 0)+eps*N), lightgray, Arrow);
 
 draw(((4,1)+ 1.5*eps*E)--((5, 1) + 1.5*eps*W), black, Arrow);
 draw(((5,1)+ 1.5*eps*E)--((6, 1) + 1.5*eps*W), magenta, Arrow);
-  \end{asy}
-  \caption{The state space and transitions of the Markov chain for a
+\end{asy}
+    \caption{The state space and transitions of the Markov chain for a
     war in \emph{Risk}.  Transitions of the same color have the same
-    probability.}
-  \label{fig:games:risktrans}
+    probability.}%
+    \label{fig:games:risktrans}
 \end{figure}
 
-Under this ordering, the transition probability matrix takes the block-matrix form
+Under this ordering, the transition probability matrix takes the
+block-matrix form
 \[
     P =
     \begin{pmatrix}
-        Q & R \\
-        0 & I
-    \end{pmatrix}.
-\]
-where the $(AD) \times (AD)$ matrix $Q$ contains the probabilities of
-going from one transient state to another, and the
-\( (AD) \times (A + D) \) matrix $R$ contains the probabilities of
-going from a transient state into an absorbing state.  $P$ contains
-only $14$ distinct probabilities, based on the number of dice 
-rolled and the armies lost as a result.  Let \( \pi_{i j k}\)
-denote the probability that the defender loses $k$ armies when rolling
-$j$ dice against an attacker rolling $i$ dice, as given in
-Table~\ref{tab:games:riskprobs}.  To obtain the \( \pi_{i j k} \),
-determine the
-joint probabilities associated with the best and second best roll from
-$2$ or $3$ six-sided fair dice. Let $Y_1$,
-$Y_2$, $Y_3$ denote the unordered outcome for an attacker when
-rolling three dice and let $W_1$, $W_2$ denote the unordered outcome
-for an attacker when rolling two dice.  Let $Z_1$, $Z_2$ denote the
-unordered outcome for a defender rolling two dice. Then $Y_1$, $Y_2$,
-$Y_3$, $W_1$, $W_2$ and $Z_1$, $Z_2$ are random samples from the
-discrete uniform distribution on the integers $1$ through $6$:
+        Q       & R \\
+        0       & I
+    \end{pmatrix}
+\] where the \( (AD) \times (AD) \) matrix \( Q \) contains the
+probabilities of going from one transient state to another, and the \( (AD)
+\times (A + D) \) matrix \( R \) contains the probabilities of going
+from a transient state into an absorbing state.  \( P \) contains only \(
+14 \) distinct probabilities, based on the number of dice rolled and the
+armies lost as a result.  Let \( \pi_{i j k} \) denote the probability
+that the defender loses \( k \) armies when rolling \( j \) dice against
+an attacker rolling \( i \) dice, as given in Table~%
+\ref{tab:games:risktransprobs}.  To obtain the \( \pi_{i j k} \),
+determine the joint probabilities associated with the best and second
+best roll from \( 2 \) or \( 3 \) six-sided fair dice.  Let \( Y_1 \), \(
+Y_2 \), \( Y_3 \) denote the unordered outcome for an attacker when
+rolling three dice and let \( W_1 \), \( W_2 \) denote the unordered
+outcome for an attacker when rolling two dice.  Let \( Z_1 \), \( Z_2 \)
+denote the unordered outcome for a defender rolling two dice.  Then \( Y_1
+\), \( Y_2 \), \( Y_3 \), \( W_1 \), \( W_2 \) and \( Z_1 \), \( Z_2 \)
+are random samples from the discrete uniform distribution on the
+integers \( 1 \) through \( 6 \):
 \[
-  \Prob{Y_j = y} =
-  \begin{cases}
-    \frac{1}{6} & y = 1,2,3,4,5,6 \\
-    0           & \text{else}.
-  \end{cases}
+    \Prob{Y_j = y} =
+    \begin{cases}
+        \frac{1}{6}     & y = 1,2,3,4,5,6 \\
+        0       & \text{else}.
+    \end{cases}
 \]
 
-Taking order into account, denoted using superscripts, as in
-\( Y^{(1)} \ge  Y^{(2)} \ge Y^{(3)} \), the ordered random variables are the
-\emph{order statistics}.
-The joint distributions
-of the order statistics for specification of \( \pi_{i j k} \) use
-straightforward techniques of enumeration. When rolling two dice,
-the joint distribution of
-\(
-(Z^{(1)} , Z^{(2)}) \) is
+Taking order into account, denoted using superscripts, as in \( Y^{(1)}
+\ge Y^{(2)} \ge Y^{(3)} \), the ordered random variables are the \emph{order
+statistics}.~%
+\index{order statistics}
+The joint distributions of the order statistics for specification of \(
+\pi_{i j k} \) use straightforward techniques of enumeration.  When
+rolling two dice, the joint distribution of \( (Z^{(1)} , Z^{(2)}) \) is
 \[
-  \Prob{Z^{(1)} = z^{(1)}, Z^{(2)} = z^{(2)}} = 
-  \begin{cases}
-    \frac{1}{36} &  z^{(1)} = z^{(2)}\\
-    \frac{2}{36} &  z^{(1)} > z^{(2)}\\
-    0           & \text{else}
-  \end{cases}.
-\]
-See Figure~\ref{fig:games:ordertwo} for a
-visualization of how to obtain this probability for $Z^{(1} = 5, Z^{(2)} = 3$.
+    \Prob{Z^{(1)} = z^{(1)}, Z^{(2)} = z^{(2)}} =
+    \begin{cases}
+        \frac{1}{36}    & z^{(1)} = z^{(2)}\\
+        \frac{2}{36}    & z^{(1)} > z^{(2)}\\
+        0       & \text{else}.
+    \end{cases}
+\] See Figure~%
+\ref{fig:games:ordertwo} for a visualization of how to obtain this
+probability for \( Z^{(1)} = 5, Z^{(2)} = 3 \).
 \begin{figure}
-  \centering
+    \centering
+\begin{asy}
       settings.outformat = "pdf";
 
       import math;
-      size(5in,0,IgnoreAspect);
+      size(2.5inches,0,IgnoreAspect);
 
       real myfontsize = 12;
       real mylineskip = 1.2*myfontsize;
@@ -942,72 +1026,73 @@ visualization of how to obtain this probability for $Z^{(1} = 5, Z^{(2)} = 3$.
               label(format("%i",i),(0,-i),blue);
           }
           add(shift(-.5,-.5-m)*grid(n+1,m+1,blue));
+        }
       }
 
       tableprobs();
 
       shipout(bbox(.25cm,Fill(white)));
-  \caption{Visualization of $Z^{(1)} = 5$.}
-  \label{fig:games:orderone}
+\end{asy}
+    \caption{Visualization of $ Z^{(1)} = 5 $, $ Z^{(2)} = 3 $.}%
+    \label{fig:games:ordertwo}
 \end{figure}
-The \emph{marginal distribution}  of the best roll $Z^{{1)}}$ 
-sums the joint distribution over values of $z^{(2)}$:
+The \emph{marginal distribution} of the best roll \( Z^{(1)} \) sums the
+joint distribution over values of \( z^{(2)} \):
 \[
-  \Prob{Z^{(1)} = z^{(1)}}
-  = \frac{2z^{(1)} - 1}{36} 
-\] for $z^{(1)} = 1,2,3,4,5,6$.  See Figure~\ref{fig:games:orderone} for a
-visualization of how to obtain this probability for $Z^{(1)} = 5$.
+    \Prob{Z^{(1)} = z^{(1)}} = \frac{2z^{(1)} - 1}{36}
+\] for \( z^{(1)} = 1,2,3,4,5,6 \).  See Figure~%
+\ref{fig:games:orderone} for a visualization of how to obtain this
+probability for \( Z^{(1)} = 5 \).
 \begin{figure}
-  \centering
-      settings.outformat = "pdf";
+    \centering
+\begin{asy}
+    settings.outformat = "pdf";
 
-      import math;
-      size(5in,0,IgnoreAspect);
+    import math;
+    size(2.5inches,0,IgnoreAspect);
 
-      real myfontsize = 12;
-      real mylineskip = 1.2*myfontsize;
-      pen mypen = fontsize(myfontsize, mylineskip);
-      defaultpen(mypen);
+    real myfontsize = 12;
+    real mylineskip = 1.2*myfontsize;
+    pen mypen = fontsize(myfontsize, mylineskip);
+    defaultpen(mypen);
 
-      void tableprobs(int m=6, int n=6){
-          string[][] y= new string[m+1][n+1];
-          for (int i=1; i<=m; ++i)
-          {
-              for (int j=1; j<=n; ++j)
-              {
-                y[i][j]="$\frac{1}{36}$";
-                if (i==5 || j==5) {
-                  label(y[i][j],(j,-i), red);
-                } else {
-                  label(y[i][j],(j,-i), black);
-                }	  
-                if(i==1) label(format("%i",j),(j,0),blue);
-              }
-              label(format("%i",i),(0,-i),blue);
-          }
-          add(shift(-.5,-.5-m)*grid(n+1,m+1,blue));
-      }
+    void tableprobs(int m=6, int n=6){
+      string[][] y= new string[m+1][n+1];
+      for (int i=1; i<=m; ++i) {
+        for (int j=1; j<=n; ++j) {
+          y[i][j]="\(\frac{1}{36} \)";
+          if (i==5 || j==5) {
+            label(y[i][j],(j,-i), red);
+        }
+        else {
+          label(y[i][j],(j,-i), black);
+        }
+        if(i==1) label(format("%i",j),(j,0),blue);
+      } label(format("%i",i),(0,-i),blue);
+    }
+    add(shift(-.5,-.5-m)*grid(n+1,m+1,blue)); }
 
-      tableprobs();
+    tableprobs();
 
-      shipout(bbox(.25cm,Fill(white)));
-  \caption{Visualization of $Z^{(1)} = 5$.}
-  \label{fig:games:orderone}
+    shipout(bbox(.25cm,Fill(white)));
+\end{asy}
+    \caption{Visualization of $ Z^{(1)} = 5 $.}%
+    \label{fig:games:orderone}
 \end{figure}
 When rolling three dice, the distribution of the best two rolls is
 \[
-  \Prob{Y^{(1)} = y^{(1)}, Y^{(2)} = y^{(2)}} = 
-  \begin{cases}
-    \frac{3y^{(1)} - 2}{216} &  y^{(1)} = y^{(2)}\\
-    \frac{6y^{(2)}}{36} &  y^{(1)} > y^{(2)}\\
-    0           & \text{else}
-  \end{cases}.
-\]
-See Figure~\ref{fig:games:threeordertwo} for a
-visualization of how to obtain this probability for $Y^{(1} = 3, Y^{(2)} = 3$.
+    \Prob{Y^{(1)} = y^{(1)}, Y^{(2)} = y^{(2)}} =
+    \begin{cases}
+        \frac{3y^{(1)} - 2}{216}        & y^{(1)} = y^{(2)}\\
+        \frac{6y^{(2)}}{36}     & y^{(1)} > y^{(2)}\\
+        0       & \text{else}.
+    \end{cases}
+\] See Figure~%
+\ref{fig:games:threeordertwo} for a visualization of how to obtain this
+probability for \( Y^{(1)} = 3 \), \( Y^{(2)} = 3 \).
 \begin{figure}
-  \centering
-  \begin{asy}
+    \centering
+\begin{asy}
     settings.outformat="pdf";
     settings.prc=false;
     settings.render=0;
@@ -1036,328 +1121,323 @@ visualization of how to obtain this probability for $Y^{(1} = 3, Y^{(2)} = 3$.
            Bounds(Both,Min),OutTicks(beginlabel=false),p=blue); 
     zaxis3(Label("$y^{(3)}$",MidPoint,align=X-Y),
            Bounds(Both,Min),InTicks(beginlabel=false),p=1bp+blue);
-  \end{asy}
-\caption{Visualization of $Y^{(1)} = 3, Y^{(2)} = 3$.}
-  \label{fig:games:threeordertwo}
+\end{asy}
+    \caption{Visualization of $ Y^{(1)} = 3, Y^{(2)} = 3 $.}%
+    \label{fig:games:threeordertwo}
 \end{figure}
 and the marginal distribution of the best roll is
 \[
-  \Prob{Y^{(1)} = y^{(1)}}
-  = \frac{1 - 3y^{(1)} + 3 \left( y^{(1)} \right)^2}{216} 
-\] for $y^{(1)} = 1,2,3,4,5,6$.
-All of the probabilities are $0$ for arguments that are not positive integers less than or
-equal to $6$. The joint distribution of $W^{(1)}$ and $W^{(2)}$ is the
-same as that for $Z^{(1)}$
-and $Z^{(2)}$.
+    \Prob{Y^{(1)} = y^{(1)}} = \frac{1 - 3y^{(1)} + 3 \left( y^{(1)}
+    \right)^2}{216}
+\] for \( y^{(1)} = 1,2,3,4,5,6 \).  All of the probabilities are \( 0 \)
+for arguments that are not positive integers less than or equal to \( 6 \).
+The joint distribution of \( W^{(1)} \) and \( W^{(2)} \) is the same as
+that for \( Z^{(1)} \) and \( Z^{(2)} \).
 
-Now it is possible to calculate specific transition probabilities
-using these marginal distributions.  For example
+Now it is possible to calculate specific transition probabilities using
+these marginal distributions.  For example
 \begin{align*}
-  \pi_{322} &= \Prob{Y^{(1)} > Z^{(1)}, Y^{(2)} > Z^{(2)}} \\
-  &= \sum\limits_{z_1}^5 \sum\limits_{z_2=1}^{z_1} \Prob{Y^{(1)} >
-    z_1, Y^{(2)} > z_2} \Prob(Z^{(1)} = z_1, Z^{(2)} = z_2} \\
-  &= \sum\limits_{z_1}^5 \sum\limits_{z_2=1}^{z_1} \sum\limits_{y_1 =
-    z_1+1}^6 \sum\limits_{y_2 = z_2+1}^{y_1} \Prob{Y^{(1)} =
-    y_1, Y^{(2)} = y_2} \Prob(Z^{(1)} = z_1, Z^{(2)} = z_2} \\
-            &= \frac{2890}{7776} \\
-  &= 0.372
+    \pi_{322}   &= \Prob{Y^{(1)} > Z^{(1)}, Y^{(2)} > Z^{(2)}} \\
+        &= \sum\limits_{z_1}^5 \sum\limits_{z_2=1}^{z_1} \Prob{Y^{(1)} >
+    z_1, Y^{(2)} > z_2} \Prob{Z^{(1)} = z_1, Z^{(2)} = z_2} \\
+        &= \sum\limits_{z_1=1}^5 \sum\limits_{z_2=1}^{z_1} \sum\limits_{y_1
+    = z_1+1}^6 \sum\limits_{y_2 = z_2+1}^{y_1} \Prob{Y^{(1)} = y_1, Y^{(2)}
+    = y_2} \Prob{Z^{(1)} = z_1, Z^{(2)} = z_2} \\
+        &= \frac{2890}{7776} \\
+        &\approx 0.372
 \end{align*}
-Note that those events in this quadruple sum for which an argument with a subscript
-of 2 exceeds an argument with the same letter and subscript 1 have probability zero.
+Note that those events in this quadruple sum for which an argument with
+a subscript of 2 exceeds an argument with the same letter and subscript
+1 have probability zero.
 
-Obtain the probabilities $\pi$  of the transition probability matrix $P$
-similarly using the joint distributions for $Y^{(1)}$, $Y^{(2)}$, for $Z^{(1)}$, $Z^{(2)}$, and for
-$W^{(1)}$, $W^{(2)}$. The exact probabilities, rounded to $3$ decimal places, are in
-Table~\ref{tab:games:risktransprobs}.  The colors refer to the colors
-of the arrows representing transitions in Figure~\ref{fig:games:risktrans}.
-
+Obtain the probabilities \( \pi \) of the transition probability matrix \(
+P \) similarly using the joint distributions for \( Y^{(1)} \), \( Y^{(2)}
+\), for \( Z^{(1)} \), \( Z^{(2)} \), and for \( W^{(1)} \), \( W^{(2)} \).
+The exact probabilities, rounded to \( 3 \) decimal places, are in
+Table~%
+\ref{tab:games:risktransprobs}.  The colors refer to the colors of the
+arrows representing transitions in Figure~%
+\ref{fig:games:risktrans}.
 
 \begin{table}
-  \centering
-  \begin{tabular}{ccrcrr}
-    Attacker & Defender & Outcome & Symbol & Exact & Approx. & Color \\
-    Dice     & Dice     &         &        & Probability & Probability
-                                                             & \\
-    \hline
-1 & 1 & Defender loses 1 & $\pi_{111}$ & $15/36$ &  $0.417$ & light gray \\ % checked
-1 & 1 & Attacker loses 1 & $\pi_{110}$ & $21/36$ & $0.583$ & magenta
-    \\ % checked
-    \hline
-1 & 2 & Defender loses 1 & $\pi_{121}$ & $55/216$ & $0.254$ & brown \\ % checked   
-1 & 2 & Attacker loses 1 & $\pi_{120}$ & $161/216$ & $0.745$ & purple
-    \\ % checked
-    \hline
-2 & 1 & Defender loses 1 & $\pi_{211}$ & $125/216$ & $0.579$ & pink \\ % checked
-2 & 1 & Attacker loses 1 & $\pi_{210}$ & $91/216$ & $0.421$ & black \\
-% checked
-    \hline
-2 & 2 & Defender loses 2 & $\pi_{222}$ & $295/1296$ & $0.228$ & cyan \\
-2 & 2 & Each lose 1      & $\pi_{221}$ & $420/1296$ & $0.324$ & darkgreen \\
-2 & 2 & Attacker loses 2 & $\pi_{220}$ & $581/1296$ & $0.448$ & yellow
-    \\
-    \hline
-3 & 1 & Defender loses 1 & $\pi_{311}$ & $855/1296$ & $0.660$ & orange \\ % checked
-3 & 1 & Attacker loses 1 & $\pi_{310}$ & $441/1296$ & $0.340$ & gray
-    \\ % checked
-    \hline
-3 & 2 & Defender loses 2 & $\pi_{322}$ & $2890/7776$ & $0.372$ & green \\
-3 & 2 & Each lose 1      & $\pi_{321}$ & $2611/7776$ & $0.336$ & blue\\
-3 & 2 & Attacker loses 2 & $\pi_{320}$ & $2275/7776$ & $0.293$ & red \\
-\end{tabular}
-  \caption{Probabilities in the transition probability matrix.  The
+    \centering
+    \begin{tabular}{cclcrrl}
+        Att    & Def      & Outcome     & Symbol      & Exact       & Approx. & Color      \\ 
+        Dice   & Dice     &             &             & Prob.       & Prob.   &            \\ 
+        \hline
+        1      & 1        & Def loses 1 & $\pi_{111}$ & $15/36$     & $0.417$ & light gray \\ % checked
+         
+        1      & 1        & Att loses 1 & $\pi_{110}$ & $21/36$     & $0.583$ & magenta    \\ % checked
+         
+        \hline
+        1      & 2        & Def loses 1 & $\pi_{121}$ & $55/216$    & $0.254$ & brown      \\ % checked   
+         
+        1      & 2        & Att loses 1 & $\pi_{120}$ & $161/216$   & $0.745$ & purple     \\ % checked
+         
+        \hline
+        2      & 1        & Def loses 1 & $\pi_{211}$ & $125/216$   & $0.579$ & pink       \\ % checked
+         
+        2      & 1        & Att loses 1 & $\pi_{210}$ & $91/216$    & $0.421$ & black      \\ % checked
+         
+        \hline
+        2      & 2        & Def loses 2 & $\pi_{222}$ & $295/1296$  & $0.228$ & cyan       \\ 
+        2      & 2        & Each lose 1 & $\pi_{221}$ & $420/1296$  & $0.324$ & darkgreen  \\ 
+        2      & 2        & Att loses 2 & $\pi_{220}$ & $581/1296$  & $0.448$ & yellow     \\ 
+        \hline
+        3      & 1        & Def loses 1 & $\pi_{311}$ & $855/1296$  & $0.660$ & orange     \\ % checked
+         
+        3      & 1        & Att loses 1 & $\pi_{310}$ & $441/1296$  & $0.340$ & gray       \\ % checked
+         
+        \hline
+        3      & 2        & Def loses 2 & $\pi_{322}$ & $2890/7776$ & $0.372$ & green      \\ 
+        3      & 2        & Each lose 1 & $\pi_{321}$ & $2611/7776$ & $0.336$ & blue       \\ 
+        3      & 2        & Att loses 2 & $\pi_{320}$ & $2275/7776$ & $0.293$ & red        \\ 
+    \end{tabular}
+    \caption{Probabilities in the transition probability matrix.  The
     colors correspond to the arrows in the diagram of state transitions.}
-  \label{tab:games:risktransprobs}
+    \label{tab:games:risktransprobs}
 \end{table}
 
-Given any initial state, the system will
-eventually make a transition to an absorbing state. For a transient
-state $i$, call $f_{ij}^{(n)}$ the probability that the first (and final) visit to absorbing state $j$ occurs
-on the $n$th turn:
+Given any initial state, the system will eventually make a transition to
+an absorbing state.  For a transient state \( i \), call \( f_{ij}^{(n)}
+\) the probability that the first (and final) visit to absorbing state \(
+j \) occurs on the \( n \)th turn:
 \[
-  f_{ij}^{(n)} = \Prob{X_n = j, X_k \ne jm k=1,2,\dots, n-1 \given X_0
-      = i}.
-  \]
-  Denote the $AD \times (A + D)$ matrix of these first transition
-  probabilities  by $F^{(n)}$.  Then $F^{(n)} = Q^{n-1}R$.
-  The probability that the system goes from transient state $i$ to
-  absorbing state $j$ is $(I - Q)^{-1} R$.  If the system ends in one of the
-  $A$ absorbing states then the attacker wins; if it ends in one
-  of the  $D$ absorbing states, the defender wins. Since the
-  initial state of a battle is the first state using the order
-  established previously, the probability that the attacker wins is
-  just the sum of the entries in the first row of the
-  submatrix of the first $A$ columns of $F$:
-  \[
-    \Prob{\text{Attacker wins} \given X_0 = (A,D)} =
-    \sum\limits_{j=1}^{A} f_{1, j}
-  \]
-  and
-  \[
-    \Prob{\text{Defender wins} \given X_0 = (A,D)} =
-    \sum\limits_{j=A+1}^{A+D} f_{1, j}.
-  \]
+    f_{ij}^{(n)} = \Prob{X_n = j, X_k \ne j \text{ for } k=1,2,\dots,
+    n-1 \given X_0 = i}.
+\] Denote the \( AD \times (A + D) \) matrix of these first transition
+probabilities by \( F^{(n)} \).  Then \( F^{(n)} = Q^{n-1}R \).  The
+probability that the system goes from transient state \( i \) to
+absorbing state \( j \) is \( (I - Q)^{-1} R \).~%
+\index{fundamental matrix}
+If the system ends in one of the \( A \) absorbing states then the
+attacker wins; if it ends in one of the \( D \) absorbing states, the
+defender wins.  Since the initial state of a battle is the first state
+using the order established previously, the probability that the
+attacker wins is just the sum of the entries in the first row of the
+submatrix of the first \( A \) columns of \( F \):
+\[
+    \Prob{\text{Attacker wins} \given X_0 = (A,D)} = \sum\limits_{j=1}^{A}
+    f_{1, j}
+\] and
+\[
+    \Prob{\text{Defender wins} \given X_0 = (A,D)} = \sum\limits_{j=A+1}^
+    {A+D} f_{1, j}.
+\]
 
-  \begin{table}
+\begin{small}
+    \begin{table}
+        \centering
+        \begin{tabular}{lrrrrrrrrrr}
+            Def    & 10       & 9           & 8           & 7           & 6       & 5          & 4     & 3     & 2     & 1     \\ 
+            Att    &          &             &             &             &         &            &       &       &       &       \\ 
+            10     & 0.568    & 0.480       & 0.380       & 0.287       & 0.193   & 0.118      & 0.057 & 0.021 & 0.001 & 0.000 \\ 
+            9      & 0.650    & 0.558       & 0.464       & 0.357       & 0.258   & 0.162      & 0.086 & 0.033 & 0.003 & 0.000 \\ 
+            8      & 0.724    & 0.646       & 0.547       & 0.446       & 0.329   & 0.224      & 0.123 & 0.054 & 0.005 & 0.000 \\ 
+            7      & 0.800    & 0.726       & 0.643       & 0.536       & 0.423   & 0.297      & 0.181 & 0.084 & 0.011 & 0.000 \\ 
+            6      & 0.861    & 0.808       & 0.730       & 0.640       & 0.521   & 0.397      & 0.253 & 0.134 & 0.021 & 0.000 \\ 
+            5      & 0.916    & 0.873       & 0.818       & 0.736       & 0.638   & 0.506      & 0.359 & 0.206 & 0.049 & 0.002 \\ 
+            4      & 0.954    & 0.930       & 0.888       & 0.834       & 0.745   & 0.638      & 0.477 & 0.315 & 0.091 & 0.007 \\ 
+            3      & 0.981    & 0.967       & 0.947       & 0.910       & 0.857   & 0.769      & 0.642 & 0.470 & 0.206 & 0.027 \\ 
+            2      & 0.994    & 0.990       & 0.980       & 0.967       & 0.934   & 0.890      & 0.785 & 0.656 & 0.363 & 0.106 \\ 
+            1      & 1.000    & 1.000       & 1.000       & 0.999       & 0.997   & 0.990      & 0.972 & 0.916 & 0.754 & 0.417 \\ 
+        \end{tabular}
+        \caption{Probability that the attacker wins with $ A $ armies
+        against $ D $ defending armies.}%
+        \label{tab:games:attackerwins}
+    \end{table}
+\end{small}
+
+Because the state order here is the reverse of the order given in
+\cite{osborne03}, the table of winning probabilities here is the reverse
+of Table 3 in that paper.  Note also by the Markov property, that if the
+winning probability is calculated for say \( A = 10 \) and \( D=10 \),
+then the winning probability for any war starting with \( A < 10 \) and \(
+D < 10 \) is also automatically calculated so that the entire Table~%
+\ref{tab:games:attackerwins} comes from the \( N = (I-Q)^{-1} \) for \(
+A = 10 \) and \( D = 10 \).
+
+Large engagements occur towards the end of an entire game of \emph{Risk}.
+The absorbing probabilities for large battles have an interesting
+``saw-tooth'' feature noticed in
+\cite{pierce15}.  Figure~%
+\ref{fig:games:finalstateprob} shows the probability mass function when
+the attacker and defender each start with \( 40 \) armies.  The
+horizontal axis shows all the absorbing states of a \( (40,40) \) battle
+and the vertical axis is the probability of the corresponding absorbing
+state. The outcome states along the horizontal axis are in decreasing
+order of preference of the attacker.  One distinctive feature of this
+probability mass function is the large dip in the curve.  The outcomes \(
+(1,0) \) and \( (0,1) \) are less likely than their neighbors \( (2,0) \)
+and \( (0,2) \).  The outcomes \( (2,0) \) and \( (0,2) \) can occur
+when a player with a single army will roll only one die against two dice
+and is less likely to survive. Also interesting is the jagged or
+``saw-tooth'' phenomenon near the local maxima.  A final outcome of \( (8,0)
+\) or \( (6,0) \) is each more likely than an outcome of \( (7,0) \).
+In the largest part of the transient states the probability of removing
+\emph{two} armies from one player is about double the probability of
+each player losing \emph{one} army.  So a path that begins at \( (40,40)
+\) is more likely to visit only states \( (a,d) \) in which \( a \) and \(
+d \) have the same parity, except when one player retains just one army.
+
+\begin{figure}
     \centering
-    \begin{tabular}{lrrrrrrrrrr}
-Def & 10   & 9     & 8     & 7     & 6     & 5     & 4     & 3     & 2
-                                             & 1 \\
-Att &      &       &       &       &       &       &       &       &
-                                             & \\
-10 & 0.568 & 0.480 & 0.380 & 0.287 & 0.193 & 0.118 & 0.057 & 0.021 & 0.001
-                                             & 0.000 \\
-9 & 0.650 & 0.558 & 0.464 & 0.357 & 0.258 & 0.162 & 0.086 & 0.033 & 0.003
-                                             & 0.000 \\
-8 & 0.724 & 0.646 & 0.547 & 0.446 & 0.329 & 0.224 & 0.123 & 0.054 & 0.005
-                                             & 0.000 \\
-7 & 0.800 & 0.726 & 0.643 & 0.536 & 0.423 & 0.297 & 0.181 & 0.084 & 0.011
-                                             & 0.000 \\
-6 & 0.861 & 0.808 & 0.730 & 0.640 & 0.521 & 0.397 & 0.253 & 0.134 & 0.021
-                                             & 0.000 \\
-5 & 0.916 & 0.873 & 0.818 & 0.736 & 0.638 & 0.506 & 0.359 & 0.206 & 0.049
-                                             & 0.002 \\
-4 & 0.954 & 0.930 & 0.888 & 0.834 & 0.745 & 0.638 & 0.477 & 0.315 & 0.091
-                                             & 0.007 \\
-3 & 0.981 & 0.967 & 0.947 & 0.910 & 0.857 & 0.769 & 0.642 & 0.470 & 0.206
-                                             & 0.027 \\
-2 & 0.994 & 0.990 & 0.980 & 0.967 & 0.934 & 0.890 & 0.785 & 0.656 & 0.363
-                                             & 0.106 \\
-1 & 1.000 & 1.000 & 1.000 & 0.999 & 0.997 & 0.990 & 0.972 & 0.916 & 0.754
-                                             & 0.417 \\
+    \includegraphics[scale=0.33]{finalStateProb}
+    \caption{The probability mass function of absorbing states for $ A
+    = 40 $, $ D = 40 $.  The absorbing states are in decreasing order
+    of preference for the attacker.}%
+    \label{fig:games:finalstateprob}
+\end{figure}
+
+Using the matrix \( NR \) allows calculation of the expected values and
+variances for the losses that the attacker and defender will suffer in a
+battle.  For example, suppose \( A = 5 \) and \( D = 4 \), as
+illustrated in Figure~%
+\ref{fig:games:risktrans}. In this case, the first row of the \( 20
+\times 9 \) matrix \( NR \) gives the probabilities for the \( A + D = 9
+\) absorbing states: \( (NR)_{1,\cdot} = 0.138, 0.165, 0.179, 0.107,
+0.050, 0.070, 0.124, 0.104, 0.064, \). Let \( R_A \) and \( R_D \)
+denote the number of armies remaining for the attacker and defender
+respectively given the initial state \( X_0 = (A, D) \).  The
+probability distributions for \( R_A \) and \( R_D \) are in the first
+row of \( NR \):
+\[
+    \Prob{R_A = k} =
+    \begin{cases}
+      \sum\limits_{k-A+1}^{A+D} (NR)_{1,k}    & k = 0, \\
+      (NR)_{1,A+1-k}                         & k = 1, 2, \dots A
+    \end{cases}
+\] and
+\[
+    \Prob{R_D = k} =
+    \begin{cases}
+        \sum\limits_{k=1}^{A} (NR)_{1,k}     & k=0, \\
+        (NR)_{1,k}                          & k = A+1, A+2, \dots A+D.
+    \end{cases}
+\] The mean and standard deviation for the attacker's remaining armies
+are \( \E{R_A} = 2.15 \) and \( \sqrt{\Var{R_A}} = 1.89 \).  The
+defender’s mean and standard deviation in this case are \( \E{R_D} =
+0.92 \) and \( \sqrt{\Var{R_D}} = 1.36 \). Figure~%
+\ref{fig:games:expectedrem} has plots of expected losses for values of \(
+A \) and \( D \) between \( 1 \) and \( 20 \)
+\begin{figure}
+  \centering
+  \begin{minipage}[b]{0.45\linewidth}
+    \includegraphics[scale=0.50]{attackersRemain}
+  \end{minipage}
+  \begin{minipage}[b]{0.45\linewidth}
+    \includegraphics[scale=0.50]{defendersRemain}
+  \end{minipage}
+    \caption{Expected losses for values of $ A $ and $ D $.
+    Note the axis scales, the number of attackers left
+    to right, the number of attackers decrease top to bottom, as in
+    Figure~%
+    \ref{fig:games:risktrans}}%
+    \label{fig:games:expectedrem}
+\end{figure}
+This plot shows that the attacker has an advantage in the sense that
+expected losses are lower than for the defender, provided the initial
+number of attacking armies is not too small.
+
+When the number of attacking and defending armies is equal, the
+probability that the attacker ends up winning the territory exceeds \(
+50\% \), provided the initial stakes are high enough, at least \( 5 \)
+armies each, initially, see Table~%
+\ref{tab:games:equalwins}, With \( 40 \) armies attacking \( 40 \)
+defending armies, the expected armies remaining are \( 7.5 \) attacking
+armies and \( 2.1 \) defending armies.  The overall conclusion is that
+the chances of winning a battle are more favorable for the attacker.
+The logical recommendation is then for the attacker to be aggressive.
+
+\begin{table}
+    \centering
+    \begin{tabular}{rrrrrrrrrr}
+        20     & 19       & 18          & 17          & 16          & 15      & 14         & 13    & 12    & 11    \\ 
+        0.633  & 0.628    & 0.623       & 0.617       & 0.611       & 0.605   & 0.599      & 0.592 & 0.584 & 0.576 \\ 
+        10     & 9        & 8           & 7           & 6           & 5       & 4          & 3     & 2     & 1     \\ 
+        0.568  & 0.558    & 0.547       & 0.536       & 0.521       & 0.506   & 0.477      & 0.470 & 0.363 & 0.417
     \end{tabular}
-    \caption{Probability that the attacker wins with $A$ armies agains
-    $D$ defending armies.}
-    \label{tab:games:attackerwins}
-  \end{table}
-  Because the state order here is the reverse of the order
-  given in \cite{osborne03}, the table of winning probabilities here
-  is the reverse of Table 3 in that paper.  Note also by the Markov
-  property, that if the winning probability is calculated for say
-  $A = 10$ and $D=10$, then the winning probability for any war
-  starting with $A < 10$ and $D < 10$ is also automatically calculated
-  so that the entire Table~\ref{tab:games:attackerwins} comes
-  from the $F$ for $A = 10$ and $D = 10$.
+    \caption{Probability of attacker winning when the number of armies
+    are equal.}%
+    \label{tab:games:equalwins}
+\end{table}
 
-  The absorbing probabilities for large battles have an interesting
-  ``saw-tooth'' feature noticed in \cite{pierce15}. These large
-  engagements occur towards the end of an entire game of
-  \emph{Risk}.  Figure~\ref{fig:games:sawtooth} shows the probability mass
-  function when the attacker and defender each start with $40$
-  armies.  The horizontal axis shows all the absorbing states of a
-  $(40,40)$ battle and the vertical axis is the probability of the
-  corresponding absorbing state.  The outcome states along the
-  horizontal axis are in decreasing order of preference of the
-  attacker.  One distinctive feature of this probability mass function
-  is the large gap, or dip, in the curve. The outcomes $(1,0)$ and
-  $(0,1)$ are far less likely than their neighbors $(2,0)$ and
-  $(0,2)$.  This occurs when the player with a single army will roll only
-  one die and is unlikely to survive long.  Also interesting is the
-  jagged or ``saw-tooth'' phenomenon near the local maxima. 
-  A final outcome of $(8,0)$ or $(6,0)$ is each
-  more likely than an outcome of $(7,0)$.  In
-  the largest part of the transient states the probability of removing
-  \emph{two} armies from one player is about double the probability
-  of each player losing \emph{one} army. So a path that begins at $(40,40)$ is more
-  likely to visit only states $(a,d)$ in which $a$ and $d$ have the
-  same parity, except when one player retains just one army.
-
-  \begin{figure}
-    \centering
-    
-    \caption{The probability mass function of absorbing states for
-      $A = 40$, $D = 40$.  The absorbing states are in
-      decreasing order of preference for the attacker.}
-    \label{fig:games:sawtooth}
-  \end{figure}
-
-  The expected values and variances for the losses that the attacker
-and defender will suffer in a given battle can also be found from $F$. Let $L_A$ and $L_D$
-denote the respective losses an attacker and defender will suffer during a given battle
-given the initial state $X_0 = (A, D)$. Let $R_D = D − L_D$ and $R_A = A − L_R$ denote the
-number of armies remaining for the attacker and defender respectively. The probability
-distributions for $R_D$ and $R_A$ can be obtained from the last row of
-$F$:
-\[
-  \Prob{R_D = k} =
-  \begin{cases}
-    f_{AD,k} & k = 1,2, \dots D \\
-    0        & \text{else}
-  \end{cases}
-\]
-and
-\[
-  \Prob{R_A = k} =
-  \begin{cases}
-    f_{AD,D+k} & k = 1,2, \dots A \\
-    0        & \text{else}.
-  \end{cases}
-\]
-For example, suppose $A = D = 5$. In this case, the $25$th row of the $25 \times 10$ matrix $F$
-gives the probabilities for the $D + A = 10$ absorbing states:
-$F_{25,\cdot} = (0.068, 0.134, 0.124, 0.104, 0.064, 0.049, 0.096, 0.147, 0.124, 0.091)$.
-The mean and standard deviation for the defender’s loss in the $A = D = 5$ case are
-$\E{L_D} = 3.56$ and $\sqrt{\Var{L_D}} = 1.70$. For the attacker, they are $\E{L_A} = 3.37$ and
-$\sqrt{\Var{L_A}} = 1.83$. Figure~\ref{fig:games:expectedloss} has
-plots of expected losses for values of $A$ and $D$ between $5$ and
-$20$.
-This plot shows that the attacker has an advantage in the sense
-that expected losses are lower than for the defender, provided the
-initial number of attacking armies is not too small.
-
-The overall conclusion is that the chances of winning a battle are
-more favorable for the attacker. The logical recommendation is then
-for the attacker to be more aggressive. Inspection of
-Figure~\ref{fig:games: } shows
-that when the number of attacking and defending armies is equal, $A =
-D$, the probability that the attacker ends up winning the territory
-exceeds $50\%$, provided
-the initial stakes are high enough (at least $5$ armies each,
-initially.)
-
-This information allows the calculation of the expected number of
-attacking armies lost in the battle.  For example, attacking with $5$
-armies the expected losses are
-\[
-  \E{\text{ attacking armies lost}} = 0 \cdot \Prob{(5,0)} +
-  1 \cdot \Prob{(4,0)} + 2 \cdot \Prob{(3,0)} + 3 \cdot \Prob{(2,0)} +
-  5 \cdot \Prob{(1,0)} + 5 \left( \Prob{(0,1)} +  \Prob{(0,2)}
-    \Prob{(0,3)}  + \Prob{(0,4)} \right) \approx 2.85.
-\]
-The expected losses for the defender with $4$ armies are 
-\[
-  \E{\text{ defending armies lost}} = 0 \cdot \Prob{(0,4)} +
-  1 \cdot \Prob{(0,3)} + 2 \cdot \Prob{(0,2)} + 3 \cdot \Prob{(0,1)}
-  + 4 \left( \Prob{(1,0)} +  \Prob{(2,0)}
-    \Prob{(3,0)} + \Prob{(4,0)} + \Prob{(5,0)} \right) \approx 3.114637.
-\]
-With $40$ armies attacking $40$ defending armies, the expected losses
-are $32.47898$ attacking armies and $37.92514$ defending armies.
-
-Using the absorbtion probabilities for the states $(a, 0)$ where the
-attacker wins allows a more detailed summary of the outcomes of the
-war.  As an example, suppose the attacker wants
-at least a $75$ percent chance of winning the war with at least
-four armies surviving. With how many armies should the attacker
-start a war to create this favorable
-situation?
-Refer to Figure~\ref{fig:games:quartiles} for an example of how
-to answer this important strategic question.  Each facet in the figure
-indicates the number of defending armies from $1$ to $4$.
-The horizontal axis in each facet lists the number
-of starting attacking armies, while the vertical axis in each facet
-displays how many attacking armies remain after the
-battle. Respectively, the blue, green and red
-curves with points indicate the first-quartile, median,
-and third-quartile states in the distribution of outcomes
-based on the number of the attacker's starting armies. The
-outcomes are in descending order of preference
-for the attacker.
-For example, consider the lower right facet corresponding to the
-defender starting with $4$ armies.  If the attacker has seven armies, the
-most desired outcome is the absorbing state $(7,0)$, while
-the least desired is $(0,4)$.  In this case, the median outcome
-is $(4,0)$ in the sense that $(a,0)$ with $a \ge 4$ has a
-probability of at least $0.50$ (in fact, $\Prob{a \ge 4, d = 0} =
-0.622$.)
-This means that at least half of the time,
-the attacker will finish the war with $4$ or more
-armies. The interquartile range is $(6,0)$ through $(2,0)$.
-This means that at least $25$ percent of the time (precisely, the
-probability is $0.303$) the attacker will win the war and have $6$ or more armies
-remaining; at least $50$ percent of the time (precisely, the
-probability is $0.503$) the attacker
-will win and have $2$ to $6$ armies remaining; and the
-remaining $25$ percent (precisely, the probability is $0.195$) of battles will leave the attacker
-with fewer than $2$ armies.
-Returning to the question of how many armies the
-player needs to start with in order to attack
-a defender with $4$ armies with at least a  $75$ percent chance of winning with at least
-four armies remaining, we see that  the attacker should start with at
-least 
-$9$ armies. In this case, the interquartile range is $(8,0)$
-through $(4,0)$ and the median outcome is $(6,0)$.  
-The figure and the prior examples are  illustrative, 
-using up to $10$ attacking armies and $4$ defending armies.
-The R script below
-shows how to calculate these quartiles for any number of attackers and
+Using the absorption probabilities for the states \( (a, 0) \) where the
+attacker wins allows a more detailed summary of the outcomes of the war.
+As an example, suppose the attacker wants at least a \( 75 \) percent
+chance of winning the war with at least four armies surviving.  With how
+many armies should the attacker start a war to create this favorable
+situation?  Refer to Figure~%
+\ref{fig:games:quartiles} for an example of how to answer this important
+strategic question.  Each facet in the figure indicates the number of
+defending armies from \( 1 \) to \( 4 \).  The horizontal axis in each
+facet lists the number of starting attacking armies, while the vertical
+axis in each facet displays how many attacking armies remain after the
+battle.  Respectively, the blue, green and red curves with points
+indicate the first-quartile, median, and third-quartile states in the
+distribution of outcomes based on the number of the attacker's starting
+armies.  The outcomes are in descending order of preference for the
+attacker.  For example, consider the lower right facet corresponding to
+the defender starting with \( 4 \) armies.  If the attacker has seven
+armies, the most desired outcome is the absorbing state \( (7,0) \),
+while the least desired is \( (0,4) \).  In this case, the median
+outcome is \( (4,0) \) in the sense that \( (a,0) \) with \( a \ge 4 \)
+has a probability of at least \( 0.50 \) (in fact, \( \Prob{a \ge 4, d =
+0} = 0.622 \).) This means that at least half of the time, the attacker
+will finish the war with \( 4 \) or more armies.  The interquartile
+range is \( (6,0) \) through \( (2,0) \).  This means that at least \(
+25 \) percent of the time (precisely, the probability is \( 0.303 \))
+the attacker will win the war and have \( 6 \) or more armies remaining;
+at least \( 50 \) percent of the time (precisely, the probability is \(
+0.503 \)) the attacker will win and have \( 2 \) to \( 6 \) armies
+remaining; and the remaining \( 25 \) percent (precisely, the
+probability is \( 0.195 \)) of battles will leave the attacker with
+fewer than \( 2 \) armies.  Returning to the question of how many armies
+the player needs to start with in order to attack a defender with \( 4 \)
+armies with at least a \( 75 \) percent chance of winning with at least
+four armies remaining, we see that the attacker should start with at
+least \( 9 \) armies.  In this case, the interquartile range is \( (8,0)
+\) through \( (4,0) \) and the median outcome is \( (6,0) \).  The
+figure and the prior examples are illustrative, using up to \( 10 \)
+attacking armies and \( 4 \) defending armies.  The R script below shows
+how to calculate these quartiles for any number of attackers and
 defenders.
 
 \begin{figure}
-  \centering
-  \includegraphics{risk_quartiles}
-  \caption{Quartile statisics for the number of attacking armies
-    remaining in various scenarios.}
-  \label{fig:games:quartiles}
+    \centering
+    \includegraphics[scale=0.75]{risk_quartiles}
+    \caption{Quartile statistics for the number of attacking armies
+    remaining in various scenarios.}%
+    \label{fig:games:quartiles}
 \end{figure}
 
-The number of battles fought in a war is the number of dice rolls
-until absorbtion into one of the states $(a,0)$ or $(0,d)$.
-This is the number of state transition to absorbtion, also called the
-waiting time until absorbtion.  The standard formula for calculating
-the expected waiting time to absorbtion is $(I-Q)^{-1} \mathbf{1}}$.
-Using this, the expected number of battles for a war with $10$
-attacking armies against $4$ defending armies is $3.994$.  The R script below
-shows how to calculate the expected waiting time to absorbtion for any number of attackers and
-defenders.
-
-     
-     
+The number of battles fought in a war is the number of dice rolls until
+absorption into one of the states \( (a,0) \) or \( (0,d) \).  This is
+the number of state transitions to absorption, also called the waiting
+time until absorption.  The standard formula for calculating the
+expected waiting time to absorption is \( (I-Q)^{-1} \mathbf{1} \).
+Using this, the expected number of battles for a war with \( 10 \)
+attacking armies against \( 4 \) defending armies is \( 3.994 \).  The R
+script below shows how to calculate the expected waiting time to
+absorption for any number of attackers and defenders.
 
 \visual{Section Starter Question}{../../../../CommonInformation/Lessons/question_mark.png}
-\section*{Section Ending Answer}
-The future development of the game at a turn must be independent of the past to
-model the game as a Markov chain.  Games  depending on a randomizing
-device, such as a dice rolls or a spinner, can often be modeled as a
-Markov chain.  Examples in this section are the games of \emph{Tenzi}, \emph{Chutes
-and Ladders}, \emph{Count Your Chickens!} and battles from \emph{Risk}.
+\section*{Section Ending Answer} The future development of the game at a
+turn must be independent of the past to model the game as a Markov
+chain.  Games depending on a randomizing device, such as a dice rolls or
+a spinner, can often be modeled as a Markov chain.  Examples in this
+section are the games of \emph{Tenzi}, \emph{Chutes and Ladders}, \emph{Count
+Your Chickens!} and battles from \emph{Risk}.
 
 \subsection*{Sources}
 
-The subsection on \emph{Tenzi} is adapted from \cite{bacinski20}.
-The subsection on Chutes and Ladders is adapted from \cite{althoen93}.
-The subsection on Count Your Chickens is adapted from \cite{mccune19}.
-The subsection on \emph{Risk} is adapted from \cite{osborne03},
-\cite{tan97} and \cite{pierce15}.
+The subsection on \emph{Tenzi} is adapted from
+\cite{bacinski20}.  The subsection on Chutes and Ladders is adapted from
+\cite{althoen93}.  The subsection on Count Your Chickens is adapted from
+\cite{mccune19}.  The subsection on \emph{Risk} is adapted from
+\cite{osborne03},
+\cite{pierce15} and
+\cite{tan97}.
 
 \hr
 
@@ -1370,7 +1450,7 @@ The subsection on \emph{Risk} is adapted from \cite{osborne03},
   \Procname{Tenzi Game Markov Chain}
   \zi Comment Post: Mean and standard deviation of waiting time to win
   \zi Also plots of pdf and cdf of waiting time.
-  \li Load transition probaility matrix P
+  \li Load transition probability matrix P
   \zi
   \li Iteratively compute powers of P
   \li Add (1,11) entry to cdf list
@@ -1380,11 +1460,11 @@ The subsection on \emph{Risk} is adapted from \cite{osborne03},
   \li Check total probability and approximate mean
   \zi
   \li Extract transient probability submatrix
-  \li Compute normal matrix with matrix inversion
+  \li Compute fundamental matrix with matrix inversion
   \zi
-  \li Calculate mean from normal matrix
+  \li Calculate mean from fundamental matrix
   \li Calculate variance of waiting times
-  \li Print mean and standard varaition
+  \li Print mean and standard variation
   \zi
   \li Plot pdf and cdf with base functions.
 \end{codebox}
@@ -1403,11 +1483,11 @@ The subsection on \emph{Risk} is adapted from \cite{osborne03},
   \li Compute mean absorption time with library function
   \zi
   \li Extract transient probability submatrix
-  \li Compute normal matrix with matrix inversion
+  \li Compute fundamental matrix with matrix inversion
   \zi
-  \li Calculate mean from normal matrix
+  \li Calculate mean from fundamental matrix
   \li Calculate variance of waiting times
-  \li Print mean and standard varaition
+  \li Print mean and standard variation
   \zi
   \li Plot pdf and cdf with base functions.
 \end{codebox}
@@ -1425,38 +1505,36 @@ The subsection on \emph{Risk} is adapted from \cite{osborne03},
 \renewcommand{\theexercise}{\arabic{exercise}}
 
 \begin{exercise}
-  The  CDF and PDF functions $P(k)$ and $p(k)$ above respectively
-  summarize the probability that a single player will get Tenzi in $k$ rolls.
-    What
-  if $n$ people are playing? This essentially taking $n$ independent
-  random samples from the probability distribution $p(k)$, and
-  identifying the minimum value(s) of $k$ as the roll in which the game is
-  won. For example, if there are $n=5$ players, we take $5$ independent
-  random samples from $p(k)$. Suppose the arbitrary values of $k$ are
-  $[12,20,15,9,28]$, representing the number of rolls needed for each
-  player to get Tenzi. Then  the $4$th player wins the game
-  in $9$ rolls.  In general, write an expression for  the
-  probability that the minimum value from $n$ random samples of $p(k)$ is less
-  than or equal to $k$ in terms of $P(k)$.
+    The CDF and PDF functions \( P(k) \) and \( p(k) \) above
+    respectively summarize the probability that a single player will get
+    Tenzi in \( k \) rolls.  What if \( n \) people are playing?  This
+    essentially taking \( n \) independent random samples from the
+    probability distribution \( p(k) \), and identifying the minimum
+    value(s) of \( k \) as the roll in which the game is won.  For
+    example, if there are \( n=5 \) players, we take \( 5 \) independent
+    random samples from \( p(k) \).  Suppose the arbitrary values of \(
+    k \) are \( [12,20,15,9,28] \), representing the number of rolls
+    needed for each player to get Tenzi.  Then the \( 4 \)th player wins
+    the game in \( 9 \) rolls.  In general, write an expression for the
+    probability that the minimum value from \( n \) random samples of \(
+    p(k) \) is less than or equal to \( k \) in terms of \( P(k) \).
 \end{exercise}
 \begin{solution}
-  Denote as $P(n,k)$ the probability that the minimum value from $n$ random samples of
-  $p(k)$ is
-  less than or equal to $k$.  Then $P(n,k)$ is the
-  complement of the probability that all $n$ random samples (which are
-  independent of each other) are greater than $k$, so
-  $P(n,k)=1−(1−P(k))^n$.
-  The PDF giving the probability that a game with
-  $n$ players is won in exactly $k$ rolls is $p(n, k)=P(n,k)−P(n,k−1)$.
+    Denote as \( P(n,k) \) the probability that the minimum value from \(
+    n \) random samples of \( p(k) \) is less than or equal to \( k \).
+    Then \( P(n,k) \) is the complement of the probability that all \( n
+    \) random samples (which are independent of each other) are greater
+    than \( k \), so \( P(n,k)=1 - (1 - P(k))^n \).  The pdf giving the
+    probability that a game with \( n \) players is won in exactly \( k \)
+    rolls is \( p(n, k)=P(n,k) - P(n,k - 1) \).
 \end{solution}
 \begin{exercise}
-  Write a script in some computer language to replicate the
-  calculations and graphs for the Markov chain for \emph{Tenzi}.
+    Write a script in some computer language to replicate the
+    calculations and graphs for the Markov chain for \emph{Tenzi}.
 \end{exercise}
 \begin{solution}
-  The transition probability matrix 
-  for \emph{Tenzi} (rounded to three decimal places) is written in
-  Maxima as
+    The transition probability matrix for \emph{Tenzi} (rounded to three
+    decimal places) is written in Maxima as
 \begin{verbatim}
 pi[i,j] := if (j >= i) then  binomial(11-i, j-i) * ((1/6)^(j-i)) *
 ((5/6)^(11-j)) else 0;
@@ -1464,7 +1542,8 @@ P : genmatrix(pi, 11, 11);
 fpprintprec : 3;
 float(P);
 \end{verbatim}
-  Transfer this matrix of values to R and evaluate with the following script:
+    Transfer this matrix of values to R and evaluate with the following
+    script:
 \begin{verbatim}
 x  <-  c(0.1615055828898457, 0.3230111657796915, 0.2907100492017223,
          0.1550453595742519, 0.05426587585098816, 0.01302381020423716,
@@ -1530,115 +1609,160 @@ sdw  <- sqrt(Varw)
 \end{solution}
 
 \begin{exercise}
-  Show that the shortest possible game of \emph{Chutes and
-      Ladders} consists of $7$ moves by listing those moves.
+    Show that the shortest possible game of \emph{Chutes and Ladders}
+    consists of \( 7 \) moves by listing those moves.
 \end{exercise}
 \begin{solution}
-  A possible path is to roll a $1$, to $38$; roll a $6$,  to
-  $44$; roll a $6$, to $50$; roll a $1$, to $67$; roll a $6$, to $73$;
-  roll a $6$, to $79$ and finally, roll a $1$ to ascend from $80$ to
-  $100$.  Examination of the first $6$ powers of the transition
-  probability matrix show that the probability of $6$ step paths from $38$ is
-  $0.007265947$ but $0$ for fewer than $6$ steps.
-  
-  Another possible path is roll a $4$, to $14$; roll a $6$,  to
-  $20$; roll a $6$, to $26$; roll a $2$, to $84$; roll a $6$, to $90$;
-  roll a $5$, to $75$ and finally, roll a $5$ to ascend from $80$ to
-  $100$. Examination of the first $6$ powers of the transition
-  probability matrix show that the probability of $6$ step paths from $14$ is
-  $0.001800412$ but $0$ for fewer than $6$ steps.
+    A possible path is to roll a \( 1 \), to \( 38 \); roll a \( 6 \),
+    to \( 44 \); roll a \( 6 \), to \( 50 \); roll a \( 1 \), to \( 67 \);
+    roll a \( 6 \), to \( 73 \); roll a \( 6 \), to \( 79 \) and
+    finally, roll a \( 1 \) to ascend from \( 80 \) to \( 100 \).
+    Examination of the first \( 6 \) powers of the transition
+    probability matrix show that the probability of \( 6 \) step paths
+    from \( 38 \) is \( 0.007265947 \) but \( 0 \) for fewer than \( 6 \)
+    steps.
+
+    Another possible path is roll a \( 4 \), to \( 14 \); roll a \( 6 \),
+    to \( 20 \); roll a \( 6 \), to \( 26 \); roll a \( 2 \), to \( 84 \);
+    roll a \( 6 \), to \( 90 \); roll a \( 5 \), to \( 75 \) and
+    finally, roll a \( 5 \) to ascend from \( 80 \) to \( 100 \).
+    Examination of the first \( 6 \) powers of the transition
+    probability matrix show that the probability of \( 6 \) step paths
+    from \( 14 \) is \( 0.001800412 \) but \( 0 \) for fewer than \( 6 \)
+    steps.
 \end{solution}
 
 \begin{exercise}
-Consider the effect of chutes and ladders on the waiting time to
-absorption.
-\begin{enumerate}
-\item  Find the expected waiting time to absorption in a game with
-    no chutes or ladders.
-    \item 
-    Insert a
-    ladder from state 46 to state 94.  What happens to the expected
-    waiting time?
-  \item  Instead  insert a chute from
-    state 83 to state $7$. What happens to the expected
-    waiting time?
-    \item Add a ladder to
-      the original game from state $79$ to state $81$. What happens to the expected
-    waiting time?
-    \item  Add a chute to the original game from state $29$ to
-      state $27$. What happens to the expected
-    waiting time?
-  \end{enumerate}
+    Consider the effect of chutes and ladders on the waiting time to
+    absorption.
+    \begin{enumerate}[label=(\alph*)]
+    \item
+        Find the expected waiting time to absorption in a game with no
+        chutes or ladders.
+    \item
+        Insert a ladder from state 46 to state 94.  What happens to the
+        expected waiting time?
+    \item
+        Instead insert a chute from state 83 to state \( 7 \).  What
+        happens to the expected waiting time?
+    \item
+        Add a ladder to the original game from state \( 79 \) to state \(
+        81 \).  What happens to the expected waiting time?
+    \item
+        Add a chute to the original game from state \( 29 \) to state \(
+        27 \).  What happens to the expected waiting time?
+\end{enumerate}
 \end{exercise}
 \begin{solution}
-  \begin{enumerate}
-  \item The expected length of a game with no chutes or ladders is $35.68571$.
-Here  \item      The expected length of the game drops
-    from about $39.2$ to about $29.8$; 
-  \item     The game lengthens to about $45.8$ moves.
-  \item       Lengthens the expected
-    playing time by more than two moves to about $41.9$, since it
-    increases the chances of missing the important ladder from state $80$
-    to $100$.
-    \item       Shortens the game by over a move to about $38.0$,
-     since it gives a second chance at the long ladder from $28$ to $84$.
-  \end{enumerate}
+    \begin{enumerate}[label=(\alph*)]
+    \item
+        The expected length of a game with no chutes or ladders is \(
+        35.68571 \).  Here
+    \item
+        The expected length of the game drops from about \( 39.2 \) to
+        about \( 29.8 \);
+    \item
+        The game lengthens to about \( 45.8 \) moves.
+    \item
+        Lengthens the expected playing time by more than two moves to
+        about \( 41.9 \), since it increases the chances of missing the
+        important ladder from state \( 80 \) to \( 100 \).
+    \item
+        Shortens the game by over a move to about \( 38.0 \), since it
+        gives a second chance at the long ladder from \( 28 \) to \( 84 \).
+\end{enumerate}
 \end{solution}
-  
-  \begin{exercise}
-    Investigate the following modifications to the small \emph{Count Your
-      Chickens!} game.
-    \begin{enumerate}
-    \item What effect does adding additional animals to the board (i.e., increasing the size of the
-      spinner) have?
-    \item What if the fox removes more than one chick from the coop?
-      \item What
-effect does changing the size of each character’s space in the spinner do? For example,
-what if the fox covered 1/3 of the spinner and the remaining five animals each took
-up 2/15 of the spinner?
-      \item What if some of the blue squares were colored green and
-had the effect of moving an additional two chicks into the coop? 
-      \item Create your own questions that can be analyzed using Markov chains and to modify
-the supplemental R code to answer the questions.
-    \end{enumerate}
-  \end{exercise}
-  \begin{solution}
-    This makes a good project for student investigation.
-  \end{solution}
-  
-  \begin{exercise}
-  For the game of \emph{Risk}, show that the probability of the attacker rolling
-    three dice, the defender rolling one die and the defender losing one army is
-    \( 855/1296 \).  That is, calculate $\pi_{310}$, the gray arrow in
-    Figure~\ref{fig:games:risktrans} and Table~\ref{tab:games:risktransprobs}.
-  \end{exercise}
-  \begin{solution}
-  Use the order statistic probability $Y^{(1)} = (3y^2 - 3 y + 1)/216$.
-    The possibilities for the defender to lose one army are the
-    following:
-    \begin{enumerate}
-    \item 
-    The largest die of the $3$ rolled by the attacker is a $2$, and
-    the value  rolled by the defender is $1$
-    which occurs with probability $\frac{7}{216} \cdot \frac{1}{6} =
-    \frac{7}{1296}$.
-  \item 
-    The largest die of the $3$ rolled by the attacker is a $3$, and
-    the value  rolled by the defender is $1$ or $2$
-    which occurs with probability $\frac{19}{216} \cdot \frac{2}{6} = \frac{38}{1296}$
-    The largest die of the $3$ rolled by the attacker is a $4$, and
-    the value  rolled by the defender is $1$ or $2$ or $3$.
-    which occurs with probability $\frac{37}{216} \cdot \frac{3}{6} = \frac{111}{1296}$
-    The largest die of the $3$ rolled by the attacker is a $5$, and
-    the value  rolled by the defender is $1$, $2$, $3$, or $4$
-    which occurs with probability $\frac{61}{216} \cdot \frac{4}{6} = \frac{244}{1296}$
-    The largest die of the $3$ rolled by the attacker is a $6$, and
-    the value  rolled by the defender is $1$, $2$, $3$, $4$, or $5$
-    which occurs with probability $\frac{91}{216} \cdot \frac{5}{6} = \frac{455}{1296}$
-    The total probability is $(7 + 38 + 111 + 244 + 455)/1296 = 855/1296$.
-    \end{enumerate}
-  \end{solution}
 
+\begin{exercise}
+    Investigate the following modifications to the small \emph{Count
+    Your Chickens!} game.
+    \begin{enumerate}[label=(\alph*)]
+    \item
+        What is the win probability if only square \( 2 \) is blue?
+        What is the win probability if squares \( 2 \), \( 3 \) and \( 5
+        \) are blue?
+    \item
+        What effect does adding additional animals to the board (i.e.,
+        increasing the size of the spinner) have?
+    \item
+        What if the fox removes more than one chick from the coop?
+    \item
+        What effect does changing the size of each character’s space
+        in the spinner do?  For example, what if the fox covered 1/3 of
+        the spinner and the remaining five animals each took up 2/15 of
+        the spinner?
+    \item
+        What if some of the blue squares were colored green and had the
+        effect of moving an additional two chicks into the coop?
+    \item
+        Create your own questions that can be analyzed using Markov
+        chains and to modify the supplemental R code to answer the
+        questions.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+    The win probability if only square \( 2 \) is blue s \( 0.5288 \)
+    The win probability if squares \( 2 \), \( 3 \) and \( 5 \) are blue
+    is \( 0,7761 \). The remaining questions make a good project for
+    student investigation.
+\end{solution}
+
+\begin{exercise}
+    For the game of \emph{Risk}, show that the probability of the
+    attacker rolling three dice, the defender rolling one die and the
+    defender losing one army is \( 855/1296 \).  That is, calculate \(
+    \pi_{310} \), the gray arrow in Figure~%
+    \ref{fig:games:risktrans} and Table~%
+    \ref{tab:games:risktransprobs}.
+\end{exercise}
+\begin{solution}
+    Use the order statistic probability \( Y^{(1)} = (3y^2 - 3 y + 1)/216
+    \).  The possibilities for the defender to lose one army are the
+    following:
+    \begin{enumerate}[label=(\alph*)]
+    \item
+        The largest die of the \( 3 \) rolled by the attacker is a \( 2 \),
+        and the value rolled by the defender is \( 1 \) which occurs
+        with probability \( \frac{7}{216} \cdot \frac{1}{6} = \frac{7}{1296}
+        \).
+    \item
+        The largest die of the \( 3 \) rolled by the attacker is a \( 3 \),
+        and the value rolled by the defender is \( 1 \) or \( 2 \) which
+        occurs with probability \( \frac{19}{216} \cdot \frac{2}{6} =
+        \frac{38}{1296} \) The largest die of the \( 3 \) rolled by the
+        attacker is a \( 4 \), and the value rolled by the defender is \(
+        1 \) or \( 2 \) or \( 3 \).  which occurs with probability \(
+        \frac{37}{216} \cdot \frac{3}{6} = \frac{111}{1296} \) The
+        largest die of the \( 3 \) rolled by the attacker is a \( 5 \),
+        and the value rolled by the defender is \( 1 \), \( 2 \), \( 3 \),
+        or \( 4 \) which occurs with probability \( \frac{61}{216} \cdot
+        \frac{4}{6} = \frac{244}{1296} \) The largest die of the \( 3 \)
+        rolled by the attacker is a \( 6 \), and the value rolled by the
+        defender is \( 1 \), \( 2 \), \( 3 \), \( 4 \), or \( 5 \) which
+        occurs with probability \( \frac{91}{216} \cdot \frac{5} {6} =
+        \frac{455}{1296} \) The total probability is \( (7 + 38 + 111 +
+        244 + 455)/1296 = 855/1296 \).
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}
+    Find the expected number of attacking armies remaining when
+    attacking an equal number of defending armies, for \( n = 20 \) to \(
+    n = 1 \).
+\end{exercise}
+\begin{solution}
+
+    \begin{tabular}{rrrrr}
+        20     & 19       & 18          & 17          & 16          \\ 
+        4.441  & 4.277    & 4.111       & 3.943       & 3.773       \\ 
+        15     & 14       & 13          & 12          & 11          \\ 
+        3.601  & 3.427    & 3.249       & 3.068       & 2.883       \\ 
+        10     & 9        & 8           & 7           & 6           \\ 
+        2.692  & 2.498    & 2.293       & 2.085       & 1.854       \\ 
+        5      & 4        & 3           & 2           & 1           \\ 
+        1.631  & 1.335    & 1.110       & 0.590       & 0.417
+    \end{tabular}
+\end{solution}
 \hr
 
 \visual{Books}{../../../../CommonInformation/Lessons/books.png}
@@ -1647,9 +1771,9 @@ the supplemental R code to answer the questions.
 \bibliography{../../../../CommonInformation/bibliography}
 
 %   \begin{enumerate}
-%     \item 
-%     \item 
-%     \item 
+%     \item
+%     \item
+%     \item
 %   \end{enumerate}
 
 \hr
@@ -1657,11 +1781,13 @@ the supplemental R code to answer the questions.
 \visual{Links}{../../../../CommonInformation/Lessons/chainlink.png}
 \section*{Outside Readings and Links:}
 \begin{enumerate}
-  \item  
-  \item  
-  \item  
-  \item 
+    \item
+    \item
+    \item
+    \item
 \end{enumerate}
+
+\section*{\solutionsname} \loadSolutions
 
 \hr
 
@@ -1671,7 +1797,22 @@ Last modified:  \flastmod
 
 \end{document}
 
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-master: t
-%%% End:
+File name                  : games.tex
+Number of characters       : 81683
+Number of words            : 9279
+Percent of complex words   : 13.77
+Average syllables per word : 1.6224
+Number of sentences        : 919
+Average words per sentence : 10.0968
+Number of text lines       : 1584
+Number of blank lines      : 210
+Number of paragraphs       : 190
+
+
+READABILITY INDICES
+
+Fog                        : 9.5480
+Flesch                     : 59.3339
+Flesch-Kincaid             : 7.4918
+
+
