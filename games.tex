@@ -1,0 +1,1367 @@
+%%% -*-LaTeX-*-
+%%% games.tex.orig
+%%% Prettyprinted by texpretty lex version 0.02 [21-May-2001]
+%%% on Wed May 18 10:43:23 2022
+%%% for Steve Dunbar (sdunbar@family-desktop)
+
+\documentclass[12pt]{article}
+
+\input{../../../../etc/macros} %% \input{../../../../etc/mzlatex_macros}
+\input{../../../../etc/pdf_macros}
+
+\bibliographystyle{plain}
+
+\setcounter{MaxMatrixCols}{14} %accommodate large matrices
+
+\begin{document}
+
+\myheader \mytitle
+
+\hr
+
+\sectiontitle{Games as Markov Chains}
+
+\hr
+
+\usefirefox
+
+\hr
+
+% \visual{Study Tip}{../../../../CommonInformation/Lessons/studytip.png}
+% \section*{Study Tip}
+
+% \hr
+
+\visual{Rating}{../../../../CommonInformation/Lessons/rating.png}
+\section*{Rating} %one of
+% Everyone: contains no mathematics.
+% Student: contains scenes of mild algebra or calculus that may require guidance.
+Mathematically Mature:  may contain mathematics beyond calculus with
+proofs.  % Mathematicians Only: prolonged scenes of intense rigor.
+
+\hr
+
+\visual{Section Starter Question}{../../../../CommonInformation/Lessons/question_mark.png}
+\section*{Section Starter Question} What feature of a board game is
+necessary for it to be modeled as a Markov chain?  Can you think of a
+board game that can be modeled as a Markov chain?
+
+\hr
+
+\visual{Key Concepts}{../../../../CommonInformation/Lessons/keyconcepts.png}
+\section*{Key Concepts}
+
+\begin{enumerate}
+    \item
+        \emph{Tenzi} is a simple dice game for multiple players.  The
+        gameplay of Tenzi for a single player can be modeled with a
+        Markov chain with \( 10 \) transient states and \( 1 \)
+        absorbing state.  Markov chain methods give the distribution of
+        the number of rolls necessary to complete the game, along with
+        the mean and variance.
+    \item
+        The \emph{Towers of Hanoi} is a mathematical game or puzzle.  It
+        consists of three rods and some number of disks of different
+        sizes, with holes in the center so each disk can slide onto any
+        rod.  The puzzle starts with the disks in a neat stack in
+        ascending order of size on one rod, the smallest at the top,
+        making a conical shape.  The objective of the puzzle is to move
+        the entire stack to another rod, obeying \( 3 \) rules.
+    \item
+        The childrens' game \emph{Chutes and Ladders} is a \( 100 \)
+        state Markov chain with a final absorbing state and Markov chain
+        methods give the expected playing time.
+    \item
+        \emph{Count Your Chickens!} is a cooperative counting game aimed
+        at preschoolers.  Absorbing Markov chains give the probability
+        of winning a game of \emph{Count Your Chickens!} and the
+        expected number of chicks at the end of the game.  The main
+        interest is classifying and counting the states, leading to a \(
+        165 \times 165 \) transition probability matrix.
+\end{enumerate}
+
+\hr
+
+\visual{Vocabulary}{../../../../CommonInformation/Lessons/vocabulary.png}
+\section*{Vocabulary}
+\begin{enumerate}
+    \item
+        \emph{Tenzi} is a simple dice game for multiple players.
+    \item
+        The \emph{Towers of Hanoi} is a mathematical game or puzzle.  It
+        consists of three rods and some number of disks of different
+        sizes, with holes in the center so each disk can slide onto any
+        rod.
+    \item
+        The childrens' game \emph{Chutes and Ladders} is a board game
+        that can be modeled as a \( 100 \) state Markov chain with a
+        final absorbing state.
+    \item
+        \emph{Count Your Chickens!} is a cooperative counting board game
+        aimed at preschoolers.
+\end{enumerate}
+
+\hr
+
+\section*{Notation}
+\begin{enumerate}
+    \item
+        \( i \), \( j \) -- typical states in a game Markov chain
+    \item
+        \( P(j) \) -- cumulative probability function for a player
+        getting Tenzi on or before the \( j \)th roll
+    \item
+        \( p(j)=P(j) - P(j - 1) \) -- probability density function for a
+        player getting Tenzi on the \( k \)th roll
+    \item
+        \[
+            P =
+            \begin{pmatrix}
+                Q & R \\
+                0 & I
+            \end{pmatrix}
+        \] transition probability matrix is already partitioned
+    \item
+        \( N \) matrix of expected number of rolls a player will spend
+        in each state
+    \item
+        \( m \) -- number of disks in Tower of Hanoi problem
+    \item
+        \( aaa, aba, \dots \) -- representation of the states for \( 3 \)
+    \item
+        \( (a, b) \) -- A state in \emph{Count Your Chickens!} as an
+        ordered pair where \( a \) is the mama chicken's position on the
+        board and \( b \) is the number of chicks in the coop
+    \item
+        \( b_i^R \) -- the number of blue squares after square \( i \)
+        on the path and
+    \item
+        \( b_i^L \) -- the number of blue squares that come before
+        square \( i \), including square \( i \)
+\end{enumerate}
+
+\visual{Mathematical Ideas}{../../../../CommonInformation/Lessons/mathematicalideas.png}
+\section*{Mathematical Ideas}
+
+This section examines \( 4 \) additional games as Markov chains.  The
+goal is to determine the expected number of moves or plays to reach a
+winning state.  The games have from \( 11 \) states to \( 165 \) states
+and another goal is to show how to construct the states and the
+transition probability matrices in these cases.
+
+\subsection*{Tenzi}
+
+\emph{Tenzi} is a simple dice game for multiple players.  Each player
+has \( 10 \) six-sided fair dice in their hands.  Taking turns, one
+player calls out, e.g., ``Tenzi Four!'' Everyone starts rolling their
+dice as quickly as possible.  Whenever a ``four'' comes up, the player
+sets it aside and rolls the remaining dice.  Eventually the player
+achieves all \( 10 \) ``fours'' and calls out ``Tenzi!'', becoming the
+winner of the round.%
+\index{\emph{Tenzi}}
+
+A Markov chain models the gameplay of \emph{Tenzi} for a single player.
+Each state in the Markov chain represents the player's accumulated
+number of dice matching the target number.  So at any point in the game,
+a player will be in one of the \( 11 \) states \( \set{0,1,2,3, \ldots,
+10} \).  A player in state \( 0 \) has not yet rolled any dice matching
+the target number, and a player in state \( 10 \) will call out
+``Tenzi!' Each time a player rolls the dice, the player has a chance to
+remain in the current state or to move up to a higher-numbered state.
+
+Each entry in the transition probability matrix is a binomial
+probability.  A player in state \( i \) rolls the remaining \( 10 - i \)
+dice.  The player moves up to state \( j > i \) if exactly \( j - i \)
+of the dice match the target number.  So, the probability of
+transitioning from state \( i \) to state \( j \) in one roll of the
+dice is \( \binom{10 - i}{j - i}\left( \frac{1}{6} \right)^{j - i} \left
+( \frac{5}{6} \right)^{10 - j} \) for \( 0 \le i \), \( j \le 10 \) and \(
+i \le j \).  A player will never go backwards to a previous state in the
+game, so the probability is \( 0 \) for \( i>j \).  Thus the states are
+not communicating, the Markov Chain is not recurrent, states \( 0 \)
+through \( 9 \) are transient and the state \( 10 \) is an absorbing
+state.~%
+\index{binomial probability}
+
+The full \( 11 \times 11 \) transition probability matrix \( P \) is
+approximately
+\begin{tiny}
+    \[
+        \begin{pmatrix}
+            0.162 & 0.323 & 0.291 & 0.155 & 0.0543 & 0.013 & 0.00217 &
+            2.48 \cdot {10^{-4}} & 1.86 \cdot {10^{-5}} & 8.27 \cdot {10^
+            {-7}} & 1.65 \cdot {10^{-8}}\\
+            0.0 & 0.194 & 0.349 & 0.279 & 0.13 & 0.0391 & 0.00781 &
+            0.00104 & 8.93 \cdot {10^{-5}} & 4.47 \cdot {10^{-6}} & 9.92
+            \cdot {10^{-8}}\\
+            0.0 & 0.0 & 0.233 & 0.372 & 0.26 & 0.104 & 0.026 & 0.00417 &
+            4.17 \cdot {10^{-4}} & 2.38 \cdot {10^{-5}} & 5.95 \cdot {10^
+            {-7}}\\
+            0.0 & 0.0 & 0.0 & 0.279 & 0.391 & 0.234 & 0.0781 & 0.0156 &
+            0.00188 & 1.25 \cdot {10^{-4}} & 3.57 \cdot {10^{-6}}\\
+            0.0 & 0.0 & 0.0 & 0.0 & 0.335 & 0.402 & 0.201 & 0.0536 &
+            0.00804 & 6.43 \cdot {10^{-4}} & 2.14 \cdot {10^{-5}}\\
+            0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.402 & 0.402 & 0.161 & 0.0322
+            & 0.00322 & 1.29 \cdot {10^{-4}}\\
+            0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.482 & 0.386 & 0.116 &
+            0.0154 & 7.72 \cdot {10^{-4}}\\
+            0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.579 & 0.347 &
+            0.0694 & 0.00463\\
+            0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.694 &
+            0.278 & 0.0278\\
+            0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.833
+            & 0.167\\
+            0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 &
+            1.0
+        \end{pmatrix}
+        .
+    \]
+\end{tiny}
+The initial distribution is \( X_0 = (1,0,0,0,0,0,0,0,0,0,0) \).  The
+value in the last place of \( X_k \) is the probability of reaching the
+absorbing or winning state for Tenzi in \( k \) or fewer rolls.  For
+example, the entry in the last entry of \( X_{20} \) is \( 0.7677 \).
+The player has a \( 76.77\% \) chance the game finishes by the \( 20 \)th
+roll.  The player may have finished on the \( 20 \)th roll, or possibly
+finished on some previous roll and is waiting in absorbing state \( 10 \).
+The resulting cumulative probability function \( P(j) \) for a player
+getting Tenzi on or before the \( j \)th roll is in Figure~%
+\ref{fig:games:tenzicdf}.  To find \( p(j) \), the probability of
+getting Tenzi in exactly \( j \) rolls, subtract the probability that
+the player already had Tenzi by the \( j - 1 \) roll.  This gives the
+probability density function \( p(j)=P(j) - P(j - 1) \) also shown in
+Figure~%
+\ref{fig:games:tenzicdf}.
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.33]{tenzi}
+    \caption{Probability density function (in blue) and cumulative
+    distribution function (in red) of waiting time to win in Tenzi.}%
+    \label{fig:games:tenzicdf}
+\end{figure}
+The maximum of this probability function is at \( j=13 \); a player has
+a \( 0.0705 \) probability of getting Tenzi on the \( 13 \)th roll.
+Using these probabilities, the mean of the distribution is \( \sum_{j=1}^
+{\infty} j p(j) \).  Approximate this sum through \( j=50 \) as \( 16.5 \).
+This is the average number of rolls needed for a player to get Tenzi.
+
+The fundamental matrix provides another way of finding the mean.~%
+\index{fundamental matrix}
+The transition probability matrix is already partitioned as
+\[
+    P =
+    \begin{pmatrix}
+        Q & R \\
+        0 & I
+    \end{pmatrix}
+\] where \( Q \) is the \( 10 \times 10 \) matrix containing the
+transition probabilities among the transient states, \( R \) is a \( 10
+\times 1 \) column matrix containing the probabilities of going from
+each of the non-absorbing states to state \( 10 \) in one roll, \( 0 \)
+is a \( 1 \times 10 \) zero matrix, and \( I \) is the \( 1 \times 1 \)
+identity matrix representing the absorbing state \( 10 \).  Then \( N \)
+is approximately
+\[
+    \begin{pmatrix}
+        1.193 & 0.478 & 0.669 & 0.787 & 0.915 & 1.097 & 1.371 & 1.828 &
+        2.742 & 5.485 \\
+        0.000 & 1.240 & 0.564 & 0.771 & 0.917 & 1.097 & 1.371 & 1.828 &
+        2.742 & 5.485 \\
+        0.000 & 0.000 & 1.303 & 0.673 & 0.905 & 1.099 & 1.371 & 1.828 &
+        2.742 & 5.485 \\
+        0.000 & 0.000 & 0.000 & 1.387 & 0.815 & 1.091 & 1.373 & 1.828 &
+        2.742 & 5.485 \\
+        0.000 & 0.000 & 0.000 & 0.000 & 1.504 & 1.010 & 1.368 & 1.829 &
+        2.742 & 5.485 \\
+        0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 1.672 & 1.298 & 1.826 &
+        2.743 & 5.485 \\
+        0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 1.931 & 1.769 &
+        2.742 & 5.485 \\
+        0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 2.374 &
+        2.697 & 5.485 \\
+        0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 &
+        3.273 & 5.455 \\
+        0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 &
+        0.000 & 6.000 \\
+    \end{pmatrix}
+    .
+\]
+
+The theorems from \link{http://www.math.unl.edu/~sdunbar1/ProbabilityTheory/Lessons/MarkovChains/WaitingTimeAbsorption/waitingtimeabsorption.pdf}
+{Waiting Time to Absorption} give a lot of information about the
+progress of the game.  The entry \( N_ {ij} \) (counting \( i \) and \(
+j \) from \( 0 \)) represents the expected number of turns spent in
+state \( j \) given that the player started in state \( i \).  Notice
+that the diagonal entries are all greater than \( 1 \).  If a player
+starts the game in state \( i \) then at least one roll, the first roll,
+is in state \( i \).  Entries in later states \( j>i \) can be less than
+\( 1 \) because it is possible for a player to skip a state entirely.
+Notice the \( 6 \) in the bottom right corner gives the average number
+of rolls spent in state \( 9 \) given that the player started in state \(
+9 \).  This makes sense; in state \( 9 \), the player has just one die
+left to roll.  It will take \( 6 \) rolls on average to roll the given
+target number, this is the mean of a geometric random variable with \( p
+= 1/6 \).  Since players start the game of \emph{Tenzi} in state \( 0 \)
+the first row of matrix \( N \) gives the expected number of rolls a
+player will spend in each state, see Table~%
+\ref{tab:games:tenzimean}.
+\begin{table}
+    \centering
+    \begin{tabular}{rrrrrrrrrr}
+        0    & 1    & 2    & 3    & 4    & 5    & 6    & 7    & 8    & 9    \\ 
+        1.19 & 0.48 & 0.67 & 0.79 & 0.92 & 1.10 & 1.37 & 1.83 & 2.74 & 5.48
+    \end{tabular}
+    \caption{Expected number of times the chain will be in each state.}%
+    \label{tab:games:tenzimean}
+\end{table}
+This makes sense, for state \( 0 \), there is always the first roll, but
+usually the player moves to another state.  For states \( 1 \) through \(
+4 \), it is common to get more than one of the target number, so those
+states often get skipped over.  For states \( 5 \) to \( 9 \), it takes
+increasingly longer to collect the target number.
+
+The sum of the first row is the mean number of turns to go from state \(
+0 \) to the absorbing state \( 10 \), specifically, \( 16.564849 \),
+agreeing with the approximate mean from the pdf.  The standard deviation
+of the number of turns the player will spend in state \( i \) before
+reaching the absorbing state \( 10 \) from state \( 0 \) is in Table~%
+\ref{tab:games:tenzisd}.
+\begin{table}
+    \centering
+    \begin{tabular}{rrrrrrrrrr}
+        0    & 1    & 2    & 3    & 4    & 5    & 6    & 7    & 8    & 9    \\ 
+        6.83 & 6.81 & 6.78 & 6.75 & 6.70 & 6.64 & 6.55 & 6.41 & 6.14 & 5.48
+    \end{tabular}
+    \caption{Standard deviation of the number of times the chain will be
+    in each state.}%
+    \label{tab:games:tenzisd}
+\end{table}
+This also makes sense; in state \( 9 \), then a player has just one die
+left to roll.  The entry \( 5.48 \) is the approximate standard
+deviation of a geometric random variable with \( p = 1/6 \).
+
+\subsection*{Random Moves in the Towers of Hanoi}
+
+The Towers of Hanoi (also called the Tower of Brahma or Lucas' Tower) is
+a mathematical game or puzzle.  It consists of three rods and some
+number of disks of different sizes, with holes in the center so each
+disk can slide onto any rod.  The puzzle starts with the disks in a neat
+stack in ascending order of size on one rod, the smallest at the top,
+making a conical shape.  The objective of the puzzle is to move the
+entire stack to another rod, obeying \( 3 \) rules.
+\begin{enumerate}
+    \item
+        Only one disk can be moved at a time.
+    \item
+        Each move consists of taking the top disk from one of the stacks
+        and placing it on top of another stack or on an empty rod.
+    \item
+        No larger disk may be placed on top of a smaller disk.
+\end{enumerate}
+
+Consider solving the small three disk case of Lucas' Tower puzzle with
+random legal moves.  The disks start with the biggest disk at the
+bottom, the intermediate size disk in the middle, and the smallest disk
+on top.  The goal is to move all three disks, one at a time, from one
+pole to another pole.  At no point can a larger disk sit atop a smaller
+disk.  See Figure~%
+\ref{fig:games:towerhanoi}
+\begin{figure}
+    \centering
+\begin{asy}
+size(5inches);
+
+real myfontsize = 12;
+real mylineskip = 1.2*myfontsize;
+pen mypen = fontsize(myfontsize, mylineskip);
+defaultpen(mypen);
+
+real basew = 3.0;
+real baseh = 0.10;
+
+real rodw = 0.1;
+real rodh = 0.75;
+
+real disk1diam  = 0.25;
+real disk2diam  = 0.50;
+real disk3diam  = 0.75;
+real diskh      = 0.1;
+real diskspace  = 0.05;
+
+real labelspace = 0.1;
+
+pair base1 = (0,0 );
+pair base2 = (basew,baseh);
+
+pair roda1 = (basew/4 - rodw/2, baseh);
+pair roda2 = (basew/4 + rodw/2, baseh+rodh);
+
+pair rodb1 = (2*basew/4 - rodw/2, baseh);
+pair rodb2 = (2*basew/4 + rodw/2, baseh+rodh);
+
+pair rodc1 = (3*basew/4 - rodw/2, baseh);
+pair rodc2 = (3*basew/4 + rodw/2, baseh+rodh);
+
+pair disk31 = (basew/4 - disk3diam/2, baseh + diskspace);
+pair disk32 = (basew/4 + disk3diam/2, baseh + diskspace + diskh);
+
+pair disk21 = (basew/4 - disk2diam/2, baseh + 2*diskspace + diskh);
+pair disk22 = (basew/4 + disk2diam/2, baseh + 2*diskspace + 2*diskh);
+
+pair disk11 = (basew/4 - disk1diam/2, baseh + 3*diskspace + 2*diskh);
+pair disk12 = (basew/4 + disk1diam/2, baseh + 3*diskspace + 3*diskh);
+
+picture p = new picture;
+size(p, 2inches);
+
+filldraw(p, box(base1, base2) );
+
+filldraw(p, box(roda1, roda2) );
+filldraw(p, box(rodb1, rodb2) );
+filldraw(p, box(rodc1, rodc2));
+
+pair disk31 = (basew/4 - disk3diam/2, baseh + diskspace);
+pair disk32 = (basew/4 + disk3diam/2, baseh + diskspace + diskh);
+
+pair disk21 = (basew/4 - disk2diam/2, baseh + 2*diskspace + diskh);
+pair disk22 = (basew/4 + disk2diam/2, baseh + 2*diskspace + 2*diskh);
+
+pair disk11 = (basew/4 - disk1diam/2, baseh + 3*diskspace + 2*diskh);
+pair disk12 = (basew/4 + disk1diam/2, baseh + 3*diskspace + 3*diskh);
+
+filldraw(p, box(disk31, disk32), gray );
+filldraw(p, box(disk21, disk22), gray );
+filldraw(p, box(disk11, disk12), gray );
+
+label( p, "$a$", (  basew/4, baseh + rodh + labelspace) );
+label( p, "$b$", (2*basew/4, baseh + rodh + labelspace) );
+label( p, "$c$", (3*basew/4, baseh + rodh + labelspace) );
+
+picture q = new picture;
+size(q, 2inches);
+
+filldraw(q, box(base1, base2) );
+
+filldraw(q, box(roda1, roda2) );
+filldraw(q, box(rodb1, rodb2) );
+filldraw(q, box(rodc1, rodc2) );
+
+pair disk31 = (2*basew/4 - disk3diam/2, baseh + diskspace);
+pair disk32 = (2*basew/4 + disk3diam/2, baseh + diskspace + diskh);
+
+pair disk21 = (3*basew/4 - disk2diam/2, baseh + diskspace);
+pair disk22 = (3*basew/4 + disk2diam/2, baseh + diskspace + diskh);
+
+pair disk11 = (3*basew/4 - disk1diam/2, baseh + diskspace + 2*diskh);
+pair disk12 = (3*basew/4 + disk1diam/2, baseh + diskspace + 3*diskh);
+
+
+filldraw(q, box(disk31, disk32), gray );
+filldraw(q, box(disk21, disk22), gray );
+filldraw(q, box(disk11, disk12), gray );
+
+label( q, "$a$", (  basew/4, baseh + rodh + labelspace) );
+label( q, "$b$", (2*basew/4, baseh + rodh + labelspace) );
+label( q, "$c$", (3*basew/4, baseh + rodh + labelspace) );
+
+add(p.fit(),(0,0), (0,0) );
+add(q.fit(),(0,0), (100,0) );
+\end{asy}
+    \caption{Starting configuration and a typical state in the Towers of
+    Hanoi puzzle.}%
+    \label{fig:games:towerhanoi}
+\end{figure}
+
+The minimum number of moves to solve the puzzle is well known:  \( m \)
+disks can be solved in exactly \( 2^m-1 \) moves.  The maximum number of
+legal moves to move all three disks from one pole to any other pole
+without repeating a configuration is \( 3^m-1 \).  The question here is:
+on average, how many moves does it take to solve this puzzle with \emph{random}
+legal moves of three disks?
+
+Label the rods from left to right as \( a \), \( b \), \( c \) as in
+Figure~%
+\ref{fig:games:towerhanoi}.  Represent the states for \( 3 \) disks as a
+triplet of values from \( \set{a,b,c} \).  The first entry in the
+triplet gets the rod label on which the smallest disk rests, the second
+entry in the triplet gets the rod label for the middle disk, and the
+third entry in the triplet gets the rod label on which the largest disk
+rests.  So the start is \( aaa \), the goal is either \( bbb \) or \(
+ccc \).  The configuration \( aba \) implies the smallest disk is on top
+of the largest disk, while the medium disk is on the middle rod labeled \(
+b \).  The puzzle with \( 3 \) disks has \( 27 \) legal configurations.
+
+The triplet labeling leads to an example of a \emph{puzzle graph}, in
+which the configurations of a puzzle or game are the nodes of a graph
+and legal moves between states are the edges of the puzzle graph.
+Figure~%
+\ref{fig:games:puzzlegraph} is the puzzle graph for the Towers of Hanoi.
+For example, the edge connecting \( aaa \) with \( baa \) represents the
+initial move of the smallest disk to the middle rod.  The puzzle graph
+for the Towers of Hanoi has a recursive ternary structure useful for
+analyzing the shortest and longest paths from the start \( aaa \) to the
+goals \( bbb \) or \( ccc \).  For this small random game just number
+the states from the source, top to bottom, left to right, as in Figure~%
+\ref{fig:games:puzzlegraph}
+
+\begin{figure}
+    \centering
+\begin{asy}
+size(5inches);
+
+real myfontsize = 12;
+real mylineskip = 1.2*myfontsize;
+pen mypen = fontsize(myfontsize, mylineskip);
+defaultpen(mypen);
+
+//////////////////////////////////////////////////////
+// code for the 'circle' shape from Nguyen Van Chi, 
+// inspired by the 'roundbox' shape (see 'plain_boxes.asy')
+path circle(frame dest, frame src=dest, real xmargin=0, real ymargin=xmargin,
+            pen p=currentpen, filltype filltype=NoFill, bool above=true)
+{ 
+pair m=min(src);
+pair M=max(src);
+pair bound=M-m;
+real a=bound.x+2*xmargin;
+real b=bound.y+2*ymargin;
+path g=shift(m-(xmargin,ymargin))*(circle((a/2,b/2),max(a,b)/2));
+frame F;
+ if(above == false) {
+    filltype.fill(F,g,p);
+    prepend(dest,F);
+  } else filltype.fill(dest,g,p);
+return g;
+}
+
+path circle(frame f, Label L, real xmargin=0, real ymargin=xmargin,
+            pen p=currentpen, filltype filltype=NoFill, bool above=true)
+{
+add(f,L);
+return circle(f,xmargin,ymargin,p,filltype,above);
+}
+//////////////////////////////////////////////////////
+
+void Puzzlegraph(pair A, real s, int q, bool top=true)
+{
+  pair B=A-(1,sqrt(2))*s/2;
+  pair C=B+s;
+  if(top) {
+    draw(A--B--C--cycle);
+  }
+  if(q > 0) {
+    Puzzlegraph(A,s/3,q-1,true);
+    Puzzlegraph( (1/3)*A+(2/3)*B, s/3,q-1,true);
+    Puzzlegraph( (1/3)*A+(2/3)*C, s/3,q-1,true);
+  }
+}
+//////////////////////////////////////////////////////
+
+
+real s = 1;
+pair A = (0,1);
+pair B=A-(1,sqrt(2))*s/2;
+pair C=B+s;
+
+
+Puzzlegraph((0,1),1,2);
+
+real margin=1.5mm;
+
+object aaa = draw("$aaa$", circle, A, FillDraw(white, black));
+object bbb = draw("$bbb$", circle, B, FillDraw(white, black));
+object ccc = draw("$ccc$", circle, C, FillDraw(white, black));
+
+object baa = draw("$baa$", circle, (8/9)*A + (1/9)*B, FillDraw(white, black));
+object bca = draw("$bca$", circle, (7/9)*A + (2/9)*B, FillDraw(white, black));
+object cca = draw("$cca$", circle, (6/9)*A + (3/9)*B, FillDraw(white, black));
+object ccb = draw("$ccb$", circle, (1/3)*A + (2/3)*B, FillDraw(white, black));
+object acb = draw("$acb$", circle, (2/9)*A + (7/9)*B, FillDraw(white, black));
+object abb = draw("$abb$", circle, (1/9)*A + (8/9)*B, FillDraw(white, black));
+
+object caa = draw("$caa$", circle, (8/9)*A + (1/9)*C, FillDraw(white, black));
+object cba = draw("$cba$", circle, (7/9)*A + (2/9)*C, FillDraw(white, black));
+object bba = draw("$bba$", circle, (6/9)*A + (3/9)*C, FillDraw(white, black));
+object bbc = draw("$bbc$", circle, (3/9)*A + (6/9)*C, FillDraw(white, black));
+object abc = draw("$abc$", circle, (2/9)*A + (7/9)*C, FillDraw(white, black));
+object acc = draw("$acc$", circle, (1/9)*A + (8/9)*C, FillDraw(white, black));
+
+object cbb = draw("$cbb$", circle, (8/9)*B + (1/9)*C, FillDraw(white, black));
+object cab = draw("$cab$", circle, (7/9)*B + (2/9)*C, FillDraw(white, black));
+object aab = draw("$aab$", circle, (6/9)*B + (3/9)*C, FillDraw(white, black));
+object aac = draw("$aac$", circle, (3/9)*B + (6/9)*C, FillDraw(white, black));
+object bac = draw("$bac$", circle, (2/9)*B + (7/9)*C, FillDraw(white, black));
+object bcc = draw("$bcc$", circle, (1/9)*B + (8/9)*C, FillDraw(white, black));
+
+object aca = draw("$aca$", circle, (6/9)*A + (2/9)*B + (1/9)*C, FillDraw(white, black));
+object aba = draw("$aba$", circle, (6/9)*A + (1/9)*B + (2/9)*C, FillDraw(white, black));
+
+object bcb = draw("$bcb$", circle, (2/9)*A + (6/9)*B + (1/9)*C, FillDraw(white, black));
+object bab = draw("$bab$", circle, (1/9)*A + (6/9)*B + (2/9)*C, FillDraw(white, black));
+
+object cbc = draw("$cbc$", circle, (2/9)*A + (1/9)*B + (6/9)*C, FillDraw(white, black));
+object cac = draw("$cac$", circle, (1/9)*A + (2/9)*B + (6/9)*C, FillDraw(white, black));
+\end{asy}
+    \caption{The puzzle graph for the three disk Towers of Hanoi.}%
+    \label{fig:games:puzzlegraph}
+\end{figure}
+
+Selecting each move uniformly randomly from the set of all valid moves
+from any node to any adjacent node (except for the goal nodes which are
+absorbing) defines a random walk on the graph or a Markov chain.  The
+two goals, now states \( 20 \) and \( 27 \), are absorbing states.  Most
+transition probabilities between states are \( 1/3 \), except for the
+start and end states.  The recursive ternary labeling of the nodes is
+not immediately useful for analysis of this \( 27 \)-state Markov chain.
+The script for this Markov chain calculates the mean absorption time as \(
+70.77 \) moves.  T. Berger and M. Alekseyev
+\cite{Alekseyev2015} give two proofs that the mean time to absorption
+for the \( N \)-disk Tower of Hanoi puzzle with random moves is
+\[
+    \frac{(3^m-1)(5^m- 3^m)}{4 \cdot 3^{m-1}}.
+\] One proof uses recurrence relations, the other proof uses an
+equivalence of Markov chains to electrical networks.
+
+\subsection*{Chutes and Ladders}
+
+The childrens' game \emph{Chutes and Ladders} (known in the United
+Kingdom as \emph{Snakes and Ladders}) derives from an old Hindu game
+\emph{Leela} or \emph{Moksha Patam} teaching moral lessons.  The game
+described here is the modified U.S.\ version.  The game is a \( 100 \)
+state absorbing Markov chain and the goal is to investigate the expected
+playing time.~%
+\index{\emph{Chutes and Ladders}}
+
+The game is for two or more players.  The game play is on a \( 10 \) by \(
+10 \) board with squares numbered \( 1 \) to \( 100 \) that are the
+states of the game.  Rather than add an additional state \( 0 \) as the
+starting position, instead make an initial uniform distribution of
+starting states, see below for details.  (The scripts in the R
+statistical computing language which indexes vectors from \( 1 \) in
+contrast to say, Python, which indexes from \( 0 \) motivates this
+choice of \( 100 \) states with an initial distribution.  With \( 101 \)
+states including a starting state, the state indices would be one
+greater than the spaces marked on the board, leading to potential
+confusion.) Since the goal is to find the expected playing time, add \(
+1 \) to the playing time for the initial move to be in one of the
+starting states.  Players roll a fair six-sided die (or use a fair
+six-section spinner) to determine how many squares to advance their
+token on each turn.  Two or more players may occupy the same square
+simultaneously.  The first player to reach square \( 100 \) exactly
+wins.  In the final \( 5 \) states, if a move would take a player beyond
+the last square, the player does not move.  The game board is also
+marked with chutes and ladders connecting various squares on the board.
+The special feature of the game is that if a token lands on a square at
+the bottom of a ladder the token immediately moves to the top of the
+ladder.  Similarly if the token lands on a square at the top of a chute,
+it immediately moves to the bottom of the chute.  The game has \( 10 \)
+chutes and \( 9 \) ladders with beginning and end states given by the
+following ordered pairs
+\begin{itemize}
+    \item
+        Ladders:  \( (1,38) \), \( (4,14) \), \( (9,31) \), \( (21,42) \),
+        \( (28,84) \), \( (36, 44) \), \( (51,67) \), \( (71,91) \), \(
+        (80, 100) \);
+    \item
+        Chutes:  \( (16,6) \), \( (47,26) \), \( (49,11) \), \( (56,53) \),
+        \( (62,19) \), \( (64,60) \), \( (87,24) \), \( (93,73) \), \( (95,75)
+        \), \( (98,78) \).
+\end{itemize}
+This means that \( 19 \) states, the beginnings of the chutes and
+ladders, are inaccessible states.  For example, a player is never
+actually in state \( 1 \), for if the token lands on square \( 1 \), the
+ladder \( (1,38) \) immediately deposits the player into state \( 38 \).
+Although the game is a race among two or more players, the players move
+independently, so it is sufficient to consider just one player moving
+and ask ``How long does it typically take a single player to finish a
+game by reaching square \( 100 \)?''
+
+Although the game has \( 100 \) squares, it is possible to model the
+game as a Markov chain with fewer states, see
+\cite{althoen93}.  Adding a starting state \( 0 \), but deleting each
+inaccessible state corresponding to a chute or a ladder leaves \( 82 \)
+states.  The probability transition matrix is an \( 82 \times 82 \)
+matrix with most rows containing \( 6 \) consecutive probabilities of \(
+1/6 \) each.  There are two kinds of exceptions.  A row corresponding to
+any state reachable from a chute or ladder must account for the
+long-distance transitions by the chute or ladder.  The last \( 5 \) rows
+show the fact that a player must reach state \( 100 \) exactly, a die
+roll causing the player to go past state \( 100 \) results in no move.
+
+Here the model uses a \( 100 \)-state Markov chain with a \( 100 \times
+100 \) transition probability matrix derived from matrices analogous to
+those in the Monopoly model.  First use a \( 100 \times 100 \) circulant
+(almost, excepting the last \( 5 \) rows) dice roll matrix \( R \)
+followed by sparse \( 100 \times 100 \) chutes and ladders transition
+matrices \( C \) and \( L \).  The matrix \( L \) is just the identity
+matrix but, for instance the \( 1 \) in row \( 1 \) and column \( 1 \),
+moves to row \( 1 \) and column \( 38 \) to indicate ladder \( (1,38) \).
+Likewise for the \( 18 \) other ladders and chutes.  The result \( RLC \)
+is a \( 100 \times 100 \) transition probability matrix with transient
+states \( 1 \) through \( 99 \) and absorbing state \( 100 \).  The game
+starts in states \( 38 \), \( 2 \), \( 3 \), \( 14 \), \( 5 \) and \( 6 \),
+each with probability \( \frac{1} {6} \).  The expected waiting time to
+absorption is the average over the expected waiting time to absorption
+from each state, \( \frac{1}{6}\left( W(38) + W(2) + W(3) + W(14) + W(5)
++ W(6) \right) = 38.22512 \).  Adding \( 1 \) for the initial move to
+the starting states gives \( 39.22512 \), agreeing with
+\cite{althoen93}.  Using Theorem 3 from \link{http://www.math.unl.edu/~sdunbar1/ProbabilityTheory/Lessons/MarkovChains/WaitingTimeAbsorption/waitingtimeabsorption.pdf}
+{Waiting Time to Absorption} the standard deviation of the waiting time
+to absorption is approximately \( 25.2 \) turns.  As a final note,
+observe that the waiting time to absorption from state \( 99 \) is \( 6 \)
+with standard deviation \( \sqrt{30} \approx 5.48 \), exactly as
+expected for a geometric random variable with \( p=1/6 \), waiting to
+roll a \( 1 \) to enter the last state.~%
+\index{geometric random variable}
+
+In
+\cite{althoen93} the authors investigate the sensitivity of the waiting
+time to adding or removing chutes and ladders.  For example, the
+expected waiting time to absorption for a game with no chutes and
+ladders is \( 34.68571 \) moves.  See the exercises for some examples.
+
+\subsection*{Count Your Chickens}
+
+\emph{Count Your Chickens!}, produced by Peaceable Kingdom, is a simple
+game for preschoolers.~%
+\index{\emph{Count Your Chickens!}}
+In this cooperative game, play begins with forty chicks spread
+throughout the board and a mama chicken at the start square.  The end
+square is the mama chicken's coop, and the mama chicken moves
+progressively closer to this square as the game unfolds.  The object of
+the game is to have all \( 40 \) chicks in the chicken coop when the
+mama chicken arrives there.  The game board has \( 41 \) squares
+numbered in order, with \( 30 \) squares containing one of five
+characters:  a cow, a sheep, a pig, a dog, or a tractor.  The remaining \(
+11 \) squares are empty and neutral.  Five of the character squares have
+a blue background.  The final square, the chicken coop, contains all \(
+5 \) farm characters.  Players take turns spinning a spinner with 6
+segments of equal area.  Five segments match the farm characters from
+the board and a sixth segment has a fox character.  When a player spins
+the spinner, one of two things can happen.  If the player spins one of
+the five characters drawn on the board, she moves the mama chicken token
+along the path toward the coop to the next instance of the character.
+The player counts the squares moved, and adds this number of chicks to
+the chicken coop.  Additionally, if the square landed on has a blue
+background, the player adds one additional chick to the coop.  There are
+only a total of \( 40 \) chicks on the board though, so if the mama
+chicken moves two squares but there are already 39 chicks in the coop,
+only one chick gets added.  If a fox is spun, the player must remove one
+chick from the coop and place it back on the board.  If there are no
+chicks in the coop then spinning a fox has no effect.
+
+For example, suppose the mama chicken is at the start square.  If the
+player spins a sheep, then the mama chicken moves to square \( 2 \) (the
+first sheep) and places two chicks in the coop.  If the player next
+spins a tractor then the mama chicken moves \( 2 \) squares to square \(
+4 \) and places \( 3 \) more chicks in the coop because square \( 4 \)
+is blue.  If the first spin is a fox then nothing happens because at the
+start of the game there are no chicks in the coop.  The game continues
+in this manner until the mama chicken reaches the coop.  The players win
+if all \( 40 \) chicks are in the coop when the mama chicken arrives
+there; otherwise the players lose, this is a cooperative game.
+
+The goal here is to answer the following questions:
+\begin{enumerate}
+    \item
+        What is the probability of winning a game of \emph{Count Your
+        Chickens!}?  That is, what is the probability of landing on
+        square \( 40 \) with \( 40 \) chicks in the coop?
+    \item
+        What is the expected number of chicks in the coop at the end of
+        the game?
+    \item
+        What effect do the blue squares have on the probability of
+        winning the game?  For example, the original game has five
+        particular squares colored blue; are there other choices of five
+        blue squares that increase the probability of winning the game?
+\end{enumerate}
+
+The mathematical interest here is creating the state space, leading to a
+large transition probability matrix.  A state in \emph{Count Your
+Chickens!} is an ordered pair \( (a, b) \) where \( a \) is the mama
+chicken's position on the board and \( b \) is the number of chicks in
+the coop.  For win probabilities only, to minimize the number of states
+and cut down on computation, include a ``loss'' state and a ``win''
+state.  The idea is that while \( (39, 35) \), for example, is a
+possible state of the game, it is impossible to win from such a
+configuration.  Lump together all such ordered pairs from which it is
+impossible to win as a loss state.  The win state is \( (40, 40) \), the
+mama chicken must reach the last square of the board with all of the
+chicks in the coop.
+
+The following example illustrates the construction of such a chain with
+a smaller board, see Figure~%
+\ref{fig:games:smallchickens}.
+
+\begin{example}
+    This smaller game uses only two farm characters -- a sheep and a
+    cow.  There are \( 8 \) squares on the board after the start square
+    and \( 8 \) chicks to return to the coop.  The spinner has three
+    equal-sized segments illustrated with a cow, a sheep, and a fox.
+    Number only the squares with a character, since it is not possible
+    to land on a blank square.
+
+    \begin{figure}
+        \centering
+\begin{asy}
+        size(5inches);
+
+        real myfontsize = 12;
+        real mylineskip = 1.2*myfontsize;
+        pen mypen = fontsize(myfontsize, mylineskip);
+        defaultpen(mypen);
+
+        import math;
+
+        for (int j=0; j<9; ++j){ label(format("%i", j), (j,1));}
+
+          add( shift(-0.2, 0.2)*grid(9, 1) );
+          fill( box((1.8,0.2), (2.8,1.2)), lightblue+opacity(0.5));
+          fill( box((4.8,0.2), (5.8, 1.2)),lightblue+opacity(0.5));
+
+          label("Start", (0.3, 0.7));
+          label("Sheep", (2.3, 0.7));
+          label("Cow",   (3.3, 0.7));
+          label("Cow",   (5.3, 0.7));
+          label("Sheep", (7.3, 0.7));
+
+          label("\footnotesize{Coop}", (8.45, 1.0));
+          label("Sheep", (8.3, 0.7));
+          label("Cow",   (8.3, 0.4));
+\end{asy}
+        \caption{Smaller game board for the example \emph{Count Your
+        Chickens!} }%
+        \label{fig:games:smallchickens}
+    \end{figure}
+
+    A state of the game is an ordered pair \( (i, j) \) where \( i \) is
+    the position of the mama chicken and \( j \) is the number of chicks
+    in the coop.  Identify some pairs with the loss state because if \(
+    j \) is small enough relative to the mama chicken's position, it
+    will be impossible for all \( 8 \) chicks to be in the coop at the
+    end of the game.  The state \( (2, 0) \) is such an example:  if the
+    mama chicken is on square \( 2 \) and there are no chicks in the
+    coop, the game will end with at most \( 7 \) chicks in the coop.
+    Let \( b_i^R \) be the number of blue squares after square \( i \)
+    on the path and \( b_i^L \) the number of blue squares that come
+    before square \( i \), including square \( i \).  Note \( b_i^R + b_i^L
+    \) is the total number of blue squares in the game.  Then for square
+    \( i \), the states are \( (i, j ) \) with \( \max(i - b_i^R, 0) \le
+    j \le \min(i + b_i^L, 8) \).  For example, for square \( 3 \), \( b_3^R
+    = 1 \) and \( b_3^L = 1 \) since there is one blue square to the
+    right of square \( 3 \) and one blue square to the left of square \(
+    3 \).  Thus square \( 3 \) corresponds to possible states \( (3, 2) \),
+    \( (3, 3) \), \( (3, 4) \).  It is not possible to have more than \(
+    4 \) chicks in the coop on square \( 3 \), and if the coop has \( 0 \)
+    or \( 1 \) chicks on square \( 3 \) it is impossible to win the
+    game.  All the states are
+    \begin{multline*}
+        \left\{(0, 0), (2, 1), (2, 2), (2, 3), (3, 2), (3, 3), \right.\\
+        \left.  (3, 4), (5,5), (5, 6), (5, 7), (7, 7), (7, 8), \text{win},
+        \text{loss} \right\}
+    \end{multline*}
+    for this board.  For the purposes of building a transition matrix
+    think of \( (0, 0) \) as state \( 1 \), \( (2, 1) \) as state \( 2 \),
+    \( (2, 2) \) as state \( 3 \), \dots, and ``loss'' as state \( 14 \).
+    Entry \( p_{i,j} \) in the transition matrix for the game is the
+    probability of moving from state \( i \) to state \( j \).  For
+    example, in row \( 1 \) of the transition matrix, start in position \(
+    (0, 0) \) on the game board.  There is a \( 1/3 \) probability of
+    rolling a fox; this spin keeps the token in position \( (0, 0) \),
+    so \( p_{1,1} = 1/3 \).  Spinning a sheep is the next possibility,
+    putting the token in position \( (2, 3) \), or a cow, putting the
+    token in position \( (3, 3) \).  This gives \( p_{1,4} = 1/3 \) and \(
+    p_{1,6} = 1/3 \).  All other entries in row \( 1 \) are \( 0 \).
+    Starting in state \( (2, 1) \), then spinning the sheep puts the
+    token in position \( (7, 6) \), or the loss state, because if there
+    are only \( 6 \) chicks in the coop upon reaching square \( 7 \), it
+    is impossible to win.  Spinning the fox also puts the game in the
+    loss state, so entry \( p_{2,14} = 2/3 \).  Spinning the cow puts
+    the game in state \( (3, 2) \), so \( p_{2,5} = 1/3 \).  All other
+    entries in row two are \( 0 \).  Continuing in this way, the
+    transition matrix for this game is
+    \[
+        \begin{pmatrix}
+            \frac{1}{3} & 0     & 0     & \frac{1}{3}   & 0     & \frac{1}
+            {3} & 0     & 0     & 0     & 0     & 0     & 0     & 0
+            & 0\\
+            0   & 0     & 0     & 0     & \frac{1}{3}   & 0     & 0
+            & 0 & 0     & 0     & 0     & 0     & 0     & \frac{2}{3}\\
+            0   & \frac{1}{3}   & 0     & 0     & 0     & \frac{1}{3}
+            & 0 & 0     & 0     & 0     & \frac{1}{3}   & 0     & 0
+            & 0\\
+            0   & 0     & \frac{1}{3}   & 0     & 0     & 0     & \frac{1}
+            {3} & 0     & 0     & 0     & 0     & \frac{1}{3}   & 0
+            & 0\\
+            0   & 0     & 0     & 0     & 0     & 0     & 0     & \frac{1}
+            {3} & 0     & 0     & 0     & 0     & 0     & \frac{2}{3}\\
+            0   & 0     & 0     & 0     & \frac{1}{3}   & 0     & 0
+            & 0 & \frac{1}{3}   & 0     & \frac{1}{3}   & 0     & 0
+            & 0\\
+            0   & 0     & 0     & 0     & 0     & \frac{1}{3}   & 0
+            & 0 & 0     & \frac{1}{3}   & 0     & \frac{1}{3}   & 0
+            & 0\\
+            0   & 0     & 0     & 0     & 0     & 0     & 0     & 0
+            & 0 & 0     & \frac{1}{3}   & 0     & \frac{1}{3}   & \frac{1}
+            {3}\\
+            0   & 0     & 0     & 0     & 0     & 0     & 0     & \frac{1}
+            {3} & 0     & 0     & 0     & \frac{1}{3}   & \frac{1}{3}
+            & 0\\
+            0   & 0     & 0     & 0     & 0     & 0     & 0     & 0
+            & \frac{1}{3}       & 0     & 0     & \frac{1}{3}   & \frac{1}
+            {3} & 0\\
+            0   & 0     & 0     & 0     & 0     & 0     & 0     & 0
+            & 0 & 0     & 0     & 0     & \frac{2}{3}   & \frac{1}{3}\\
+            0   & 0     & 0     & 0     & 0     & 0     & 0     & 0
+            & 0 & 0     & \frac{1}{3}   & 0     & \frac{2}{3}   & 0\\
+            0   & 0     & 0     & 0     & 0     & 0     & 0     & 0
+            & 0 & 0     & 0     & 0     & 1     & 0\\
+            0   & 0     & 0     & 0     & 0     & 0     & 0     & 0
+            & 0 & 0     & 0     & 0     & 0     & 1
+        \end{pmatrix}
+        .
+    \]
+
+    The state and transition probability matrix models the small game as
+    an absorbing Markov chain.  The loss and win states are both
+    absorbing since each of these states transitions to itself with
+    probability \( 1 \), and it is possible to reach one of these two
+    states from any other state.  The transition matrix is in the
+    canonical form
+    \[
+        \begin{pmatrix}
+            Q   & R \\
+            0   & I
+        \end{pmatrix}
+    \] where \( I \) is the identity matrix.  With the transition matrix
+    in canonical form, the fundamental matrix is
+    \[
+        N = (I - Q)^{-1} =
+        \begin{pmatrix}
+            \frac{3}{2} & \frac{1}{18}  & \frac{1}{6}   & \frac{1}{2}
+            & \frac{2}{9}       & \frac{11}{18} & \frac{1}{6}   & \frac{4}
+            {27}        & \frac{2}{9}   & \frac{1}{18}  & \frac{67}{162}
+                & \frac{17}{54}\\
+            0   & 1     & 0     & 0     & \frac{1}{3}   & 0     & 0
+            & \frac{1}{9}       & 0     & 0     & \frac{1}{27}  & 0\\
+            0   & \frac{1}{3}   & 1     & 0     & \frac{2}{9}   & \frac{1}
+            {3} & 0     & \frac{1}{9}   & \frac{1}{9}   & 0     & \frac{40}
+            {81}        & \frac{1}{27}\\
+            0   & \frac{1}{9}   & \frac{1}{3}   & 1     & \frac{1}{9}
+            & \frac{2}{9}       & \frac{1}{3}   & \frac{2}{27}  & \frac{1}
+            {9} & \frac{1}{9}   & \frac{31}{81} & \frac{14}{27}\\
+            0   & 0     & 0     & 0     & 1     & 0     & 0     & \frac{1}
+            {3} & 0     & 0     & \frac{1}{9}   & 0\\
+            0   & 0     & 0     & 0     & \frac{1}{3}   & 1     & 0
+            & \frac{2}{9}       & \frac{1}{3}   & 0     & \frac{4}{9}
+            & \frac{1}{9}\\
+            0   & 0     & 0     & 0     & \frac{1}{9}   & \frac{1}{3}
+            & 1 & \frac{1}{9}   & \frac{2}{9}   & \frac{1}{3}   & \frac{26}
+            {81}        & \frac{14}{27}\\
+            0   & 0     & 0     & 0     & 0     & 0     & 0     & 1
+            & 0 & 0     & \frac{1}{3}   & 0\\
+            0   & 0     & 0     & 0     & 0     & 0     & 0     & \frac{1}
+            {3} & 1     & 0     & \frac{2}{9}   & \frac{1}{3}\\
+            0   & 0     & 0     & 0     & 0     & 0     & 0     & \frac{1}
+            {9} & \frac{1}{3}   & 1     & \frac{5}{27}  & \frac{4}{9}\\
+            0   & 0     & 0     & 0     & 0     & 0     & 0     & 0
+            & 0 & 0     & 1     & 0\\
+            0   & 0     & 0     & 0     & 0     & 0     & 0     & 0
+            & 0 & 0     & \frac{1}{3}   & 1
+        \end{pmatrix}
+        .
+    \]%
+    \index{fundamental matrix}
+    Let \( B = N R \).  If the game is in the \( i \)th non-absorbing
+    state then the probability that the game terminates by reaching the \(
+    j \)th absorbing state is \( b_{ij} \).  Then
+    \[
+        B =
+        \begin{pmatrix}
+            \frac{305}{486}     & \frac{181}{486}\\
+            \frac{5}{81}        & \frac{76}{81}\\
+            \frac{104}{243}     & \frac{139}{243}\\
+            \frac{170}{243}     & \frac{73}{243}\\
+            \frac{5}{27}        & \frac{22}{27}\\
+            \frac{5}{9} & \frac{4}{9}\\
+            \frac{190}{243}     & \frac{53}{243}\\
+            \frac{5}{9} & \frac{4}{9}\\
+            \frac{22}{27}       & \frac{5}{27}\\
+            \frac{73}{81}       & \frac{8}{81}\\
+            \frac{2}{3} & \frac{1}{3}\\
+            \frac{8}{9} & \frac{1}{9}
+        \end{pmatrix}
+        .
+    \]
+\end{example}
+From the first row of \( B \), this game has a win probability of \(
+305/486 \approx 0.6276 \) and a loss probability of \( 181/486 \approx
+0.3724 \) when a player begins from the start square.  One of the nice
+aspects of using a Markov chain for these calculations is that a player
+can update the win probability moving through the game.  For example,
+suppose in two turns the player starts by spinning a sheep and then
+spins a fox.  The coop would first gain \( 3 \) chicks, then lose a
+chick. This state of the game corresponds to the state \( (2, 2) \),
+which corresponds to the third row of \( B \).  Therefore in such a
+situation the player would know that her win probability is now only \(
+104/243 \approx 0.4780 \).
+
+The computations for the general game are similar except that the
+matrices \( Q \) and \( R \) are much larger.  \( Q \) is \( 163 \times
+163 \) and \( R \) is \( 163 \times 2 \) and therefore \( B \) is \( 163
+\times 2 \).  It is impractical to enter and compute with such large
+matrices by hand.  The Scripts section has an R program to build the
+matrices and compute the win probability.  The matrix \( Q \) in the
+full game looks similar to the matrix \( Q \) in the small example:  the
+matrix is mostly zeroes punctuated sparsely with small diagonals of
+entries of value \( 1/6 \), instead of \( 1/3 \).  The top left entry of
+\( B \) in this case is \( 0.6410 \), and the probability of winning a
+game of \emph{Count Your Chickens!} is \( 0.641 \).  The length of the
+game from the start state to absorption in the win or loss states is \(
+10.83 \) moves, with a varaince of \( 4.43 \) moves.
+
+\visual{Section Starter Question}{../../../../CommonInformation/Lessons/question_mark.png}
+\section*{Section Ending Answer} The future development of the game at a
+turn must be independent of the past to model the game as a Markov
+chain.  Games depending on a randomizing device, such as a dice rolls or
+a spinner, can often be modeled as a Markov chain.  Examples in this
+section are the games of \emph{Tenzi}, \emph{Chutes and Ladders}, and
+\emph{Count Your Chickens!}.
+
+\subsection*{Sources}
+
+The subsection on \emph{Tenzi} is adapted from
+\cite{bacinski20}. The \emph{Towers of Hanoi} example is adapted from
+https://fivethirtyeight.com/features/can-you-cross-like-a-boss/
+Background information is from
+http://www.cut-the-knot.org/recurrence/hanoi.shtml Puzzle graphs are
+examined in more detail in https://www.cut-the-knot.org/do\_you\_know/graphs2.shtml
+The labeling of the states is from https://en.wikipedia.org/wiki/Tower\_of\_Hanoi
+The reference to the Alekseyev-Berger paper is
+\cite{Alekseyev2015} The subsection on Chutes and Ladders is adapted
+from
+\cite{althoen93}.  The subsection on Count Your Chickens is adapted
+from
+\cite{mccune19}.
+
+\hr
+
+\visual{Algorithms, Scripts, Simulations}{../../../../CommonInformation/Lessons/computer.png}
+\section*{Algorithms, Scripts, Simulations}
+
+\subsection*{Algorithm}
+\begin{algorithm}[H]
+  \DontPrintSemicolon
+  \KwData{States and transition probabilities for Tenzi}
+  \KwResult{Mean and standard deviation of waiting time to win}
+  \KwResult{Plots of pdf and cdf of waiting time}
+  \BlankLine
+  \emph{Initialization of Matrices}\;
+  Load transition probability matrix\;
+  \For{$i = 2:50$}{
+  Iteratively compute powers of P\;
+  Add (1,11) entry to cdf list\;}
+  Differences of cdf are the pdf\;
+  Check total probability and approximate mean\;
+  \BlankLine
+  Extract transient probability submatrix\;
+  Compute fundamental matrix with matrix inversion\;
+  Calculate mean from fundamental matrix\;
+  Calculate variance of waiting times\;
+  Print mean and standard variation\;
+  Plot pdf and cdf functions\;
+  \caption{Tenzi Ladders Game Markov Chain.}
+\end{algorithm}
+
+\begin{algorithm}[H]
+  \DontPrintSemicolon
+  \KwData{States and transition probabilities for Chutes and Ladders}
+  \KwResult{Mean and standard deviation of waiting time to win}
+  \BlankLine
+  \SetKwFunction{Frotvec}{rotvec}
+  
+  \SetKwProg{rot}{function}{}{}
+  \rot{\Frotvec($v$)}{}{
+    Cyclically rotate vector elements one place to right\;
+    \Return rotated vector\;}
+
+  \BlankLine
+    
+  \emph{Inititialization of Matrices}\;
+  Load Markov Chain library\;
+  Set number of states and state names\;
+  Fill (almost) diceRoll matrix using \Frotvec\;
+  Fill diagonal Ladder matrix with moves from ladders\;
+  Fill diagonal Chutes matrix with moves from chutes\;
+  Transition probability matrix as product of diceRoll, Ladders, Chutes
+  Transition matrix is product of dice roll, ladders and chutes\;
+  \emph{Markov chain calculations}\;
+  Create Chutes and Ladders Markov chain object\;
+  Compute mean absorption time with library function\;
+  Extract transient probability submatrix\;
+  Compute fundamental matrix with matrix inversion\;
+  Calculate mean from fundamental matrix\;
+  Calculate variance of waiting times\;
+  Print mean and standard variation\;
+  \caption{Chutes and Ladders Game Markov Chain.}
+\end{algorithm}
+
+\subsection*{Scripts}
+
+\input{games_scripts}
+
+\hr
+
+\visual{Problems to Work}{../../../../CommonInformation/Lessons/solveproblems.png}
+\section*{Problems to Work for Understanding}
+
+\renewcommand{\theexerciseseries}{}
+\renewcommand{\theexercise}{\arabic{exercise}}
+
+\begin{exercise}
+    The CDF and PDF functions \( P(j) \) and \( p(j) \) above
+    respectively summarize the probability that a single player will get
+    Tenzi in \( j \) rolls.  What if \( n \) people are playing?  This
+    essentially taking \( n \) independent random samples from the
+    probability distribution \( p(j) \), and identifying the minimum
+    value(s) of \( j \) as the roll in which the game is won.  For
+    example, if there are \( n=5 \) players, take \( 5 \) independent
+    random samples from \( p(j) \).  Suppose the arbitrary values of \(
+    j \) are \( [12,20,15,9,28] \), representing the number of rolls
+    needed for each player to get Tenzi.  Then the \( 4 \)th player wins
+    the game in \( 9 \) rolls.  In general, write an expression for the
+    probability that the minimum value from \( n \) random samples of \(
+    p(j) \) is less than or equal to \( j \) in terms of \( P(j) \).
+\end{exercise}
+\begin{solution}
+    Denote as \( P(n,j) \) the probability that the minimum value from \(
+    n \) random samples of \( p(j) \) is less than or equal to \( j \).
+    Then \( P(n,j) \) is the complement of the probability that all \( n
+    \) random samples (which are independent of each other) are greater
+    than \( j \), so \( P(n,j)=1 - (1 - P(j))^n \).  The pdf giving the
+    probability that a game with \( n \) players is won in exactly \( j \)
+    rolls is \( p(n, j)=P(n,j) - P(n,j - 1) \).
+\end{solution}
+\begin{exercise}
+    Write a script in some computer language to replicate the
+    calculations and graphs for the Markov chain for \emph{Tenzi}.
+\end{exercise}
+\begin{solution}
+    The transition probability matrix for \emph{Tenzi} (rounded to three
+    decimal places) is written in Maxima as
+\begin{verbatim}
+pi[i,j] := if (j >= i) then  binomial(11-i, j-i) * ((1/6)^(j-i)) *
+((5/6)^(11-j)) else 0;
+P : genmatrix(pi, 11, 11);
+fpprintprec : 3;
+float(P);
+\end{verbatim}
+    Transfer this matrix of values to R and evaluate with the following
+    script:
+\begin{verbatim}
+x  <-  c(0.1615055828898457, 0.3230111657796915, 0.2907100492017223,
+         0.1550453595742519, 0.05426587585098816, 0.01302381020423716,
+         0.002170635034039527, 2.48072575318803*10^-4,
+         1.860544314891023*10^-5, 8.2690858439601*10^-7,
+         1.65381716879202*10^-8, 0.0, 0.1938066994678149,
+         0.3488520590420667, 0.2790816472336534, 0.1302381020423716,
+         0.03907143061271148, 0.007814286122542296,
+         0.001041904816338973, 8.930612711476907*10^-5,
+         4.465306355738455*10^-6, 9.922903012752121*10^-8, 0.0, 0.0,
+         0.2325680393613778, 0.3721088629782046, 0.2604762040847432,
+         0.1041904816338973, 0.02604762040847432, 0.004167619265355891,
+         4.167619265355891*10^-4, 2.381496723060509*10^-5,
+         5.953741807651273*10^-7,0.0, 0.0, 0.0, 0.2790816472336534,
+         0.3907143061271148, 0.2344285836762689, 0.07814286122542295,
+         0.01562857224508459, 0.001875428669410151,
+         1.250285779606767*10^-4, 3.572245084590763*10^-6,0.0, 0.0,
+         0.0, 0.0, 0.3348979766803841, 0.4018775720164609,
+         0.2009387860082305, 0.05358367626886145, 0.008037551440329218,
+         6.430041152263375*10^-4, 2.143347050754458*10^-5,0.0, 0.0,
+         0.0, 0.0, 0.0, 0.4018775720164609, 0.4018775720164609,
+         0.1607510288065844, 0.03215020576131687, 0.003215020576131687,
+         1.286008230452675*10^-4,0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+         0.4822530864197531, 0.3858024691358025, 0.1157407407407407,
+         0.0154320987654321, 7.716049382716049*10^-4,0.0, 0.0, 0.0,
+         0.0, 0.0, 0.0, 0.0, 0.5787037037037037, 0.3472222222222222,
+         0.06944444444444445, 0.004629629629629629,0.0, 0.0, 0.0, 0.0,
+         0.0, 0.0, 0.0, 0.0, 0.6944444444444444, 0.2777777777777778,
+         0.02777777777777778,0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+         0.0, 0.8333333333333334, 0.1666666666666667,0.0, 0.0, 0.0,
+         0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0)
+P  <-  t( matrix(x, 11, 11) )
+
+PPow  <- P
+tenzicdf  <- c(PPow[1,11])
+for (i in 2:50) {
+  PPow  <- PPow %*% P;
+  tenzicdf  <- c(tenzicdf, PPow[1,11])
+}
+
+library(ggplot2)
+ggplot(data = as.data.frame(tenzicdf), aes(x=1:50, y=tenzicdf))
+  + geom_point()
+  + geom_line()
+
+tenzipdf  <-  tenzipdf[2:50] - tenzipdf[1:49]
+tenzipdf  <- c(tenzicdf[1], tenzipdf)
+ggplot(data = as.data.frame(tenzipdf), aes(x=1:50, y=tenzipdf))
+    + geom_point()
+    + geom_line()
+
+sum(tenzipdf)
+tenzimean  <- (1:50) %*% tenzipdf
+
+Q  <-  P[1:10, 1:10]
+I10  <-  ident(10)
+N  <- solve( I10 - Q, I10)
+N %*% rep(1,10)
+
+Varw  <- ((2 * N - I10) %*% N) %*% rep(1, 10) - ( N %*% rep(1, 10) )^2
+sdw  <- sqrt(Varw)
+\end{verbatim}
+\end{solution}
+
+\begin{exercise}
+    Show that the shortest possible game of \emph{Chutes and Ladders}
+    consists of \( 7 \) moves by listing those moves.
+\end{exercise}
+\begin{solution}
+    A possible path is to roll a \( 1 \), to \( 38 \); roll a \( 6 \),
+    to \( 44 \); roll a \( 6 \), to \( 50 \); roll a \( 1 \), to \( 67 \);
+    roll a \( 6 \), to \( 73 \); roll a \( 6 \), to \( 79 \) and
+    finally, roll a \( 1 \) to ascend from \( 80 \) to \( 100 \).
+    Examination of the first \( 6 \) powers of the transition
+    probability matrix show that the probability of \( 6 \) step paths
+    from \( 38 \) is \( 0.007265947 \) but \( 0 \) for fewer than \( 6 \)
+    steps.
+
+    Another possible path is roll a \( 4 \), to \( 14 \); roll a \( 6 \),
+    to \( 20 \); roll a \( 6 \), to \( 26 \); roll a \( 2 \), to \( 84 \);
+    roll a \( 6 \), to \( 90 \); roll a \( 5 \), to \( 75 \) and
+    finally, roll a \( 5 \) to ascend from \( 80 \) to \( 100 \).
+    Examination of the first \( 6 \) powers of the transition
+    probability matrix show that the probability of \( 6 \) step paths
+    from \( 14 \) is \( 0.001800412 \) but \( 0 \) for fewer than \( 6 \)
+    steps.
+\end{solution}
+
+\begin{exercise}
+    Consider the effect of chutes and ladders on the waiting time to
+    absorption.
+    \begin{enumerate}[label=(\alph*)]
+    \item
+        Find the expected waiting time to absorption in a game with no
+        chutes or ladders.
+    \item
+        In the original game, insert an additional ladder from state 46
+        to state 94.  What happens to the expected waiting time?
+    \item
+        In the original game, instead insert a chute from state 83 to
+        state \( 7 \).  What happens to the expected waiting time?
+    \item
+        Add a ladder to the original game from state \( 79 \) to state \(
+        81 \).  What happens to the expected waiting time?
+    \item
+        Add a chute to the original game from state \( 29 \) to state \(
+        27 \).  What happens to the expected waiting time?
+\end{enumerate}
+games.tex.orig:1266:begin/end environment name mismatch
+	begin {} at line 0: end {exercise} at line 1266
+games.tex.orig:1266:negative environment level at this line: reset to zero
+\end{exercise}
+\begin{solution}
+    \begin{enumerate}[label=(\alph*)]
+    \item
+        The expected length of a game with no chutes or ladders is \(
+        35.68571 \).
+    \item
+        The expected length of the game drops from about \( 39.2 \) to
+        about \( 29.8 \);
+    \item
+        The game lengthens to about \( 45.8 \) moves.
+    \item
+        Lengthens the expected playing time by more than two moves to
+        about \( 41.9 \), since it increases the chances of missing the
+        important ladder from state \( 80 \) to \( 100 \).
+    \item
+        Shortens the game by over a move to about \( 38.0 \), since it
+        gives a second chance at the long ladder from \( 28 \) to \( 84 \).
+\end{enumerate}
+games.tex.orig:1285:begin/end environment name mismatch
+	begin {} at line 0: end {solution} at line 1285
+games.tex.orig:1285:negative environment level at this line: reset to zero
+\end{solution}
+
+\begin{exercise}
+    Investigate the following modifications to the small \emph{Count
+    Your Chickens!} game.
+    \begin{enumerate}[label=(\alph*)]
+    \item
+        What is the win probability if only square \( 2 \) is blue? What
+        is the win probability if squares \( 2 \), \( 3 \) and \( 5 \)
+        are blue?
+    \item
+        What effect does adding additional animals to the board (i.e.,
+        increasing the size of the spinner) have?
+    \item
+        What if the fox removes more than one chick from the coop?
+    \item
+        What effect does changing the size of each character's space in
+        the spinner do?  For example, what if the fox covered \( 1/3 \)
+        of the spinner and the remaining five animals each took up \(
+        2/15 \) of the spinner?
+    \item
+        What if some of the blue squares were colored green and had the
+        effect of moving an additional two chicks into the coop?
+    \item
+        Create your own questions that can be analyzed using Markov
+        chains and to modify the supplemental R code to answer the
+        questions.
+\end{enumerate}
+games.tex.orig:1313:begin/end environment name mismatch
+	begin {} at line 0: end {exercise} at line 1313
+games.tex.orig:1313:negative environment level at this line: reset to zero
+\end{exercise}
+\begin{solution}
+    The win probability if only square \( 2 \) is blue s \( 0.5288 \)
+    The win probability if squares \( 2 \), \( 3 \) and \( 5 \) are blue
+    is \( 0.7761 \).  The remaining questions make a good project for
+    student investigation.
+\end{solution}
+
+\hr
+
+\visual{Books}{../../../../CommonInformation/Lessons/books.png}
+\section*{Reading Suggestion:}
+
+\bibliography{../../../../CommonInformation/bibliography}
+
+%   \begin{enumerate}
+%     \item
+%     \item
+%     \item
+%   \end{enumerate}
+
+\hr
+
+\visual{Links}{../../../../CommonInformation/Lessons/chainlink.png}
+\section*{Outside Readings and Links:}
+\begin{enumerate}
+    \item
+    \item
+    \item
+    \item
+\end{enumerate}
+
+\section*{\solutionsname} \loadSolutions
+
+\hr
+
+\mydisclaim \myfooter
+
+Last modified:  \flastmod
+
+\end{document}
+

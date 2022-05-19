@@ -1,0 +1,428 @@
+
+\begin{description}
+
+% \item[Geogebra] 
+
+% \link{  .ggb}{GeoGebra applet}
+
+\item[R] 
+
+\link{http://www.math.unl.edu/~sdunbar1/MarkovChains/Games/tenzi.R}{R script for Tenzi.}
+
+  \begin{lstlisting}[language=R]
+x  <-  c(0.1615055828898457, 0.3230111657796915, 0.2907100492017223,
+         0.1550453595742519, 0.05426587585098816, 0.01302381020423716,
+         0.002170635034039527, 2.48072575318803*10^-4,
+         1.860544314891023*10^-5, 8.2690858439601*10^-7,
+         1.65381716879202*10^-8, 0.0, 0.1938066994678149,
+         0.3488520590420667, 0.2790816472336534, 0.1302381020423716,
+         0.03907143061271148, 0.007814286122542296,
+         0.001041904816338973, 8.930612711476907*10^-5,
+         4.465306355738455*10^-6, 9.922903012752121*10^-8, 0.0, 0.0,
+         0.2325680393613778, 0.3721088629782046, 0.2604762040847432,
+         0.1041904816338973, 0.02604762040847432, 0.004167619265355891,
+         4.167619265355891*10^-4, 2.381496723060509*10^-5,
+         5.953741807651273*10^-7,0.0, 0.0, 0.0, 0.2790816472336534,
+         0.3907143061271148, 0.2344285836762689, 0.07814286122542295,
+         0.01562857224508459, 0.001875428669410151,
+         1.250285779606767*10^-4, 3.572245084590763*10^-6,0.0, 0.0,
+         0.0, 0.0, 0.3348979766803841, 0.4018775720164609,
+         0.2009387860082305, 0.05358367626886145, 0.008037551440329218,
+         6.430041152263375*10^-4, 2.143347050754458*10^-5,0.0, 0.0,
+         0.0, 0.0, 0.0, 0.4018775720164609, 0.4018775720164609,
+         0.1607510288065844, 0.03215020576131687, 0.003215020576131687,
+         1.286008230452675*10^-4,0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+         0.4822530864197531, 0.3858024691358025, 0.1157407407407407,
+         0.0154320987654321, 7.716049382716049*10^-4,0.0, 0.0, 0.0,
+         0.0, 0.0, 0.0, 0.0, 0.5787037037037037, 0.3472222222222222,
+         0.06944444444444445, 0.004629629629629629,0.0, 0.0, 0.0, 0.0,
+         0.0, 0.0, 0.0, 0.0, 0.6944444444444444, 0.2777777777777778,
+         0.02777777777777778,0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+         0.0, 0.8333333333333334, 0.1666666666666667,0.0, 0.0, 0.0,
+         0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0)
+P  <-  t( matrix(x, 11, 11) )
+
+PPow  <- P
+tenzicdf  <- c(PPow[1,11])
+for (i in 2:50) {
+  PPow  <- PPow %*% P;
+  tenzicdf  <- c(tenzicdf, PPow[1,11])
+}
+
+tenzipdf  <-  tenzicdf[2:50] - tenzicdf[1:49]
+tenzipdf  <- c(tenzicdf[1], tenzipdf)
+
+sum(tenzipdf)
+tenzimean  <- (1:50) %*% tenzipdf
+
+Q  <-  P[1:10, 1:10]
+I10  <-  diag(10)
+N  <- solve( I10 - Q, I10)
+
+mean  <- N %*% rep(1,10)
+Varw  <- ((2 * N - I10) %*% N) %*% rep(1, 10) - ( N %*% rep(1, 10) )^2
+sdw  <- sqrt(Varw)
+cat("Mean waiting time: ", mean[1], "\nSD of waiting time:", sdw[1], "\n");
+
+plot(x = 1:50, tenzicdf, col="red", xlab="Rolls", ylab="Probability")
+points(1:50, tenzicdf, type="l", col="red")
+points(1:50, tenzipdf, col="blue")
+points(1:50, tenzipdf, type="l", col="blue")
+\end{lstlisting}  
+
+\item[R] 
+
+\link{http://www.math.unl.edu/~sdunbar1/MarkovChains/Games/chutes.R}{R
+  script for Chutes and Ladders.}
+
+  \begin{lstlisting}[language=R]
+library("markovchain")
+
+rotvec <- function(vec) vec[ c(length(vec), 1:(length(vec)-1)) ]
+
+nStates <- 100
+chutesladdersStates <- as.character( c(1:nStates) )
+
+diceRoll <- matrix(0, nStates, nStates)
+p1 <- c(0,
+        1/6, 1/6, 1/6, 1/6, 1/6, 1/6,
+        numeric(nStates-7)
+        )
+for (i in 1:(nStates-5)) {
+    diceRoll[i, ] <- p1
+    p1 <- rotvec(p1)
+}
+diceRoll[100, 100] <- 1
+
+diceRoll[99, 99] <- 5/6; diceRoll[99, 100] <- 1/6
+
+diceRoll[98, 98] <- 4/6; diceRoll[98, 99] <- 1/6; diceRoll[98, 100] <- 1/6
+
+diceRoll[97, 97] <- 3/6; diceRoll[97, 98] <- 1/6
+diceRoll[97, 99] <- 1/6; diceRoll[97, 100] <- 1/6
+
+diceRoll[96, 96] <- 2/6; diceRoll[96, 97] <- 1/6
+diceRoll[96, 98] <- 1/6; diceRoll[96, 99] <- 1/6; diceRoll[96, 100] <- 1/6
+
+ladders <- diag(nStates)
+ladderIn <-  c( 1,  4,  9, 21, 28, 36, 51, 71,  80)
+ladderOut <- c(38, 14, 31, 42, 84, 44, 67, 91, 100)
+ladders[ cbind(ladderIn, ladderIn) ] <- 0
+ladders[ cbind(ladderIn, ladderOut) ] <- 1
+
+chutes <- diag(nStates)
+chuteIn <-  c(16, 47, 49, 56, 62, 64, 87, 93, 95, 98)
+chuteOut <- c( 6, 26, 11, 53, 19, 60, 24, 73, 75, 78)
+chutes[ cbind(chuteIn, chuteIn) ] <- 0
+chutes[ cbind(chuteIn, chuteOut) ] <- 1
+
+chutesladdersMat <-  diceRoll %*% ladders %*% chutes
+
+chutesladders <- new("markovchain", states = chutesladdersStates, byrow = TRUE,
+                     transitionMatrix = chutesladdersMat, name = "ChutesLadders")
+meanMC  <- meanAbsorptionTime(object=chutesladders)
+
+Q  <- chutesladdersMat[1:99, 1:99]
+I99  <-  diag(99)
+N  <- solve( I99 - Q, I99)
+absorptionTimeMat  <-  N %*% rep(1, 99)
+meanMat  <- mean( absorptionTimeMat[ c(38, 2, 3, 14, 5, 6)] )
+varabsorptionTimeMat  <- ((2 * N - I99) %*% N) %*% rep(1, 99) - ( N %*% rep(1, 99) )^2
+sdAbsorptionTime  <-  sqrt( mean( varWait[ c(38, 2, 3, 14, 5, 6) ] ) )
+
+cat("Mean waiting time from markovchain library: ", meanMC[1],
+"\nMean waiting time from normal matrix: ", meanMat + 1,
+"\nSD of waiting time:", sdAbsorptionTime[1], "\n");
+
+\end{lstlisting}
+
+\item[R] 
+
+\link{http://www.math.unl.edu/~sdunbar1/MarkovChains/Games/countyourchickens.R}{R
+  script for \emph{Count Your Chickens!}.}
+
+\begin{lstlisting}[language=R]
+
+boardLength <- 40
+
+animalList <- c("C", "D", "P", "S", "T")
+NAnimals <- length(animalList) + 1  # one more for fox
+
+blueSquares <- numeric(boardLength)
+blueSquares[4] <- 1
+blueSquares[8] <- 1
+blueSquares[22] <- 1
+blueSquares[35] <- 1
+blueSquares[39] <- 1
+
+totalNumberOfBlues <- sum(blueSquares)
+
+# Setting up the board
+board <- character(boardLength)
+
+board[1] <- "B"
+board[2] <- "S"
+board[3] <- "P"
+board[4] <- "T"
+board[5] <- "C"
+board[6] <- "D"
+board[7] <- "P"
+board[8] <- "C"
+board[9] <- "D"
+board[10] <- "S"
+board[11] <- "T"
+board[12] <- "B"
+board[13] <- "C"
+board[14] <- "P"
+board[15] <- "B"
+board[16] <- "B"
+board[17] <- "B"
+board[18] <- "T"
+board[19] <- "B"
+board[20] <- "T"
+board[21] <- "D"
+board[22] <- "S"
+board[23] <- "C"
+board[24] <- "D"
+board[25] <- "P"
+board[26] <- "T"
+board[27] <- "B"
+board[28] <- "S"
+board[29] <- "C"
+board[30] <- "B"
+board[31] <- "B"
+board[32] <- "T"
+board[33] <- "P"
+board[34] <- "S"
+board[35] <- "D"
+board[36] <- "B"
+board[37] <- "S"
+board[38] <- "C"
+board[39] <- "P"
+board[40] <- "CDPST"
+
+# Count how many states we have
+statesIndex <- 1  #initial state (0,0)
+statesCount <- 1
+statesHolder <- matrix(0, boardLength * totalNumberOfBlues, 2)
+
+for (i in 1:(boardLength - 1)) {
+    # don't use last space, the 'coop'
+    if (board[i] != "B") {
+        bLi <- sum(blueSquares[1:i])  #blueSquares to Left of i, including i
+        bRi <- sum(blueSquares[(i + 1):boardLength])  #blueSquares to Right of i
+        
+        maxChickens <- min(boardLength, i + bLi)
+        minChickens <- max(0, i - bRi)
+        
+        statesCount <- statesCount + maxChickens - minChickens + 1
+        for (j in minChickens:maxChickens) {
+            statesIndex <- statesIndex + 1
+            statesHolder[statesIndex, ] <- c(i, j)
+        }
+    }
+}
+statesHolder[statesCount + 1, ] <- c(Inf, Inf)  # win state
+statesHolder[statesCount + 2, ] <- c(-Inf, -Inf)  # lose state
+statesCount <- statesCount + 2  #add final won and loss states
+states <- statesHolder[1:statesCount, ]
+rm(statesHolder)
+
+Q <- matrix(0, statesCount - 2, statesCount - 2)
+R <- matrix(0, statesCount - 2, 2)
+I <- diag(2)
+Z <- matrix(0, 2, statesCount - 2)
+
+for (i in 1:(statesCount - 2)) {
+    currentSquare <- states[i, 1]
+    chicksInCoop <- states[i, 2]
+    currentState <- i
+    
+    # This sets transition probabilities from spinning a fox
+    if (chicksInCoop == 0) {
+        Q[i, i] <- 1/NAnimals  # stay in current state, prob 1/NAnimals
+    } else if (states[i - 1, 1] == currentSquare) {
+        Q[i, i - 1] <- 1/NAnimals  # remove 1 chick, fill trans prob
+    } else {
+        # too few chicks, must lose
+        R[i, 2] <- R[i, 2] + 1/NAnimals  # so add to lose probability
+    }
+    
+    # Now set transition probabilities from other five animals.
+    for (animal in animalList) {
+        
+        nextSquare <- grep(animal, board[(currentSquare + 1):boardLength])[1] + currentSquare
+        
+        if (blueSquares[nextSquare] == 0) {
+            # not Blue, just add advance
+            updatedChicksInCoop <- chicksInCoop + (nextSquare - currentSquare)
+            if (updatedChicksInCoop > boardLength) 
+                updatedChicksInCoop <- boardLength
+        } else {
+            # Blue square, so add extra chick
+            updatedChicksInCoop <- chicksInCoop + (nextSquare - currentSquare) + 
+                1
+            if (updatedChicksInCoop > boardLength) 
+                updatedChicksInCoop <- boardLength
+        }
+        
+        in_states <- FALSE
+        
+        for (p in 1:statesCount) {
+            if (states[p, 1] == nextSquare && states[p, 2] == updatedChicksInCoop) {
+                in_states <- TRUE
+                newLocation <- p
+                break
+            }
+        }
+        
+        if (in_states == TRUE) {
+            Q[i, newLocation] <- 1/NAnimals
+        } else {
+            if (nextSquare == boardLength && updatedChicksInCoop == boardLength) 
+                {
+                  R[i, 1] <- R[i, 1] + 1/NAnimals
+                }  # win
+ else {
+                R[i, 2] <- R[i, 2] + 1/NAnimals  #lose
+            }
+        }
+    }
+}
+
+# Calculate win-lose probabilities with normal matrix: (I-Q)^{-1} R
+IsC <- diag(statesCount - 2)
+matrixProbs <- solve(IsC - Q, R)
+\end{lstlisting}
+
+\item[R] 
+
+\link{http://www.math.unl.edu/~sdunbar1/MarkovChains/Games/risk.R}{R script for \emph{Risk}.}
+
+  \begin{lstlisting}[language=R]
+A <- 10
+D  <- 10
+
+totalStates <- A * D + (A + D)
+
+stateToIndex <- function(a,d) {
+    # given a state, retrun the index for the trans prob matrix
+    if (a > 0) {
+        ind <- (A+1 - a) + (D-d)*A  
+    }  else {
+        ind <- A*D + A + d 
+    }
+    ind
+}
+
+indexToState <- function(ind) {
+    # given an index for a transient state, return the state as a pair
+    if (ind <= A*D + A) {
+        j <- A*D - ind
+        r <- j %% A
+        first <- 1 + r
+        second <- 1 + (j-r)/A
+    } else {
+        first <- 0
+        second <- ind - (A*D + A)
+    }
+    c(first, second)
+}
+
+pi111 <- 15/36                          # light gray
+pi110 <- 21/36                          # magenta
+
+pi121 <- 55/216                         # brown
+pi120 <- 161/216                        # purple
+
+pi211 <- 125/216                        # pink
+pi210 <- 91/216                         # black
+
+pi222 <- 295/1296                       # cyan
+pi221 <- 420/1296                       # darkgreen
+pi220 <- 581/1296                       # yellow
+
+pi311 <- 855/1296                       # orange
+pi310 <- 441/1296                       # gray
+
+pi322 <- 2890/7776                      # green
+pi321 <- 2611/7776                      # blue
+pi320 <- 2275/7776                      # red
+
+QR <- matrix(0, A * D, A * D + A + D)
+## R <- matrix(0, A * D, A + D)
+I <- diag(A + D)
+Z <- matrix(0, A + D, A * D)
+
+att3dice <- seq(from=A, to = 3, by=-1)
+def2dice <- seq(from=D, to = 2, by=-1)
+
+for (d in def2dice) {
+    for (a in att3dice) {
+        QR[stateToIndex(a,d), stateToIndex(a, d-2)] <- pi322   # green
+        QR[stateToIndex(a,d), stateToIndex(a-1, d-1)] <- pi321 # blue
+        QR[stateToIndex(a,d), stateToIndex(a-2, d)] <- pi320 # red
+    }
+    QR[stateToIndex(2, d), stateToIndex(2, d-2)] <- pi222 # cyan
+    QR[stateToIndex(2, d), stateToIndex(1, d-1)] <- pi221 # darkgreen
+    QR[stateToIndex(2, d), stateToIndex(0, d)] <- pi220 # yellow
+
+    QR[stateToIndex(1, d), stateToIndex(1, d-1)] <- pi121 # purple
+    QR[stateToIndex(1, d), stateToIndex(0, d)] <- pi120 # brown
+}
+
+for (a in att3dice) {
+    QR[stateToIndex(a, 1), stateToIndex(a, 0)] <- pi311 # orange
+    QR[stateToIndex(a, 1), stateToIndex(a-1, 1)] <- pi310 # gray
+}
+
+QR[stateToIndex(2, 1), stateToIndex(2, 0)] <- pi211 # pink
+QR[stateToIndex(2, 1), stateToIndex(1, 1)] <- pi210 # black
+QR[stateToIndex(1, 1), stateToIndex(1, 0)] <- pi111 # lightgray
+QR[stateToIndex(1, 1), stateToIndex(0, 1)] <- pi110 # magenta
+
+
+M <- rbind(QR, cbind(Z, I))
+
+library("markovchain")
+
+riskChain <- new("markovchain", states = as.character(1:totalStates), byrow = TRUE, 
+    transitionMatrix = M, name = "RISK")
+absorpProb <- absorptionProbabilities(riskChain)
+attackerWins  <- apply(absorpProb[ , 1:A], 1, sum)
+attackerWinTable  <- t(matrix(formatC(attackerWins, digits=3, format="f"), A,D))
+attackerWinTable
+\end{lstlisting}
+
+% \item[Octave]                   %
+
+% \link{http://www.math.unl.edu/~sdunbar1/    .m}{Octave script for .}
+
+% \begin{lstlisting}[language=Octave]
+
+% \end{lstlisting}
+
+% \item[Perl] 
+
+% \link{http://www.math.unl.edu/~sdunbar1/    .pl}{Perl PDL script for .}
+
+% \begin{lstlisting}[language=Perl]
+
+% \end{lstlisting}
+
+% \item[SciPy] 
+
+% \link{http://www.math.unl.edu/~sdunbar1/    .py}{Scientific Python script for .}
+
+% \begin{lstlisting}[language=Python]
+
+% \end{lstlisting}
+
+\end{description}
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
